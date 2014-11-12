@@ -70,7 +70,7 @@ public class SVGPrinter<C, V extends Value<C>> {
   // TODO QUEST Print arrows at secondary columns?
 	public void print(boolean[][] matrix, boolean[] columnArray) throws IOException {
         // Convert data structure to matrix
-        /*List<C> list = new Vector<C>();
+        /*List<C> list = new ArrayList<C>();
         for (Column<C, V> column : dlData) {
           list.add(column.getValue());
         }*/

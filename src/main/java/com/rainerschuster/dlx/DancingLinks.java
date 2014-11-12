@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * This class solves the exact cover problem provided as a
@@ -481,7 +480,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
   /** @return 0 if no solution, 1 if unique solution and 2 if two or more solutions */
   public long quickSolutions() {
     // Backup of the solution is necessary (if reducing)
-    List<Node<C, V>> backup = new Vector<Node<C, V>>(choice.size());
+    List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
     //Collections.copy(backup, choice);
     for (Node<C, V> n : choice) {
       backup.add(n);
@@ -527,7 +526,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     int last = 0;
     last = choice.size() - 1;
     Collections.shuffle(choice); // An alternative would be to shuffle the order of columns when data-structure is built
-    List<Node<C, V>> givens = new Vector<Node<C, V>>();
+    List<Node<C, V>> givens = new ArrayList<Node<C, V>>();
     /*for (int i = 0; i <= last; i++) {
       coverAllColumns(choice.get(i));
     }*/

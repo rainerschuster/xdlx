@@ -18,8 +18,8 @@ package com.rainerschuster.sudoku.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -97,7 +97,7 @@ public class SudokuFieldSwing extends JPanel {
 		ViewProperties vProps = new ViewProperties();
 		for (int row = 0; row < properties.getEdgeLength(); row++) {
 			for (int col = 0; col < properties.getEdgeLength(); col++) {
-				List<Integer> coordinates = new Vector<Integer>(2);
+				List<Integer> coordinates = new ArrayList<Integer>(2);
 				coordinates.add(row);
 				coordinates.add(col);
 				
@@ -125,7 +125,7 @@ public class SudokuFieldSwing extends JPanel {
 				cells[row][col].setMinNumber(1);
 				cells[row][col].setMaxNumber(properties.getNumbers());
 				
-				List<Integer> neighborCoordinates = new Vector<Integer>(2);
+				List<Integer> neighborCoordinates = new ArrayList<Integer>(2);
 				neighborCoordinates.add(row);
 				neighborCoordinates.add(col);
 				
@@ -158,12 +158,12 @@ public class SudokuFieldSwing extends JPanel {
 	
 	// TODO QUEST replace by exportData (which returns SudokuField)?
 	public List<SudokuValue> exportValues() {
-		List<SudokuValue> list = new Vector<SudokuValue>();
+		List<SudokuValue> list = new ArrayList<SudokuValue>();
 		
 		for (int row = 0; row < properties.getEdgeLength(); row++) {
 			for (int col = 0; col < properties.getEdgeLength(); col++) {
 				if (cells[row][col].getNumber() > 0) {
-					List<Integer> coordinates = new Vector<Integer>(2);
+					List<Integer> coordinates = new ArrayList<Integer>(2);
 					coordinates.add(row);
 					coordinates.add(col);
 					

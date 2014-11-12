@@ -15,11 +15,11 @@
  */
 package com.rainerschuster.sudoku;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class SudokuProperties {
 
@@ -42,7 +42,7 @@ public class SudokuProperties {
 	private List<Integer> regionsPerDimension;
 	
 	private void calcRegionsPerDimension(List<Integer> regionDimension) {
-		regionsPerDimension = new Vector<Integer>(dimensions);
+		regionsPerDimension = new ArrayList<Integer>(dimensions);
 		for (int regdim : regionDimension) {
 			regionsPerDimension.add((getEdgeLength() / regdim));
 		}

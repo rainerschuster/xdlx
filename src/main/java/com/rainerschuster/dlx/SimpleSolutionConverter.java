@@ -15,8 +15,8 @@
  */
 package com.rainerschuster.dlx;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  * This simple converter converts a list of nodes to a list a values.
@@ -50,7 +50,7 @@ public class SimpleSolutionConverter<C, V extends Value<C>> {
       System.err.println("No solution to convert!");
       return null;
     }
-    List<V> list = new Vector<V>(solution.size());
+    List<V> list = new ArrayList<V>(solution.size());
     for (Node<C, V> node : solution) {
       list.add(converter.convertRow(node));
     }

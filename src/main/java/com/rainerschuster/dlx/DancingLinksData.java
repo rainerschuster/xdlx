@@ -15,10 +15,10 @@
  */
 package com.rainerschuster.dlx;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Vector;
 
 /** This class contains the data structure for the DLX-algorithm. */
 public class DancingLinksData<C, V extends Value<C>> implements Iterable<Column<C, V>> {
@@ -42,8 +42,8 @@ public class DancingLinksData<C, V extends Value<C>> implements Iterable<Column<
 
   public DancingLinksData() {
     super();
-    columns = new Vector<Column<C, V>>();
-    // secondaryColumns = new Vector<Column<C, V>>();
+    columns = new ArrayList<Column<C, V>>();
+    // secondaryColumns = new ArrayList<Column<C, V>>();
     root = new Column<C, V>();
     lastColumn = root;
   }

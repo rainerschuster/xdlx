@@ -15,10 +15,10 @@
  */
 package com.rainerschuster.sudoku;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.rainerschuster.dlx.RandomDataGenerator;
 
@@ -40,7 +40,7 @@ public class SudokuGenerator extends RandomDataGenerator<SudokuColumnValue, Sudo
 
 	@Override
 	public List<SudokuColumnValue> generatePrimaryColumnValues() {
-		List<SudokuColumnValue> columns = new Vector<SudokuColumnValue>();
+		List<SudokuColumnValue> columns = new ArrayList<SudokuColumnValue>();
 		Map<String, Integer> values;
 		for (int i = 0; i < properties.getNumbers(); i++) {
 			for (int j = 0; j < properties.getNumbers(); j++) {
@@ -93,12 +93,12 @@ public class SudokuGenerator extends RandomDataGenerator<SudokuColumnValue, Sudo
 	// 2D
 	@Override
 	public List<SudokuValue> generateMyValues() {
-		List<SudokuValue> values = new Vector<SudokuValue>();
+		List<SudokuValue> values = new ArrayList<SudokuValue>();
 		for (int n = 1; n <= properties.getNumbers(); n++) {
 			for (int r = 0; r < properties.getNumbers(); r++) {
 				for (int c = 0; c < properties.getNumbers(); c++) {
 					SudokuValue sValue = new SudokuValue(properties, n);
-					List<Integer> coordinates = new Vector<Integer>(2);
+					List<Integer> coordinates = new ArrayList<Integer>(2);
 					coordinates.add(r);
 					coordinates.add(c);
 					sValue.setCoordinates(coordinates);

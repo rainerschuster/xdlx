@@ -15,9 +15,9 @@
  */
 package com.rainerschuster.sudoku;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.rainerschuster.dlx.Column;
 import com.rainerschuster.dlx.ValueConverter;
@@ -50,7 +50,7 @@ public class SudokuValueConverter extends
         n = values.get("n");
       }
     }
-    List<Integer> coordinates = new Vector<Integer>(2);
+    List<Integer> coordinates = new ArrayList<Integer>(2);
     coordinates.add(x1);
     coordinates.add(x2);
     SudokuValue value = new SudokuValue(properties, n);

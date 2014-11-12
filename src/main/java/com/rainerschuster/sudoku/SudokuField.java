@@ -15,16 +15,16 @@
  */
 package com.rainerschuster.sudoku;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class SudokuField {
 	private SudokuProperties properties = new SudokuProperties();
 	// TODO field, givens
 	private Map<List<Integer>, Integer> field = new HashMap<List<Integer>, Integer>();
-	private List<SudokuValue> givens = new Vector<SudokuValue>();
+	private List<SudokuValue> givens = new ArrayList<SudokuValue>();
 
 	public SudokuField(SudokuProperties properties) {
 		super();

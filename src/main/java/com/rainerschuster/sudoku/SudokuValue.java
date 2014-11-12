@@ -15,9 +15,9 @@
  */
 package com.rainerschuster.sudoku;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.rainerschuster.dlx.Value;
 
@@ -31,7 +31,7 @@ public class SudokuValue extends Value<SudokuColumnValue> {
 		super();
 		this.properties = properties;
 		this.number = number;
-		this.coordinates = new Vector<Integer>();
+		this.coordinates = new ArrayList<Integer>();
 	}
 
 	@Override
