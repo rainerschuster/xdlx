@@ -144,7 +144,7 @@ public Iterator<Node<C, V>> iterator() {
     return value == null;
   }
 
-  // CONDITION It only works if not more than 2 colums can be removed at once (larger removed parts of connected columns are not recognized)!
+  // CONDITION It only works if not more than 2 columns can be removed at once (larger removed parts of connected columns are not recognized)!
   public boolean isRemoved() {
     return prev.getNext() != this || next.getPrev() != this;
   }

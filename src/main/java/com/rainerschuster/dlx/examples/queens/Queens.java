@@ -23,7 +23,7 @@ public class Queens {
   private QueensProperties properties;
 
   /**
-   * @param n The number of queens (on a n x n field).
+   * @param n The number of queens (on a n &times; n field).
    */
   public Queens(int n) {
     super();

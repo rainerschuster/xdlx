@@ -17,30 +17,30 @@ package com.rainerschuster.dlx;
 
 public class PrimaryColumn<C, V extends Value<C>> extends Column<C, V> {
 
-  private PrimaryColumn<C, V> prev;
+    private PrimaryColumn<C, V> prev;
 
-  private PrimaryColumn<C, V> next;
+    private PrimaryColumn<C, V> next;
 
-  @Override
-  public PrimaryColumn<C, V> getPrev() {
-    return this.prev;
-  }
+    @Override
+    public PrimaryColumn<C, V> getPrev() {
+        return this.prev;
+    }
 
-  public void setPrev(PrimaryColumn<C, V> prev) {
-    this.prev = prev;
-  }
+    public void setPrev(PrimaryColumn<C, V> prev) {
+        this.prev = prev;
+    }
 
-  @Override
-  public PrimaryColumn<C, V> getNext() {
-    return this.next;
-  }
+    @Override
+    public PrimaryColumn<C, V> getNext() {
+        return this.next;
+    }
 
-  public void setNext(PrimaryColumn<C, V> next) {
-    this.next = next;
-  }
+    public void setNext(PrimaryColumn<C, V> next) {
+        this.next = next;
+    }
 
-  @Override
-  public boolean isRoot() {
-    throw new UnsupportedOperationException();
-  }
+    @Override
+    public boolean isRoot() {
+        throw new UnsupportedOperationException();
+    }
 }
