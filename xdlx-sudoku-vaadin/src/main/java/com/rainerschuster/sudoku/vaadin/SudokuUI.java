@@ -16,7 +16,6 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -165,7 +164,7 @@ public class SudokuUI extends UI {
 						aboutWindow.close();
 					}
 				});
-				aboutContent.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
+//				aboutContent.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
 				aboutContent.addComponent(okButton);
 				aboutWindow.center();
 				addWindow(aboutWindow);
