@@ -7,11 +7,11 @@
   </parent>
   <artifactId>xdlx-sudoku-vaadin</artifactId>
     <packaging>war</packaging>
-    <name>Vaadin Web Application</name>
+    <name>Vaadin Sudoku Web Application</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>7.3.4</vaadin.version>
+        <vaadin.version>7.3.5</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
     </properties>
     <repositories>
@@ -196,7 +196,7 @@
                                             vaadin-maven-plugin
                                         </artifactId>
                                         <versionRange>
-                                            [7.3.4,)
+                                            [7.3.5,)
                                         </versionRange>
                                         <goals>
                                             <goal>resources</goal>
