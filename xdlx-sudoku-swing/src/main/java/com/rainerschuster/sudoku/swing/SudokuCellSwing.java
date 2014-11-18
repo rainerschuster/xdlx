@@ -19,7 +19,6 @@ import java.awt.Color;
 
 import javax.swing.SwingConstants;
 
-import com.rainerschuster.commons.JNumberField;
 import com.rainerschuster.sudoku.view.ViewProperties;
 
 public class SudokuCellSwing extends JNumberField {
