@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xdlx-sudoku-swing</artifactId>
+    <name>Swing Sudoku Applet</name>
   <build>
     <plugins>
             <plugin>

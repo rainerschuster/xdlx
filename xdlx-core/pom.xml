@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xdlx-core</artifactId>
+    <name>XDLX Core</name>
     <description>This project is an extended implementation of Knuth's &quot;Dancing Links&quot; algorithm and some use cases (e.g., Sudoku).</description>
     <url>http://rainerschuster.github.io/xdlx/</url>
     <prerequisites>
