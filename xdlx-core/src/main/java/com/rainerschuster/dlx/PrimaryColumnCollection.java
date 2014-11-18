@@ -19,91 +19,90 @@ import java.util.AbstractSequentialList;
 import java.util.ListIterator;
 
 public class PrimaryColumnCollection<C, V extends Value<C>> extends
-    AbstractSequentialList<PrimaryColumn<C, V>> {
+        AbstractSequentialList<PrimaryColumn<C, V>> {
 
-  private PrimaryColumn<C, V> root;
+    private PrimaryColumn<C, V> root;
 
-  // private int length = 0;
+    // private int length = 0;
 
-  protected class PrimaryColumnListIterator implements
-      ListIterator<PrimaryColumn<C, V>> {
-    int index = -1;
+    protected class PrimaryColumnListIterator implements ListIterator<PrimaryColumn<C, V>> {
+        int index = -1;
 
-    PrimaryColumn<C, V> column = root;
+        PrimaryColumn<C, V> column = root;
 
-    public PrimaryColumnListIterator(int index) {
-      this.index = -1;
-      while (this.index < index) { // TODO QUEST +-1?
-        if (!hasNext()) {
-          // TODO OutOfBoundException
+        public PrimaryColumnListIterator(int index) {
+            this.index = -1;
+            while (this.index < index) { // TODO QUEST +-1?
+                if (!hasNext()) {
+                    // TODO OutOfBoundException
+                }
+                next();
+            }
         }
-        next();
-      }
+
+        @Override
+        public void add(PrimaryColumn<C, V> column) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return column.getNext() != root;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return index > 0;
+        }
+
+        @Override
+        public PrimaryColumn<C, V> next() {
+            column = column.getNext();
+            index++;
+            return column;
+        }
+
+        @Override
+        public int nextIndex() {
+            return index + 1;
+        }
+
+        @Override
+        public PrimaryColumn<C, V> previous() {
+            column = column.getPrev();
+            index--;
+            return column;
+        }
+
+        @Override
+        public int previousIndex() {
+            return index - 1;
+        }
+
+        @Override
+        public void remove() {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void set(PrimaryColumn<C, V> column) {
+            // TODO Auto-generated method stub
+
+        }
+
     }
 
     @Override
-	public void add(PrimaryColumn<C, V> column) {
-      // TODO Auto-generated method stub
-
+    public ListIterator<PrimaryColumn<C, V>> listIterator(int index) {
+        return new PrimaryColumnListIterator(index);
     }
 
     @Override
-	public boolean hasNext() {
-      return column.getNext() != root;
+    public int size() {
+        // return length;
+        return 0;
     }
-
-    @Override
-	public boolean hasPrevious() {
-      return index > 0;
-    }
-
-    @Override
-	public PrimaryColumn<C, V> next() {
-      column = column.getNext();
-      index++;
-      return column;
-    }
-
-    @Override
-	public int nextIndex() {
-      return index + 1;
-    }
-
-    @Override
-	public PrimaryColumn<C, V> previous() {
-      column = column.getPrev();
-      index--;
-      return column;
-    }
-
-    @Override
-	public int previousIndex() {
-      return index - 1;
-    }
-
-    @Override
-	public void remove() {
-      // TODO Auto-generated method stub
-
-    }
-
-    @Override
-	public void set(PrimaryColumn<C, V> column) {
-      // TODO Auto-generated method stub
-
-    }
-
-  }
-
-  @Override
-  public ListIterator<PrimaryColumn<C, V>> listIterator(int index) {
-    return new PrimaryColumnListIterator(index);
-  }
-
-  @Override
-  public int size() {
-    // return length;
-    return 0;
-  }
 
 }

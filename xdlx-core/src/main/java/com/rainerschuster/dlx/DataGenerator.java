@@ -23,32 +23,32 @@ import java.util.List;
  */
 public abstract class DataGenerator<C, V extends Value<C>> {
 
-  public DancingLinksData<C, V> generate() {
-    DancingLinksData<C, V> dlData = new DancingLinksData<C, V>();
+    public DancingLinksData<C, V> generate() {
+        final DancingLinksData<C, V> dlData = new DancingLinksData<C, V>();
 
-    List<C> primaryColumns = generatePrimaryColumnValues();
-    List<C> secondaryColumns = generateSecondaryColumnValues();
-    List<V> values = generateValues();
+        final List<C> primaryColumns = generatePrimaryColumnValues();
+        final List<C> secondaryColumns = generateSecondaryColumnValues();
+        final List<V> values = generateValues();
 
-    dlData.addAllPrimaryColumns(primaryColumns);
-    dlData.addAllSecondaryColumns(secondaryColumns);
+        dlData.addAllPrimaryColumns(primaryColumns);
+        dlData.addAllSecondaryColumns(secondaryColumns);
 
-    for (V value : values) {
-      dlData.addRowContinuous(value);
+        for (V value : values) {
+            dlData.addRowContinuous(value);
+        }
+
+        dlData.setGeneratedPrimaryColumns(primaryColumns);
+        dlData.setGeneratedSecondaryColumns(secondaryColumns);
+        dlData.setGeneratedValues(values);
+
+        return dlData;
     }
 
-    dlData.setGeneratedPrimaryColumns(primaryColumns);
-    dlData.setGeneratedSecondaryColumns(secondaryColumns);
-    dlData.setGeneratedValues(values);
+    // public abstract List<Column<C>> generateColumns();
+    public abstract List<C> generatePrimaryColumnValues();
 
-    return dlData;
-  }
+    public abstract List<C> generateSecondaryColumnValues();
 
-  // public abstract List<Column<C>> generateColumns();
-  public abstract List<C> generatePrimaryColumnValues();
-
-  public abstract List<C> generateSecondaryColumnValues();
-
-  public abstract List<V> generateValues();
+    public abstract List<V> generateValues();
 
 }

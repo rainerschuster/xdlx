@@ -23,32 +23,32 @@ import java.util.List;
  * to the original value type.
  *
  * @param <C>
- *          Column value
+ *            Column value
  * @param <V>
- *          Row value
+ *            Row value
  *
  * @deprecated Use <code>node.getValue</code> directly.
  */
 @Deprecated
 public abstract class ValueConverter<C, V extends Value<C>> {
 
-  /**
-   * Converts a row back to the original value type.
-   *
-   * @param node
-   *          A node of the row.
-   * @return A value that equals the original value (that formed that row).
-   */
-  public V convertRow(Node<C, V> node) {
-    List<Column<C, V>> columns = new ArrayList<Column<C, V>>();
-    for (Node<C, V> n : node) {
-      columns.add(n.getColumn());
-    }
-    return convertRow(columns);
-  };
+    /**
+     * Converts a row back to the original value type.
+     *
+     * @param node
+     *            A node of the row.
+     * @return A value that equals the original value (that formed that row).
+     */
+    public V convertRow(Node<C, V> node) {
+        List<Column<C, V>> columns = new ArrayList<Column<C, V>>();
+        for (Node<C, V> n : node) {
+            columns.add(n.getColumn());
+        }
+        return convertRow(columns);
+    };
 
-  public abstract V convertRow(List<Column<C, V>> columns);
+    public abstract V convertRow(List<Column<C, V>> columns);
 
-  // public abstract List<Column<C>> convertValue(V value);
+    // public abstract List<Column<C>> convertValue(V value);
 
 }

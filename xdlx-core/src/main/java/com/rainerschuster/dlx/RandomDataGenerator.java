@@ -20,23 +20,23 @@ import java.util.List;
 
 public abstract class RandomDataGenerator<C, V extends Value<C>> extends DataGenerator<C, V> {
 
-	private boolean random = true;
+    private boolean random = true;
 
-	public boolean isRandom() {
-		return this.random;
-	}
+    public boolean isRandom() {
+        return this.random;
+    }
 
-	public void setRandom(boolean random) {
-		this.random = random;
-	}
+    public void setRandom(boolean random) {
+        this.random = random;
+    }
 
-	@Override
-	public List<V> generateValues() {
-		List<V> myValues = generateMyValues();
-		Collections.shuffle(myValues);
-		return myValues;
-	}
-	
-	public abstract List<V> generateMyValues();
+    @Override
+    public List<V> generateValues() {
+        final List<V> myValues = generateMyValues();
+        Collections.shuffle(myValues);
+        return myValues;
+    }
+
+    public abstract List<V> generateMyValues();
 
 }

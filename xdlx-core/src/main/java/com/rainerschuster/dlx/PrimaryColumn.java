@@ -43,4 +43,5 @@ public class PrimaryColumn<C, V extends Value<C>> extends Column<C, V> {
     public boolean isRoot() {
         throw new UnsupportedOperationException();
     }
+
 }

@@ -17,13 +17,13 @@ package com.rainerschuster.dlx;
 
 public class SecondaryColumn<C, V extends Value<C>> extends Column<C, V> {
 
-  private int colorTresh;
+    private int colorTresh;
 
-  public int getColorTresh() {
-    return this.colorTresh;
-  }
+    public int getColorTresh() {
+        return this.colorTresh;
+    }
 
-  public void setColorTresh(int colorTresh) {
-    this.colorTresh = colorTresh;
-  }
+    public void setColorTresh(int colorTresh) {
+        this.colorTresh = colorTresh;
+    }
 }

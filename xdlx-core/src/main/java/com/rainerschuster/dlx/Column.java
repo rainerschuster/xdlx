@@ -20,153 +20,160 @@ import java.util.NoSuchElementException;
 
 public class Column<C, V extends Value<C>> implements Iterable<Node<C, V>> {
 
-  /** The list header. */
-  private Node<C, V> head;
+    /**
+     * The list header.
+     */
+    private Node<C, V> head;
 
-  /** The number of non-header items currently in this column's list. */
-  private int length;
+    /**
+     * The number of non-header items currently in this column's list.
+     */
+    private int length;
 
-  /** Identification of the column. */
-  private C value;
+    /**
+     * Identification of the column.
+     */
+    private C value;
 
-  private boolean covered;
+    private boolean covered;
 
-  public Node<C, V> getHead() {
-    return this.head;
-  }
-
-  public void setHead(Node<C, V> head) {
-    this.head = head;
-  }
-
-  public int getLength() {
-    return this.length;
-  }
-
-  public void setLength(int length) {
-    this.length = length;
-  }
-
-  public C getValue() {
-    return this.value;
-  }
-
-  public void setValue(C value) {
-    this.value = value;
-  }
-
-  public boolean isEmpty() {
-    assert length >= 0 : "length must not be negative";
-    return length == 0;
-  }
-
-  public int size() {
-    return length;
-  }
-
-  protected class NodeIterator implements Iterator<Node<C, V>> {
-    private Node<C, V> node = head;
-
-    @SuppressWarnings("unused")
-    private boolean justRemoved = false;
-
-    @Override
-	public boolean hasNext() {
-      return node != null && node.getDown() != head;
+    public Node<C, V> getHead() {
+        return this.head;
     }
 
-    @Override
-	public Node<C, V> next() {
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-
-      justRemoved = false;
-
-      node = node.getDown();
-
-      return node;
+    public void setHead(Node<C, V> head) {
+        this.head = head;
     }
 
-    @Override
-	public void remove() {
-        throw new UnsupportedOperationException();
+    public int getLength() {
+        return this.length;
+    }
 
-        /*if (node == null || node == head || justRemoved) {
-          throw new IllegalStateException();
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public C getValue() {
+        return this.value;
+    }
+
+    public void setValue(C value) {
+        this.value = value;
+    }
+
+    public boolean isEmpty() {
+        assert length >= 0 : "length must not be negative";
+        return length == 0;
+    }
+
+    public int size() {
+        return length;
+    }
+
+    protected class NodeIterator implements Iterator<Node<C, V>> {
+        private Node<C, V> node = head;
+
+        @SuppressWarnings("unused")
+        private boolean justRemoved = false;
+
+        @Override
+        public boolean hasNext() {
+            return node != null && node.getDown() != head;
         }
-        // TODO to delete single nodes probably doesn't make much sense -> What should be deleted (whole row)?)
-        node.getLeft().setRight(node.getRight());
-        node.getRight().setLeft(node.getLeft());
-        node.getUp().setDown(node.getDown());
-        node.getDown().setUp(node.getUp());
 
-        justRemoved = true;*/
+        @Override
+        public Node<C, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            justRemoved = false;
+
+            node = node.getDown();
+
+            return node;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+
+            /*if (node == null || node == head || justRemoved) {
+                throw new IllegalStateException();
+            }
+            // TODO to delete single nodes probably doesn't make much sense ->
+            // What should be deleted (whole row)?)
+            node.getLeft().setRight(node.getRight());
+            node.getRight().setLeft(node.getLeft());
+            node.getUp().setDown(node.getDown());
+            node.getDown().setUp(node.getUp());
+
+            justRemoved = true;*/
+        }
     }
-  }
 
-  @Override
-public Iterator<Node<C, V>> iterator() {
-    return new NodeIterator();
-  }
+    @Override
+    public Iterator<Node<C, V>> iterator() {
+        return new NodeIterator();
+    }
 
-  public boolean isPrimary() {
-    return !isSecondary();
-  }
+    public boolean isPrimary() {
+        return !isSecondary();
+    }
 
-  public boolean isSecondary() {
-    return prev == this && next == this;
-  }
+    public boolean isSecondary() {
+        return prev == this && next == this;
+    }
 
-  // Special Primary Column
+    // Special Primary Column
 
-  private Column<C, V> prev; // left neighbor of this column
+    private Column<C, V> prev; // left neighbor of this column
 
-  private Column<C, V> next; // right neighbor of this column
+    private Column<C, V> next; // right neighbor of this column
 
-  public Column<C, V> getPrev() {
-    return this.prev;
-  }
+    public Column<C, V> getPrev() {
+        return this.prev;
+    }
 
-  public void setPrev(Column<C, V> prev) {
-    this.prev = prev;
-  }
+    public void setPrev(Column<C, V> prev) {
+        this.prev = prev;
+    }
 
-  public Column<C, V> getNext() {
-    return this.next;
-  }
+    public Column<C, V> getNext() {
+        return this.next;
+    }
 
-  public void setNext(Column<C, V> next) {
-    this.next = next;
-  }
+    public void setNext(Column<C, V> next) {
+        this.next = next;
+    }
 
-  public boolean isRoot() {
-    return value == null;
-  }
+    public boolean isRoot() {
+        return value == null;
+    }
 
-  // CONDITION It only works if not more than 2 columns can be removed at once (larger removed parts of connected columns are not recognized)!
-  public boolean isRemoved() {
-    return prev.getNext() != this || next.getPrev() != this;
-  }
+    // CONDITION It only works if not more than 2 columns can be removed at once (larger removed parts of connected columns are not recognized)!
+    public boolean isRemoved() {
+        return prev.getNext() != this || next.getPrev() != this;
+    }
 
-  // Special Secondary Column
+    // Special Secondary Column
 
-  private int colorThresh; // used for backing up
+    private int colorThresh; // used for backing up
 
-  public int getColorThresh() {
-    return this.colorThresh;
-  }
+    public int getColorThresh() {
+        return this.colorThresh;
+    }
 
-  public void setColorThresh(int colorThresh) {
-    this.colorThresh = colorThresh;
-  }
+    public void setColorThresh(int colorThresh) {
+        this.colorThresh = colorThresh;
+    }
 
-  public boolean isCovered() {
-    return covered;
-  }
+    public boolean isCovered() {
+        return covered;
+    }
 
-  public void setCovered(boolean covered) {
-    this.covered = covered;
-  }
+    public void setCovered(boolean covered) {
+        this.covered = covered;
+    }
 
 }

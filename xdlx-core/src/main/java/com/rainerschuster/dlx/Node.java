@@ -20,141 +20,138 @@ import java.util.NoSuchElementException;
 
 public class Node<C, V extends Value<C>> implements Iterable<Node<C, V>> {
 
-  private Node<C, V> left;
+    private Node<C, V> left;
 
-  private Node<C, V> right;
+    private Node<C, V> right;
 
-  private Node<C, V> up;
+    private Node<C, V> up;
 
-  private Node<C, V> down;
+    private Node<C, V> down;
 
-  private Column<C, V> column;
+    private Column<C, V> column;
 
-  private V value;
+    private V value;
 
-  private int color;
+    private int color;
 
-  private boolean marked;
+    private boolean marked;
 
-  public Node<C, V> getLeft() {
-    return this.left;
-  }
+    public Node<C, V> getLeft() {
+        return this.left;
+    }
 
-  public void setLeft(Node<C, V> left) {
-    this.left = left;
-  }
+    public void setLeft(Node<C, V> left) {
+        this.left = left;
+    }
 
-  public Node<C, V> getRight() {
-    return this.right;
-  }
+    public Node<C, V> getRight() {
+        return this.right;
+    }
 
-  public void setRight(Node<C, V> right) {
-    this.right = right;
-  }
+    public void setRight(Node<C, V> right) {
+        this.right = right;
+    }
 
-  public Node<C, V> getUp() {
-    return this.up;
-  }
+    public Node<C, V> getUp() {
+        return this.up;
+    }
 
-  public void setUp(Node<C, V> up) {
-    this.up = up;
-  }
+    public void setUp(Node<C, V> up) {
+        this.up = up;
+    }
 
-  public Node<C, V> getDown() {
-    return this.down;
-  }
+    public Node<C, V> getDown() {
+        return this.down;
+    }
 
-  public void setDown(Node<C, V> down) {
-    this.down = down;
-  }
+    public void setDown(Node<C, V> down) {
+        this.down = down;
+    }
 
-  public Column<C, V> getColumn() {
-    return this.column;
-  }
+    public Column<C, V> getColumn() {
+        return this.column;
+    }
 
-  public void setColumn(Column<C, V> column) {
-    this.column = column;
-  }
+    public void setColumn(Column<C, V> column) {
+        this.column = column;
+    }
 
-  public V getValue() {
-    return value;
-  }
+    public V getValue() {
+        return value;
+    }
 
-  public void setValue(V value) {
-    this.value = value;
-  }
+    public void setValue(V value) {
+        this.value = value;
+    }
 
-  public int getColor() {
-    return this.color;
-  }
+    public int getColor() {
+        return this.color;
+    }
 
-  public void setColor(int color) {
-    this.color = color;
-  }
+    public void setColor(int color) {
+        this.color = color;
+    }
 
-  public boolean isMarked() {
-    return marked;
-  }
+    public boolean isMarked() {
+        return marked;
+    }
 
-  public void setMarked(boolean marked) {
-    this.marked = marked;
-  }
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
 
-  // FIXME Alternative zu diesem Workaround suchen
-  private Node<C, V> myThis() {
-    return this;
-  }
+    protected class RowIterator implements Iterator<Node<C, V>> {
+        private Node<C, V> node = Node.this;
 
-  protected class RowIterator implements Iterator<Node<C, V>> {
-    private Node<C, V> node = myThis();
+        @SuppressWarnings("unused")
+        private boolean justRemoved = false;
 
-    @SuppressWarnings("unused")
-    private boolean justRemoved = false;
+        private boolean firstOutputted = false;
 
-    private boolean firstOutputted = false;
+        @Override
+        public boolean hasNext() {
+            return node != null
+                    && (!firstOutputted || node.getRight() != Node.this);
+        }
 
-    @Override
-	public boolean hasNext() {
-      return node != null && (!firstOutputted || node.getRight() != myThis());
+        @Override
+        public Node<C, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            justRemoved = false;
+
+            if (firstOutputted) {
+                node = node.getRight();
+            } else {
+                firstOutputted = true;
+            }
+
+            return node;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+
+            /*if (node == null || node == Node.this || justRemoved) {
+                throw new IllegalStateException();
+            }
+            // TODO to delete single nodes probably doesn't make much sense ->
+            // What should be deleted (whole column)?)
+            node.getLeft().setRight(node.getRight());
+            node.getRight().setLeft(node.getLeft());
+            node.getUp().setDown(node.getDown());
+            node.getDown().setUp(node.getUp());
+
+            justRemoved = true;*/
+        }
     }
 
     @Override
-	public Node<C, V> next() {
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-
-      justRemoved = false;
-
-      if (firstOutputted) {
-        node = node.getRight();
-      } else {
-        firstOutputted = true;
-      }
-
-      return node;
+    public Iterator<Node<C, V>> iterator() {
+        return new RowIterator();
     }
-
-    @Override
-	public void remove() {
-        throw new UnsupportedOperationException();
-
-      /*if (node == null || node == myThis() || justRemoved) {
-        throw new IllegalStateException();
-      }
-      // TODO to delete single nodes probably doesn't make much sense -> What should be deleted (whole column)?)
-      node.getLeft().setRight(node.getRight());
-      node.getRight().setLeft(node.getLeft());
-      node.getUp().setDown(node.getDown());
-      node.getDown().setUp(node.getUp());
-
-      justRemoved = true;*/
-    }
-  }
-
-  @Override
-public Iterator<Node<C, V>> iterator() {
-    return new RowIterator();
-  }
 
 }

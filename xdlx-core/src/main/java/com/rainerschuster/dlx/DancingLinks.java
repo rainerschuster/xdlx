@@ -27,79 +27,77 @@ import java.util.List;
  */
 public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvents<C, V>, SourcesSolveEvents {
 
-  private SolutionListenerCollection<C, V> solutionListeners = new SolutionListenerCollection<C, V>();
+    private SolutionListenerCollection<C, V> solutionListeners = new SolutionListenerCollection<C, V>();
 
-  private SolveListenerCollection solveListeners = new SolveListenerCollection();
+    private SolveListenerCollection solveListeners = new SolveListenerCollection();
 
-  // Global variables
-  /** > 0 to show solutions,
-   *  > 1 to show partial ones too,
-   *  > 2 to show more gory details. */
-  private int verbosity = 0;
+    // Global variables
+    /** > 0 to show solutions,
+     *  > 1 to show partial ones too,
+     *  > 2 to show more gory details. */
+    private int verbosity = 0;
 
-  /** Number of solutions found so far. */
-  private long count = 0;
+    /** Number of solutions found so far. */
+    private long count = 0;
 
-  /** Number of times we deleted a list element. */
-  private BigInteger updates = BigInteger.ZERO;
+    /** Number of times we deleted a list element. */
+    private BigInteger updates = BigInteger.ZERO;
 
-  /** Number of times we purified a list element. */
-  private BigInteger purifs = BigInteger.ZERO;
+    /** Number of times we purified a list element. */
+    private BigInteger purifs = BigInteger.ZERO;
 
-  /** If verbose, we output solutions when count % spacing == 0. */
-  private int spacing = 1;
+    /** If verbose, we output solutions when count % spacing == 0. */
+    private int spacing = 1;
 
-  /** Tree nodes of given level and degree. */
-  private List<List<BigInteger>> profile = new ArrayList<List<BigInteger>>();
+    /** Tree nodes of given level and degree. */
+    private List<List<BigInteger>> profile = new ArrayList<List<BigInteger>>();
 
-  /** Updates at a given level. */
-  private List<BigInteger> updProfile = new ArrayList<BigInteger>();
+    /** Updates at a given level. */
+    private List<BigInteger> updProfile = new ArrayList<BigInteger>();
 
-  /** Purifications at a given level. */
-  private List<BigInteger> purProfile = new ArrayList<BigInteger>();
+    /** Purifications at a given level. */
+    private List<BigInteger> purProfile = new ArrayList<BigInteger>();
 
-  /** Maximum branching factor actually needed. */
-  private int maxb = 0;
+    /** Maximum branching factor actually needed. */
+    private int maxb = 0;
 
-  /** Maximum level actually reached. */
-  private int maxl = 0;
+    /** Maximum level actually reached. */
+    private int maxl = 0;
 
-  /** Number of choices in current partial solution. */
-  private int level;
+    /** Number of choices in current partial solution. */
+    private int level;
 
-  /** Smallest color allowable when extending a solution. */
-  private int cthresh;
+    /** Smallest color allowable when extending a solution. */
+    private int cthresh;
 
-  /** Set true if a conflict arises while covering. */
-  private boolean conflict;
+    /** Set true if a conflict arises while covering. */
+    private boolean conflict;
 
-  /** The row and column chosen on each level. */
-  private List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+    /** The row and column chosen on each level. */
+    private List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
 
+    private DancingLinksData<C, V> dlData;
+    private boolean firstSolution = false;
+    private boolean quickSolution = false;
+    private boolean done = false;
 
-  private DancingLinksData<C, V> dlData;
-  private boolean firstSolution = false;
-  private boolean quickSolution = false;
-  private boolean done = false;
+    public DancingLinks(DancingLinksData<C, V> dlData) {
+        super();
+        this.dlData = dlData;
+    }
 
-
-  public DancingLinks(DancingLinksData<C, V> dlData) {
-    super();
-    this.dlData = dlData;
-  }
-
-  /** Starts the solving algorithm. */
-  public void solve() {
-    count = 0;
-    updates = BigInteger.ZERO;
-    purifs = BigInteger.ZERO;
-    solve(0);
-    // TODO cthresh = 'a';
-  }
+    /** Starts the solving algorithm. */
+    public void solve() {
+        count = 0;
+        updates = BigInteger.ZERO;
+        purifs = BigInteger.ZERO;
+        solve(0);
+        // TODO cthresh = 'a';
+    }
 
   // TODO check done
   /** DFS/DLX at specified level. */
-  private void solve(int level) {
+  private void solve(final int level) {
     // TODO QUEST when should it be fired (really at the beginning?)?
     //solveListeners.fireSolution(level);
     this.level = level;
@@ -248,7 +246,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
    * When a row is blocked, it leaves all lists except the list of the column
    * that is being covered. Thus a node is never removed from a list twice.
    */
-  public void cover(Column<C, V> c) {
+  public void cover(final Column<C, V> c) {
     //solveListeners.fireSolution(level);
     //if (c != null) {
     Column<C, V> l, r;
@@ -289,159 +287,164 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     }*/
   }
 
-  /**
-   * Uncovering is done in precisely the reverse order. The pointers thereby
-   * execute an exquisitely choreographed dance which returns them almost
-   * magically to their former state.
-   */
-  public void uncover(Column<C, V> c) {
-    Column<C, V> l, r;
-    Node<C, V> uu, dd;
-    for (Node<C, V> rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
-      for (Node<C, V> nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
-        uu = nn.getUp();
-        dd = nn.getDown();
-        //uu.down = dd.up = nn;
-        uu.setDown(nn);
-        dd.setUp(nn);
-        //nn.column.length++;
-        nn.getColumn().setLength(nn.getColumn().getLength() + 1);
-      }
-    }
-
-    c.setCovered(false);
-
-    l = c.getPrev();
-    r = c.getNext();
-    //l.next = r.prev = c;
-    l.setNext(c);
-    r.setPrev(c);
-  }
-
-  /**
-   * When we choose a row that specifies colors in one or more columns, we
-   * "purify" those columns by removing all incompatible rows. All rows that
-   * want the same color in a purified column will now be given the color code
-   * -1 so that we need not purify the column again.
-   */
-  public void purify(Node<C, V> p) {
-    Column<C, V> c = p.getColumn();
-    int x = p.getColor();
-    Node<C, V> /*rr, nn, */uu, dd;
-    long k = 0, kk = 1; /* updates */
-    c.getHead().setColor(x); /* this is used only to help printRow */
-    c.setColorThresh(cthresh);
-    if (cthresh >= x) {
-      cthresh++;
-    }
-    for (Node<C, V> rr : c) {
-      if (rr.getColor() != x) {
-        for (Node<C, V> nn : rr) {
-          uu = nn.getUp();
-          dd = nn.getDown();
-          uu.setDown(dd);
-          dd.setUp(uu);
-          k++;
-          //nn.column.length--;
-          nn.getColumn().setLength(nn.getColumn().getLength() - 1);
+    /**
+     * Uncovering is done in precisely the reverse order. The pointers thereby
+     * execute an exquisitely choreographed dance which returns them almost
+     * magically to their former state.
+     */
+    public void uncover(final Column<C, V> c) {
+        Column<C, V> l, r;
+        Node<C, V> uu, dd;
+        for (Node<C, V> rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
+            for (Node<C, V> nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
+                uu = nn.getUp();
+                dd = nn.getDown();
+                // uu.down = dd.up = nn;
+                uu.setDown(nn);
+                dd.setUp(nn);
+                // nn.column.length++;
+                nn.getColumn().setLength(nn.getColumn().getLength() + 1);
+            }
         }
-      } else if (rr != p) {
-        kk++;
-        rr.setColor(-1);
-      }
-      updates = updates.add(BigInteger.valueOf(k));
-      purifs = purifs.add(BigInteger.valueOf(kk));
-      if (level >= updProfile.size()) {
-        updProfile.add(BigInteger.valueOf(k));
-      } else {
-        updProfile.set(level, updProfile.get(level).add(BigInteger.valueOf(k)));
-      }
-      if (level >= purProfile.size()) {
-        purProfile.add(BigInteger.valueOf(kk));
-      } else {
-        purProfile.set(level, purProfile.get(level).add(BigInteger.valueOf(kk)));
-      }
-    }
-  }
 
-  /**
-   * Just as purify is analogous to cover, the inverse process is analogous to uncover.
-   */
-  public void unpurify(Node<C, V> p) {
-    Column<C, V> c = p.getColumn();
-    int x = p.getColor();
-    Node<C, V> rr, nn, uu, dd;
-    for (rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
-      if (rr.getColor() < 0) {
-        rr.setColor(x);
-      } else if (rr != p) {
-        for (nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
-          uu = nn.getUp();
-          dd = nn.getDown();
-          //uu.down = dd.up = nn;
-          uu.setDown(nn);
-          dd.setUp(nn);
-          //nn.column.length++;
-          nn.getColumn().setLength(nn.getColumn().getLength() + 1);
+        c.setCovered(false);
+
+        l = c.getPrev();
+        r = c.getNext();
+        // l.next = r.prev = c;
+        l.setNext(c);
+        r.setPrev(c);
+    }
+
+    /**
+     * When we choose a row that specifies colors in one or more columns, we
+     * "purify" those columns by removing all incompatible rows. All rows that
+     * want the same color in a purified column will now be given the color code
+     * -1 so that we need not purify the column again.
+     */
+    public void purify(final Node<C, V> p) {
+        Column<C, V> c = p.getColumn();
+        int x = p.getColor();
+        Node<C, V> /* rr, nn, */uu, dd;
+        long k = 0, kk = 1; /* updates */
+        c.getHead().setColor(x); /* this is used only to help printRow */
+        c.setColorThresh(cthresh);
+        if (cthresh >= x) {
+            cthresh++;
         }
-      }
+        for (Node<C, V> rr : c) {
+            if (rr.getColor() != x) {
+                for (Node<C, V> nn : rr) {
+                    uu = nn.getUp();
+                    dd = nn.getDown();
+                    uu.setDown(dd);
+                    dd.setUp(uu);
+                    k++;
+                    // nn.column.length--;
+                    nn.getColumn().setLength(nn.getColumn().getLength() - 1);
+                }
+            } else if (rr != p) {
+                kk++;
+                rr.setColor(-1);
+            }
+            updates = updates.add(BigInteger.valueOf(k));
+            purifs = purifs.add(BigInteger.valueOf(kk));
+            if (level >= updProfile.size()) {
+                updProfile.add(BigInteger.valueOf(k));
+            } else {
+                updProfile.set(level, updProfile.get(level).add(BigInteger.valueOf(k)));
+            }
+            if (level >= purProfile.size()) {
+                purProfile.add(BigInteger.valueOf(kk));
+            } else {
+                purProfile.set(level, purProfile.get(level).add(BigInteger.valueOf(kk)));
+            }
+        }
     }
-    c.getHead().setColor(0);
-    cthresh = c.getColorThresh();
-  }
 
-  /**
-   * Help for debugging<br />
-   * Here's a subroutine for when I'm doing a long run and want to check the
-   * current progress.
-   */
-  public void showState() {
-    System.out.println("Current state (level " + level + "):");
-    for (int k = 0; k < level; k++) {
-      DancingLinksData.printRow(choice.get(k));
+    /**
+     * Just as purify is analogous to cover, the inverse process is analogous to
+     * uncover.
+     */
+    public void unpurify(final Node<C, V> p) {
+        Column<C, V> c = p.getColumn();
+        int x = p.getColor();
+        Node<C, V> rr, nn, uu, dd;
+        for (rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
+            if (rr.getColor() < 0) {
+                rr.setColor(x);
+            } else if (rr != p) {
+                for (nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
+                    uu = nn.getUp();
+                    dd = nn.getDown();
+                    // uu.down = dd.up = nn;
+                    uu.setDown(nn);
+                    dd.setUp(nn);
+                    // nn.column.length++;
+                    nn.getColumn().setLength(nn.getColumn().getLength() + 1);
+                }
+            }
+        }
+        c.getHead().setColor(0);
+        cthresh = c.getColorThresh();
     }
-    System.out.println("Max level so far: " + maxl);
-    System.out.println("Max branching so far: " + maxb);
-    System.out.println("Solutions so far: " + count);
-  }
 
-  /**
-   * Covers all columns in the row (that is represented by the node).
-   * @param curNode The node that represents the row.
-   */
-  public void coverAllColumns(Node<C, V> curNode) {
-    cover(curNode.getColumn());
-    coverAllOtherColumns(curNode);
-  }
-
-  /**
-   * Uncovers all columns in the row (that is represented by the node).
-   * @param curNode The node that represents the row.
-   */
-  public void uncoverAllColumns(Node<C, V> curNode) {
-    uncoverAllOtherColumns(curNode);
-    uncover(curNode.getColumn());
-  }
-
-  public void cover(V value) {
-    List<Column<C, V>> list = value.inRelations(dlData.getAllColumns());
-    for (Column<C, V> column : list) {
-      cover(column);
+    /**
+     * Help for debugging<br />
+     * Here's a subroutine for when I'm doing a long run and want to check the
+     * current progress.
+     */
+    public void showState() {
+        System.out.println("Current state (level " + level + "):");
+        for (int k = 0; k < level; k++) {
+            DancingLinksData.printRow(choice.get(k));
+        }
+        System.out.println("Max level so far: " + maxl);
+        System.out.println("Max branching so far: " + maxb);
+        System.out.println("Solutions so far: " + count);
     }
-  }
 
-  public void uncover(V value) {
-    List<Column<C, V>> list = value.inRelations(dlData.getAllColumns());
-    // uncover in reversed order
-    Collections.reverse(list);
-    for (Column<C, V> column : list) {
-      uncover(column);
+    /**
+     * Covers all columns in the row (that is represented by the node).
+     * 
+     * @param curNode
+     *            The node that represents the row.
+     */
+    public void coverAllColumns(final Node<C, V> curNode) {
+        cover(curNode.getColumn());
+        coverAllOtherColumns(curNode);
     }
-  }
+
+    /**
+     * Uncovers all columns in the row (that is represented by the node).
+     * 
+     * @param curNode
+     *            The node that represents the row.
+     */
+    public void uncoverAllColumns(final Node<C, V> curNode) {
+        uncoverAllOtherColumns(curNode);
+        uncover(curNode.getColumn());
+    }
+
+    public void cover(final V value) {
+        final List<Column<C, V>> list = value.inRelations(dlData.getAllColumns());
+        for (Column<C, V> column : list) {
+            cover(column);
+        }
+    }
+
+    public void uncover(final V value) {
+        final List<Column<C, V>> list = value.inRelations(dlData.getAllColumns());
+        // uncover in reversed order
+        Collections.reverse(list);
+        for (Column<C, V> column : list) {
+            uncover(column);
+        }
+    }
 
   // TODO conflict als return-Wert oder Exception (statt globaler Variable)
   /** Covers all colums which are in the same row as <code>curNode</code> (the column <code>curNode</code> itself is not covered). */
-  public void coverAllOtherColumns(Node<C, V> curNode) {
+  public void coverAllOtherColumns(final Node<C, V> curNode) {
     // Cover all other columns of curNode
     for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
       if (pp.getColor() == 0) {
@@ -457,7 +460,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
   }
 
   /** Uncovers all colums which are in the same row as <code>curNode</code> (the column <code>curNode</code> itself is not uncovered). */
-  public void uncoverAllOtherColumns(Node<C, V> curNode) {
+  public void uncoverAllOtherColumns(final Node<C, V> curNode) {
     for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
       if (pp.getColor() == 0) {
         uncover(pp.getColumn());
@@ -480,7 +483,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
   /** @return 0 if no solution, 1 if unique solution and 2 if two or more solutions */
   public long quickSolutions() {
     // Backup of the solution is necessary (if reducing)
-    List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
+      final List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
     //Collections.copy(backup, choice);
     for (Node<C, V> n : choice) {
       backup.add(n);
@@ -497,7 +500,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
    * @param previousLast Index of the previously found reduction.
    * @return Lowest possible index to fulfill uniquity requirement.
    */
-  private int reduceEnd(int previousLast) {
+  private int reduceEnd(final int previousLast) {
     for (int i = 0; i <= previousLast; i++) {
       //coverAllColumns(solution1[i]);
       coverAllColumns(choice.get(i));
@@ -550,74 +553,74 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     return givens;
   }
 
-  // TODO count may be incorrect (2) if reducing!
-  public void printStatistics() {
-    System.out.println("Altogether "
-        + count + " solutions, after "
-        + updates + " updates and "
-        + purifs + " cleansings.");
-    if (verbosity > 0) {
-      printProfile();
+    // TODO count may be incorrect (2) if reducing!
+    public void printStatistics() {
+        System.out.println("Altogether "
+                + count + " solutions, after "
+                + updates + " updates and "
+                + purifs + " cleansings.");
+        if (verbosity > 0) {
+            printProfile();
+        }
     }
-  }
 
-  @Override
-public void addSolutionListener(SolutionListener<C, V> listener) {
-    if (solutionListeners == null) {
-      solutionListeners = new SolutionListenerCollection<C, V>();
+    @Override
+    public void addSolutionListener(SolutionListener<C, V> listener) {
+        if (solutionListeners == null) {
+            solutionListeners = new SolutionListenerCollection<C, V>();
+        }
+        solutionListeners.add(listener);
     }
-    solutionListeners.add(listener);
-  }
 
-  @Override
-public void removeSolutionListener(SolutionListener<C, V> listener) {
-    if (solutionListeners != null) {
-      solutionListeners.remove(listener);
+    @Override
+    public void removeSolutionListener(SolutionListener<C, V> listener) {
+        if (solutionListeners != null) {
+            solutionListeners.remove(listener);
+        }
     }
-  }
 
-  @Override
-public void addSolveListener(SolveListener listener) {
-    if (solveListeners == null) {
-      solveListeners = new SolveListenerCollection();
+    @Override
+    public void addSolveListener(SolveListener listener) {
+        if (solveListeners == null) {
+            solveListeners = new SolveListenerCollection();
+        }
+        solveListeners.add(listener);
     }
-    solveListeners.add(listener);
-  }
 
-  @Override
-public void removeSolveListener(SolveListener listener) {
-    if (solveListeners != null) {
-      solveListeners.remove(listener);
+    @Override
+    public void removeSolveListener(SolveListener listener) {
+        if (solveListeners != null) {
+            solveListeners.remove(listener);
+        }
     }
-  }
 
-  public int getVerbosity() {
-    return verbosity;
-  }
+    public int getVerbosity() {
+        return verbosity;
+    }
 
-  public void setVerbosity(int verbosity) {
-    this.verbosity = verbosity;
-  }
+    public void setVerbosity(int verbosity) {
+        this.verbosity = verbosity;
+    }
 
-  public int getSpacing() {
-    return spacing;
-  }
+    public int getSpacing() {
+        return spacing;
+    }
 
-  public void setSpacing(int spacing) {
-    this.spacing = spacing;
-  }
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
+    }
 
-  // TODO QUEST volatile?
-  public List<Node<C, V>> getChoice() {
-    return choice;
-  }
+    // TODO QUEST volatile?
+    public List<Node<C, V>> getChoice() {
+        return choice;
+    }
 
-  public DancingLinksData<C, V> getDancingLinksData() {
-    return dlData;
-  }
+    public DancingLinksData<C, V> getDancingLinksData() {
+        return dlData;
+    }
 
-  public void setDancingLinksData(DancingLinksData<C, V> dlData) {
-    this.dlData = dlData;
-  }
+    public void setDancingLinksData(DancingLinksData<C, V> dlData) {
+        this.dlData = dlData;
+    }
 
 }
