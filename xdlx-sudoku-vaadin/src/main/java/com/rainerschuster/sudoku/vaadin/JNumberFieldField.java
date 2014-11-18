@@ -1,4 +1,4 @@
-package com.rainerschuster.dlx.vaadin;
+package com.rainerschuster.sudoku.vaadin;
 
 import com.vaadin.data.Property;
 import com.vaadin.ui.AbstractField;

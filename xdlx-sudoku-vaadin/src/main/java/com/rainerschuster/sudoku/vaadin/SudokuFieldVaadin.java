@@ -1,4 +1,4 @@
-package com.rainerschuster.dlx.vaadin;
+package com.rainerschuster.sudoku.vaadin;
 
 //import java.awt.GridLayout;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.rainerschuster.dlx.vaadin;
+package com.rainerschuster.sudoku.vaadin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ import com.vaadin.ui.Window;
 public class MyVaadinUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.rainerschuster.dlx.vaadin.AppWidgetSet")
+    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.rainerschuster.sudoku.vaadin.AppWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
