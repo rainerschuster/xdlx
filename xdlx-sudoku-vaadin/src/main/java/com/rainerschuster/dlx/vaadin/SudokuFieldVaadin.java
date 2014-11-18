@@ -1,6 +1,5 @@
 package com.rainerschuster.dlx.vaadin;
 
-import java.awt.Color;
 //import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class SudokuFieldVaadin extends CustomComponent {
 	}
 
 	public void importData(final SudokuField field, final boolean showSolution) {
-		final ViewProperties vProps = new ViewProperties();
+//		final ViewProperties vProps = new ViewProperties();
 		for (int row = 0; row < properties.getEdgeLength(); row++) {
 			for (int col = 0; col < properties.getEdgeLength(); col++) {
 				final List<Integer> coordinates = new ArrayList<Integer>(2);
@@ -104,12 +103,12 @@ public class SudokuFieldVaadin extends CustomComponent {
 					cells[row][col].removeStyleName("given");
 				}
 
-				Color cellColor = Color.WHITE;
-				Color borderColor = ViewProperties.defaultColor;
+//				Color cellColor = Color.WHITE;
+//				Color borderColor = ViewProperties.defaultColor;
 				if (properties.isXSudoku()) {
 					if (row == col || row + col + 1 == properties.getEdgeLength()) {
-						cellColor = vProps.getXCellColor();
-						borderColor = vProps.getXBorderColor();
+//						cellColor = vProps.getXCellColor();
+//						borderColor = vProps.getXBorderColor();
 						cells[row][col].addStyleName("colorX");
 					} else {
 						cells[row][col].removeStyleName("colorX");
@@ -117,7 +116,7 @@ public class SudokuFieldVaadin extends CustomComponent {
 				}
 				if (properties.isColorSudoku()) {
 					final int colorIndex = properties.getColor().get(coordinates);
-					cellColor = vProps.getColor(colorIndex);
+//					cellColor = vProps.getColor(colorIndex);
 					for (int i = 0; i < properties.getEdgeLength(); i++) {
 						final String cellColorString = "color" + (i + 1);
 						if (i == colorIndex) {
