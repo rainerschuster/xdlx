@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rainerschuster.sudoku.view;
+package com.rainerschuster.sudoku.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

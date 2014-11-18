@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rainerschuster.sudoku.view;
+package com.rainerschuster.sudoku.swing;
 
 import java.awt.Color;
 
 import javax.swing.SwingConstants;
 
 import com.rainerschuster.commons.JNumberField;
+import com.rainerschuster.sudoku.view.ViewProperties;
 
 public class SudokuCellSwing extends JNumberField {
 

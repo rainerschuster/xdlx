@@ -31,6 +31,7 @@
 	</scm>
 	<modules>
 		<module>xdlx-core</module>
+        <module>xdlx-sudoku-swing</module>
 		<module>xdlx-sudoku-vaadin</module>
 	</modules>
 </project>

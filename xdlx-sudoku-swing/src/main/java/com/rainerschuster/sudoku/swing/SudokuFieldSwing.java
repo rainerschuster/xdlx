@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rainerschuster.sudoku.view;
+package com.rainerschuster.sudoku.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import com.rainerschuster.sudoku.SudokuField;
 import com.rainerschuster.sudoku.SudokuProperties;
 import com.rainerschuster.sudoku.SudokuValue;
+import com.rainerschuster.sudoku.view.ViewProperties;
 
 public class SudokuFieldSwing extends JPanel {
 
