@@ -16,6 +16,7 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -29,10 +30,10 @@ import com.vaadin.ui.Window;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI {
+public class SudokuUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class, widgetset = "com.rainerschuster.sudoku.vaadin.AppWidgetSet")
+    @VaadinServletConfiguration(productionMode = false, ui = SudokuUI.class, widgetset = "com.rainerschuster.sudoku.vaadin.AppWidgetSet")
     public static class Servlet extends VaadinServlet {
     }
 
@@ -164,6 +165,7 @@ public class MyVaadinUI extends UI {
 						aboutWindow.close();
 					}
 				});
+				aboutContent.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
 				aboutContent.addComponent(okButton);
 				aboutWindow.center();
 				addWindow(aboutWindow);
@@ -177,48 +179,48 @@ public class MyVaadinUI extends UI {
      * This method initializes sudokuField.
      */
     private SudokuFieldVaadin initSudokuField() {
-      if (sudokuField == null) {
-        newStandardClassicSudoku(true);
-      }
-      return sudokuField;
+        if (sudokuField == null) {
+            newStandardClassicSudoku(true);
+        }
+        return sudokuField;
     }
 
     private void newStandardClassicSudoku(final boolean generateGivens) {
-      final SudokuProperties properties = new SudokuProperties();
-      properties.setDimensions(2);
-      properties.setNumbers(9);
-      final List<Integer> dimension = new ArrayList<Integer>(2);
-      dimension.add(3);
-      dimension.add(3);
-      properties.setRegion(properties.generateDefaultRegions(dimension));
+        final SudokuProperties properties = new SudokuProperties();
+        properties.setDimensions(2);
+        properties.setNumbers(9);
+        final List<Integer> dimension = new ArrayList<Integer>(2);
+        dimension.add(3);
+        dimension.add(3);
+        properties.setRegion(properties.generateDefaultRegions(dimension));
 
-      newSudoku(new Sudoku(properties), generateGivens);
+        newSudoku(new Sudoku(properties), generateGivens);
     }
 
     private void newStandardColorSudoku(final boolean generateGivens) {
-      final SudokuProperties properties = new SudokuProperties();
-      properties.setDimensions(2);
-      properties.setNumbers(9);
-      final List<Integer> dimension = new ArrayList<Integer>(2);
-      dimension.add(3);
-      dimension.add(3);
-      properties.setRegion(properties.generateDefaultRegions(dimension));
-      properties.setColor(properties.generateDefaultColors(dimension));
+        final SudokuProperties properties = new SudokuProperties();
+        properties.setDimensions(2);
+        properties.setNumbers(9);
+        final List<Integer> dimension = new ArrayList<Integer>(2);
+        dimension.add(3);
+        dimension.add(3);
+        properties.setRegion(properties.generateDefaultRegions(dimension));
+        properties.setColor(properties.generateDefaultColors(dimension));
 
-      newSudoku(new Sudoku(properties), generateGivens);
+        newSudoku(new Sudoku(properties), generateGivens);
     }
 
     private void newStandardXSudoku(final boolean generateGivens) {
-      final SudokuProperties properties = new SudokuProperties();
-      properties.setDimensions(2);
-      properties.setNumbers(9);
-      final List<Integer> dimension = new ArrayList<Integer>(2);
-      dimension.add(3);
-      dimension.add(3);
-      properties.setRegion(properties.generateDefaultRegions(dimension));
-      properties.setXSudoku(true);
+        final SudokuProperties properties = new SudokuProperties();
+        properties.setDimensions(2);
+        properties.setNumbers(9);
+        final List<Integer> dimension = new ArrayList<Integer>(2);
+        dimension.add(3);
+        dimension.add(3);
+        properties.setRegion(properties.generateDefaultRegions(dimension));
+        properties.setXSudoku(true);
 
-      newSudoku(new Sudoku(properties), generateGivens);
+        newSudoku(new Sudoku(properties), generateGivens);
     }
 
     /**
@@ -281,57 +283,62 @@ public class MyVaadinUI extends UI {
     }
 
     @SuppressWarnings("unused")
-	private void empty() {
-      // TODO implement!
-      //sudokuField.empty();
+    private void empty() {
+        // TODO implement!
+        // sudokuField.empty();
     }
 
     @SuppressWarnings("unused")
-	private void cheat() {
-      // TODO implement!
+    private void cheat() {
+        // TODO implement!
     }
 
     /**
      * Solves and displays a Sudoku entered by the user.
      */
     private void solve() {
-      if (sudokuField != null) {
-    	  final List<SudokuValue> givens = sudokuField.exportValues();
-        final Sudoku sudoku = new Sudoku(sudokuField.getProperties());
-        final long[] maxcount = new long[1]; // workaround to get maximum count
-        sudoku.addSolutionListener(new SudokuSolutionListener() {
+        if (sudokuField != null) {
+            final List<SudokuValue> givens = sudokuField.exportValues();
+            final Sudoku sudoku = new Sudoku(sudokuField.getProperties());
+            final long[] maxcount = new long[1]; // workaround to get maximum
+                                                 // count
+            sudoku.addSolutionListener(new SudokuSolutionListener() {
 
-          @Override
-  		public void onSolution(long count, int level, SudokuField field) {
-            // FIXME handle multi solution Sudokus!
-            solve(field);
-            maxcount[0] = count;
-            System.out.println(count);
-          }
+                @Override
+                public void onSolution(final long count, final int level, final SudokuField field) {
+                    // FIXME handle multi solution Sudokus!
+                    solve(field);
+                    maxcount[0] = count;
+                    System.out.println(count);
+                }
 
-        });
-        switch (sudoku.quickSolutions(givens)) {
-        case 0:
-        	new Notification("There is no solution for your input!", Notification.Type.WARNING_MESSAGE).show(Page.getCurrent());
-          break;
-        case 1:
-          sudoku.solve(givens);
-          break;
-        case 2:
-        	new Notification("There are too many solutions for your input!", Notification.Type.WARNING_MESSAGE).show(Page.getCurrent());
-          break;
-        default:
-        	new Notification("Invalid state (quickSolutions fault)!", "Not unique solution", Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-          break;
+            });
+            switch (sudoku.quickSolutions(givens)) {
+            case 0:
+                new Notification("There is no solution for your input!",
+                        Notification.Type.WARNING_MESSAGE).show(Page.getCurrent());
+                break;
+            case 1:
+                sudoku.solve(givens);
+                break;
+            case 2:
+                new Notification("There are too many solutions for your input!",
+                        Notification.Type.WARNING_MESSAGE).show(Page.getCurrent());
+                break;
+            default:
+                new Notification("Invalid state (quickSolutions fault)!",
+                        "Not unique solution",
+                        Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
+                break;
+            }
         }
-      }
     }
 
     /**
      * Displays the solution of a generated Sudoku.
      */
     private void solve(final SudokuField solution) {
-      sudokuField.importData(solution, true);
+        sudokuField.importData(solution, true);
     }
 
 }

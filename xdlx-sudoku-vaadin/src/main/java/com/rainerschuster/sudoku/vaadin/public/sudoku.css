@@ -1,4 +1,11 @@
 
+.v-textfield {
+  border-color: #212121 !important; /*263238*/
+}
+.v-textfield.v-disabled {
+  opacity: 1 !important;
+  filter: alpha(opacity=100) !important;
+}
 .given {
   font-weight: bold !important;
   color: RoyalBlue !important;
@@ -27,35 +34,65 @@
 /*
       Color.ORANGE,	Color.PINK,	Color.MAGENTA,
       Color.CYAN,	Color.BLUE,	Color.LIGHT_GRAY,
-      Color.GREEN,	Color.RED,	Color.YELLOW*/
+      Color.GREEN,	Color.RED,	Color.YELLOW
+*/
 
 .color1 {
-	background-color: orange !important;
+	background-color: #FF9800 !important;
 }
 .color2 {
-	background-color: purple !important;
+	background-color: #E91E63 !important;
 }
 .color3 {
-	background-color: fuchsia !important;
+	background-color: #9C27B0 !important;
 }
 .color4 {
-	background-color: aqua !important;
+	background-color: #00BCD4 !important;
 }
 .color5 {
-	background-color: blue !important;
+	background-color: #2196F3 !important;
 }
 .color6 {
-	background-color: silver !important;
+	background-color: #9E9E9E !important;
 }
 .color7 {
-	background-color: green !important;
+	background-color: #4CAF50 !important;
 }
 .color8 {
-	background-color: red !important;
+	background-color: #F44336 !important;
 }
 .color9 {
-	background-color: yellow !important;
+	background-color: #FFEB3B !important;
 }
+/*
+.color1 {
+    background-color: orange !important;
+}
+.color2 {
+    background-color: purple !important;
+}
+.color3 {
+    background-color: fuchsia !important;
+}
+.color4 {
+    background-color: aqua !important;
+}
+.color5 {
+    background-color: blue !important;
+}
+.color6 {
+    background-color: silver !important;
+}
+.color7 {
+    background-color: green !important;
+}
+.color8 {
+    background-color: red !important;
+}
+.color9 {
+    background-color: yellow !important;
+}
+*/
 .colorX {
 	background-color: silver !important;
 	border-color: gray !important;
