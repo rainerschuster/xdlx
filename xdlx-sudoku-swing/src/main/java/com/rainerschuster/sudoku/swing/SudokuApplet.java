@@ -432,12 +432,14 @@ public class SudokuApplet extends JApplet {
     jContentPane.revalidate();*/
   }
 
-  private void empty() {
+  @SuppressWarnings("unused")
+private void empty() {
     // TODO implement!
     //sudokuField.empty();
   }
 
-  private void cheat() {
+  @SuppressWarnings("unused")
+private void cheat() {
     // TODO implement!
   }
 
