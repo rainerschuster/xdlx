@@ -159,7 +159,8 @@ public class MyVaadinUI extends UI {
 				aboutContent.addComponent(new Label("&copy; 2007-2014 by Dipl.-Ing. Rainer Schuster", ContentMode.HTML));
 				final Button okButton = new Button("OK");
 				okButton.addClickListener(new ClickListener() {
-					public void buttonClick(final ClickEvent event) {
+					@Override
+                    public void buttonClick(final ClickEvent event) {
 						aboutWindow.close();
 					}
 				});
