@@ -2,7 +2,7 @@ package com.rainerschuster.sudoku.vaadin;
 
 import com.rainerschuster.sudoku.view.ViewProperties;
 
-public class SudokuCellVaadin extends JNumberField {
+public class SudokuCellVaadin extends NumberField {
 
 	private static final long serialVersionUID = 1L;
 

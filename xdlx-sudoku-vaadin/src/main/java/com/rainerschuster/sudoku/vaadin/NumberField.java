@@ -3,7 +3,7 @@ package com.rainerschuster.sudoku.vaadin;
 import com.vaadin.data.Property;
 import com.vaadin.ui.TextField;
 
-public class JNumberField extends TextField {
+public class NumberField extends TextField {
 
 	// TODO assert that minNumber <= maxNumber
 
@@ -13,36 +13,36 @@ public class JNumberField extends TextField {
 	private int maxNumber = -1;
 
     /**
-     * Constructs an empty <code>JNumberField</code> with no caption.
+     * Constructs an empty <code>NumberField</code> with no caption.
      */
-    public JNumberField() {
+    public NumberField() {
         setValue(null);
     }
 
     /**
-     * Constructs an empty <code>JNumberField</code> with given caption.
+     * Constructs an empty <code>NumberField</code> with given caption.
      * 
      * @param caption
      *            the caption <code>String</code> for the editor.
      */
-    public JNumberField(String caption) {
+    public NumberField(String caption) {
         this();
         setCaption(caption);
     }
 
 //    /**
-//     * Constructs a new <code>JNumberField</code> that's bound to the specified
+//     * Constructs a new <code>NumberField</code> that's bound to the specified
 //     * <code>Property</code> and has no caption.
 //     * 
 //     * @param dataSource
 //     *            the Property to be edited with this editor.
 //     */
-//    public JNumberField(Property<Integer> dataSource) {
+//    public NumberField(Property<Integer> dataSource) {
 //        setPropertyDataSource(dataSource);
 //    }
 //
 //    /**
-//     * Constructs a new <code>JNumberField</code> that's bound to the specified
+//     * Constructs a new <code>NumberField</code> that's bound to the specified
 //     * <code>Property</code> and has the given caption <code>String</code>.
 //     * 
 //     * @param caption
@@ -50,13 +50,13 @@ public class JNumberField extends TextField {
 //     * @param dataSource
 //     *            the Property to be edited with this editor.
 //     */
-//    public JNumberField(String caption, Property<Integer> dataSource) {
+//    public NumberField(String caption, Property<Integer> dataSource) {
 //        this(dataSource);
 //        setCaption(caption);
 //    }
 
     /**
-     * Constructs a new <code>JNumberField</code> with the given caption and
+     * Constructs a new <code>NumberField</code> with the given caption and
      * initial text contents. The editor constructed this way will not be bound
      * to a Property unless
      * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
@@ -67,7 +67,7 @@ public class JNumberField extends TextField {
      * @param value
      *            the initial content of the editor.
      */
-    public JNumberField(String caption, Integer value) {
+    public NumberField(String caption, Integer value) {
         setValue(Integer.toString(value));
         setCaption(caption);
     }
