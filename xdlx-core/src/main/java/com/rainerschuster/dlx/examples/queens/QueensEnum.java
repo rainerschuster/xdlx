@@ -16,16 +16,19 @@
 package com.rainerschuster.dlx.examples.queens;
 
 public enum QueensEnum {
-  ROW, COLUMN, DIAGONAL_A, DIAGONAL_B;
+    ROW,
+    COLUMN,
+    DIAGONAL_A,
+    DIAGONAL_B;
 
-  /*private int value;
+    /*private int value;
 
-  public int getValue() {
-    return value;
-  }
+    public int getValue() {
+        return value;
+    }
 
-  public void setValue(int value) {
-    this.value = value;
-  }*/
+    public void setValue(int value) {
+        this.value = value;
+    }*/
 
 }

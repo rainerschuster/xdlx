@@ -20,39 +20,42 @@ import java.util.List;
 import com.rainerschuster.dlx.Column;
 import com.rainerschuster.dlx.ValueConverter;
 
-/** @deprecated Superclass deprecated {@link com.rainerschuster.dlx.ValueConverter}. */
+/**
+ * @deprecated Superclass deprecated
+ *             {@link com.rainerschuster.dlx.ValueConverter}.
+ */
 @Deprecated
 public class QueensValueConverter extends
-    ValueConverter<QueensColumnValue, QueensValue> {
+        ValueConverter<QueensColumnValue, QueensValue> {
 
-  private QueensProperties properties;
+    private QueensProperties properties;
 
-  public QueensValueConverter(QueensProperties properties) {
-    super();
-    this.properties = properties;
-  }
-
-  @Override
-  public QueensValue convertRow(List<Column<QueensColumnValue, QueensValue>> columns) {
-    int row = 0;
-    int col = 0;
-    for (Column<QueensColumnValue, QueensValue> column : columns) {
-      if (column.getValue().containsKey(QueensEnum.ROW)) {
-        row = column.getValue().get(QueensEnum.ROW);
-      }
-      if (column.getValue().containsKey(QueensEnum.COLUMN)) {
-        col = column.getValue().get(QueensEnum.COLUMN);
-      }
+    public QueensValueConverter(QueensProperties properties) {
+        super();
+        this.properties = properties;
     }
-    return new QueensValue(properties, row, col);
-  }
 
-  public QueensProperties getProperties() {
-    return properties;
-  }
+    @Override
+    public QueensValue convertRow(final List<Column<QueensColumnValue, QueensValue>> columns) {
+        int row = 0;
+        int col = 0;
+        for (Column<QueensColumnValue, QueensValue> column : columns) {
+            if (column.getValue().containsKey(QueensEnum.ROW)) {
+                row = column.getValue().get(QueensEnum.ROW);
+            }
+            if (column.getValue().containsKey(QueensEnum.COLUMN)) {
+                col = column.getValue().get(QueensEnum.COLUMN);
+            }
+        }
+        return new QueensValue(properties, row, col);
+    }
 
-  public void setProperties(QueensProperties properties) {
-    this.properties = properties;
-  }
+    public QueensProperties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(QueensProperties properties) {
+        this.properties = properties;
+    }
 
 }

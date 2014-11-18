@@ -21,50 +21,33 @@ import com.rainerschuster.dlx.Node;
 
 public class QueensSolutionConverter {
 
-  // private ValueConverter<QueensColumnValue, QueensValue> converter;
+    private QueensProperties properties;
 
-  private QueensProperties properties;
-
-  /*public ValueConverter<QueensColumnValue, QueensValue> getConverter() {
-    return this.converter;
-  }
-
-  public void setConverter(
-      ValueConverter<QueensColumnValue, QueensValue> converter) {
-    this.converter = converter;
-  }*/
-
-  public QueensProperties getProperties() {
-    return properties;
-  }
-
-  public void setProperties(QueensProperties properties) {
-    this.properties = properties;
-  }
-
-  /*public QueensSolutionConverter(
-      ValueConverter<QueensColumnValue, QueensValue> converter,
-      QueensProperties properties) {
-    this.converter = converter;
-    this.properties = properties;
-  }*/
-
-  public QueensSolutionConverter(QueensProperties properties) {
-    this.properties = properties;
-  }
-
-  public boolean[][] convertSolution(List<Node<QueensColumnValue, QueensValue>> solution) {
-    if (solution == null) {
-      // TODO Exception? return empty array?
-      System.err.println("No solution to convert!");
-      return null;
+    public QueensSolutionConverter(QueensProperties properties) {
+        this.properties = properties;
     }
-    boolean[][] field = new boolean[properties.getN()][properties.getN()];
-    for (Node<QueensColumnValue, QueensValue> node : solution) {
-      //QueensValue value = converter.convertRow(node);
-      QueensValue value = node.getValue();
-      field[value.getRow()][value.getColumn()] = true;
+
+    public QueensProperties getProperties() {
+        return properties;
     }
-    return field;
-  }
+
+    public void setProperties(QueensProperties properties) {
+        this.properties = properties;
+    }
+
+    public boolean[][] convertSolution(final List<Node<QueensColumnValue, QueensValue>> solution) {
+        if (solution == null) {
+            // TODO Exception? return empty array?
+            System.err.println("No solution to convert!");
+            return null;
+        }
+        boolean[][] field = new boolean[properties.getN()][properties.getN()];
+        for (Node<QueensColumnValue, QueensValue> node : solution) {
+            // final QueensValue value = converter.convertRow(node);
+            final QueensValue value = node.getValue();
+            field[value.getRow()][value.getColumn()] = true;
+        }
+        return field;
+    }
+
 }

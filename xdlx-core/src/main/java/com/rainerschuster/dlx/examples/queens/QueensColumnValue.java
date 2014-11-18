@@ -19,38 +19,38 @@ import java.util.EnumMap;
 
 public class QueensColumnValue extends EnumMap<QueensEnum, Integer> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  public QueensColumnValue(Class<QueensEnum> keyType) {
-    super(keyType);
-    // TODO Auto-generated constructor stub
-  }
-
-  @Override
-  public String toString() {
-    for (QueensEnum qe : this.keySet()) {
-      String s = "";
-      switch (qe) {
-      case ROW:
-        s = "r";
-        break;
-      case COLUMN:
-        s = "c";
-        break;
-      case DIAGONAL_A:
-        s = "a";
-        break;
-      case DIAGONAL_B:
-        s = "b";
-        break;
-      default:
-        // TODO Exception
-        System.err.println("Unrecognized column type!");
-        break;
-      }
-      return s + this.get(qe);
+    public QueensColumnValue(Class<QueensEnum> keyType) {
+        super(keyType);
+        // TODO Auto-generated constructor stub
     }
-    return null;
-  }
+
+    @Override
+    public String toString() {
+        for (QueensEnum qe : this.keySet()) {
+            String s = "";
+            switch (qe) {
+            case ROW:
+                s = "r";
+                break;
+            case COLUMN:
+                s = "c";
+                break;
+            case DIAGONAL_A:
+                s = "a";
+                break;
+            case DIAGONAL_B:
+                s = "b";
+                break;
+            default:
+                // TODO Exception
+                System.err.println("Unrecognized column type!");
+                break;
+            }
+            return s + this.get(qe);
+        }
+        return null;
+    }
 
 }

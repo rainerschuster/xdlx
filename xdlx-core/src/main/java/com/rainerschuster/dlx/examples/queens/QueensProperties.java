@@ -16,24 +16,24 @@
 package com.rainerschuster.dlx.examples.queens;
 
 public class QueensProperties {
-  private int n;
+    private int n;
 
-  // private int nn;
+    // private int nn;
 
-  public QueensProperties(int n) {
-    super();
-    this.n = n;
-  }
+    public QueensProperties(int n) {
+        super();
+        this.n = n;
+    }
 
-  public int getN() {
-    return n;
-  }
+    public int getN() {
+        return n;
+    }
 
-  public void setN(int n) {
-    this.n = n;
-  }
+    public void setN(int n) {
+        this.n = n;
+    }
 
-  public int getNn() {
-    return n + n - 2;
-  }
+    public int getNn() {
+        return n + n - 2;
+    }
 }

@@ -19,63 +19,63 @@ import com.rainerschuster.dlx.Value;
 
 public class QueensValue extends Value<QueensColumnValue> {
 
-  private QueensProperties properties;
+    private QueensProperties properties;
 
-  private int row;
+    private int row;
 
-  private int column;
+    private int column;
 
-  public QueensValue(QueensProperties properties, int row, int column) {
-    super();
-    this.properties = properties;
-    this.row = row;
-    this.column = column;
-  }
-
-  public boolean isDiagonalA() {
-    int t = row + column;
-    return (t > 0) && (t < properties.getNn());
-  }
-
-  public boolean isDiagonalB() {
-    int t = properties.getN() - 1 - row + column;
-    return (t > 0) && (t < properties.getNn());
-  }
-
-  @Override
-  public boolean inRelation(QueensColumnValue columnValue) {
-    assert columnValue.size() == 1 : "invalid column value";
-    for (QueensEnum qe : columnValue.keySet()) {
-      switch (qe) {
-      case ROW:
-        return row == columnValue.get(qe);
-      case COLUMN:
-        return column == columnValue.get(qe);
-      case DIAGONAL_A:
-        return row + column == columnValue.get(qe);
-      case DIAGONAL_B:
-        return properties.getN() - 1 - row + column == columnValue.get(qe);
-      default:
-        return false;
-      }
+    public QueensValue(QueensProperties properties, int row, int column) {
+        super();
+        this.properties = properties;
+        this.row = row;
+        this.column = column;
     }
-    return false;
-  }
 
-  public int getRow() {
-    return row;
-  }
+    public boolean isDiagonalA() {
+        final int t = row + column;
+        return (t > 0) && (t < properties.getNn());
+    }
 
-  public void setRow(int row) {
-    this.row = row;
-  }
+    public boolean isDiagonalB() {
+        final int t = properties.getN() - 1 - row + column;
+        return (t > 0) && (t < properties.getNn());
+    }
 
-  public int getColumn() {
-    return column;
-  }
+    @Override
+    public boolean inRelation(final QueensColumnValue columnValue) {
+        assert columnValue.size() == 1 : "invalid column value";
+        for (QueensEnum qe : columnValue.keySet()) {
+            switch (qe) {
+            case ROW:
+                return row == columnValue.get(qe);
+            case COLUMN:
+                return column == columnValue.get(qe);
+            case DIAGONAL_A:
+                return row + column == columnValue.get(qe);
+            case DIAGONAL_B:
+                return properties.getN() - 1 - row + column == columnValue.get(qe);
+            default:
+                return false;
+            }
+        }
+        return false;
+    }
 
-  public void setColumn(int column) {
-    this.column = column;
-  }
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
 
 }
