@@ -38,6 +38,5 @@ public class SudokuColumnValue {
 	public String toString() {
 		return values.toString();
 	}
-	
-	
+
 }

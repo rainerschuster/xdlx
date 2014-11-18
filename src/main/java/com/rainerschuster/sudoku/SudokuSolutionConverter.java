@@ -53,13 +53,13 @@ public class SudokuSolutionConverter {
     this.properties = properties;
   }
 
-  public SudokuField convertSolution(List<Node<SudokuColumnValue, SudokuValue>> solution) {
+  public SudokuField convertSolution(final List<Node<SudokuColumnValue, SudokuValue>> solution) {
     if (solution == null) {
       // TODO Exception? return empty array?
       System.err.println("No solution to convert!");
       return null;
     }
-    SudokuField field = new SudokuField(properties);
+    final SudokuField field = new SudokuField(properties);
     for (Node<SudokuColumnValue, SudokuValue> node : solution) {
       //SudokuValue value = converter.convertRow(node);
       field.put(node.getValue());

@@ -35,11 +35,11 @@ public class SudokuValueConverter extends
   }
 
   @Override
-  public SudokuValue convertRow(List<Column<SudokuColumnValue, SudokuValue>> columns) {
+  public SudokuValue convertRow(final List<Column<SudokuColumnValue, SudokuValue>> columns) {
     int x1 = 0, x2 = 0;
     int n = 0;
     for (Column<SudokuColumnValue, SudokuValue> colum : columns) {
-      Map<String, Integer> values = colum.getValue().getValues();
+        final Map<String, Integer> values = colum.getValue().getValues();
       if (values.containsKey("x1")) {
         x1 = values.get("x1");
       }
@@ -50,10 +50,10 @@ public class SudokuValueConverter extends
         n = values.get("n");
       }
     }
-    List<Integer> coordinates = new ArrayList<Integer>(2);
+    final List<Integer> coordinates = new ArrayList<Integer>(2);
     coordinates.add(x1);
     coordinates.add(x2);
-    SudokuValue value = new SudokuValue(properties, n);
+    final SudokuValue value = new SudokuValue(properties, n);
     value.setCoordinates(coordinates);
     return value;
   }

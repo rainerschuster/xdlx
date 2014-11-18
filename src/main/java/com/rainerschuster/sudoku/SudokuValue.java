@@ -35,9 +35,9 @@ public class SudokuValue extends Value<SudokuColumnValue> {
 	}
 
 	@Override
-	public boolean inRelation(SudokuColumnValue columnValue) {
+	public boolean inRelation(final SudokuColumnValue columnValue) {
 		// TODO Auto-generated method stub
-		Map<String, Integer> values = columnValue.getValues();
+	    final Map<String, Integer> values = columnValue.getValues();
 		for (String valueName : values.keySet()) {
 			if (valueName.equals("n")) {
 				if (!values.get("n").equals(number)) {
