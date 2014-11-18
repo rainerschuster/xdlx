@@ -4,6 +4,7 @@
 	<artifactId>xdlx</artifactId>
 	<groupId>com.rainerschuster</groupId>
 	<version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 	<name>XDLX</name>
 	<description>This project is an extended implementation of Knuth's &quot;Dancing Links&quot; algorithm and some use cases (e.g., Sudoku).</description>
 	<url>http://rainerschuster.github.io/xdlx/</url>
@@ -28,93 +29,8 @@
         <connection>scm:git:git@github.com:rainerschuster/xdlx.git</connection>
         <developerConnection>scm:git:git@github.com:rainerschuster/xdlx.git</developerConnection>
 	</scm>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                  <archive>
-	                  <manifestEntries>
-		                  <Trusted-Library>true</Trusted-Library>
-		                  <Permissions>sandbox</Permissions>
-	                  </manifestEntries>
-                  </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.rainerschuster.sudoku.view.SudokuApplet</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- <dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-swing</artifactId>
-			<version>1.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-svggen</artifactId>
-			<version>1.7</version>
-		</dependency> -->
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-swing</artifactId>
-			<version>1.6-1</version>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-svggen</artifactId>
-			<version>1.6-1</version>
-		</dependency>
-	</dependencies>
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-		</plugins>
-	</reporting>
+	<modules>
+		<module>xdlx-core</module>
+		<module>xdlx-sudoku-vaadin</module>
+	</modules>
 </project>

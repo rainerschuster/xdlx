@@ -1,0 +1,62 @@
+
+.given {
+  font-weight: bold !important;
+  color: RoyalBlue !important;
+}
+
+.north {
+  border-top-width: 3px !important;
+  border-top-style: solid !important;
+}
+
+.east {
+  border-right-width: 3px !important;
+  border-right-style: solid !important;
+}
+
+.south {
+  border-bottom-width: 3px !important;
+  border-bottom-style: solid !important;
+}
+
+.west {
+  border-left-width: 3px !important;
+  border-left-style: solid !important;
+}
+
+/*
+      Color.ORANGE,	Color.PINK,	Color.MAGENTA,
+      Color.CYAN,	Color.BLUE,	Color.LIGHT_GRAY,
+      Color.GREEN,	Color.RED,	Color.YELLOW*/
+
+.color1 {
+	background-color: orange !important;
+}
+.color2 {
+	background-color: purple !important;
+}
+.color3 {
+	background-color: fuchsia !important;
+}
+.color4 {
+	background-color: aqua !important;
+}
+.color5 {
+	background-color: blue !important;
+}
+.color6 {
+	background-color: silver !important;
+}
+.color7 {
+	background-color: green !important;
+}
+.color8 {
+	background-color: red !important;
+}
+.color9 {
+	background-color: yellow !important;
+}
+.colorX {
+	background-color: silver !important;
+	border-color: gray !important;
+}
