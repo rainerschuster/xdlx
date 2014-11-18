@@ -1,1 +1,0 @@
-web:    java $JAVA_OPTS -cp xdlx-sudoku-vaadin/target/classes:xdlx-sudoku-vaadin/target/dependency/* com.rainerschuster.sudoku.vaadin.Launcher
