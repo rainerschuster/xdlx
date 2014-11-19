@@ -5,12 +5,12 @@ import com.vaadin.ui.TextField;
 
 public class NumberField extends TextField {
 
-	// TODO assert that minNumber <= maxNumber
+    // TODO assert that minNumber <= maxNumber
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private int minNumber = -1;
-	private int maxNumber = -1;
+    private int minNumber = -1;
+    private int maxNumber = -1;
 
     /**
      * Constructs an empty <code>NumberField</code> with no caption.
@@ -72,36 +72,36 @@ public class NumberField extends TextField {
         setCaption(caption);
     }
 
-	@Override
-	public void setValue(String t) {
-		setNumber((t == null || t.isEmpty()) ? null : Integer.valueOf(t));
-	}
+    @Override
+    public void setValue(String t) {
+        setNumber((t == null || t.isEmpty()) ? null : Integer.valueOf(t));
+    }
 
-	public Integer getNumber() {
-		if (super.getValue().isEmpty()) {
-			return 0;
-		}
-		return Integer.valueOf(super.getValue());
-	}
+    public Integer getNumber() {
+        if (super.getValue().isEmpty()) {
+            return 0;
+        }
+        return Integer.valueOf(super.getValue());
+    }
 
-	public void setNumber(Integer val) {
-		super.setValue(val == null ? "" : val.toString());
-	}
+    public void setNumber(Integer val) {
+        super.setValue(val == null ? "" : val.toString());
+    }
 
-	public int getMinNumber() {
-		return minNumber;
-	}
+    public int getMinNumber() {
+        return minNumber;
+    }
 
-	public void setMinNumber(int minNumber) {
-		this.minNumber = minNumber;
-	}
+    public void setMinNumber(int minNumber) {
+        this.minNumber = minNumber;
+    }
 
-	public int getMaxNumber() {
-		return maxNumber;
-	}
+    public int getMaxNumber() {
+        return maxNumber;
+    }
 
-	public void setMaxNumber(int maxNumber) {
-		this.maxNumber = maxNumber;
-	}
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
+    }
 
 }

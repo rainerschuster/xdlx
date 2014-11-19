@@ -1,34 +1,35 @@
-
 .v-textfield {
-  border-color: #212121 !important; /*263238*/
+	border-color: #212121 !important; /*263238*/
 }
+
 .v-textfield.v-disabled {
-  opacity: 1 !important;
-  filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+	filter: alpha(opacity = 100) !important;
 }
+
 .given {
-  font-weight: bold !important;
-  color: RoyalBlue !important;
+	font-weight: bold !important;
+	color: RoyalBlue !important;
 }
 
 .north {
-  border-top-width: 3px !important;
-  border-top-style: solid !important;
+	border-top-width: 3px !important;
+	border-top-style: solid !important;
 }
 
 .east {
-  border-right-width: 3px !important;
-  border-right-style: solid !important;
+	border-right-width: 3px !important;
+	border-right-style: solid !important;
 }
 
 .south {
-  border-bottom-width: 3px !important;
-  border-bottom-style: solid !important;
+	border-bottom-width: 3px !important;
+	border-bottom-style: solid !important;
 }
 
 .west {
-  border-left-width: 3px !important;
-  border-left-style: solid !important;
+	border-left-width: 3px !important;
+	border-left-style: solid !important;
 }
 
 /*
@@ -36,31 +37,38 @@
       Color.CYAN,	Color.BLUE,	Color.LIGHT_GRAY,
       Color.GREEN,	Color.RED,	Color.YELLOW
 */
-
 .color1 {
 	background-color: #FF9800 !important;
 }
+
 .color2 {
 	background-color: #E91E63 !important;
 }
+
 .color3 {
 	background-color: #9C27B0 !important;
 }
+
 .color4 {
 	background-color: #00BCD4 !important;
 }
+
 .color5 {
 	background-color: #2196F3 !important;
 }
+
 .color6 {
 	background-color: #9E9E9E !important;
 }
+
 .color7 {
 	background-color: #4CAF50 !important;
 }
+
 .color8 {
 	background-color: #F44336 !important;
 }
+
 .color9 {
 	background-color: #FFEB3B !important;
 }

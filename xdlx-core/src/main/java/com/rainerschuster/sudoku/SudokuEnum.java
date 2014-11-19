@@ -15,7 +15,13 @@
  */
 package com.rainerschuster.sudoku;
 
-/** Defines the different kinds of Sudoku-Constraints (e.g., CELL stands for row-column in 2D Sudoku). */
+/**
+ * Defines the different kinds of Sudoku-Constraints (e.g., CELL stands for
+ * row-column in 2D Sudoku).
+ */
 public enum SudokuEnum {
-	CELL, REGION, COLOR, X;
+    CELL,
+    REGION,
+    COLOR,
+    X;
 }

@@ -23,84 +23,88 @@ import com.rainerschuster.dlx.Value;
 
 public class SudokuValue extends Value<SudokuColumnValue> {
 
-	private SudokuProperties properties;
-	private int number;
-	private List<Integer> coordinates;
-	
-	public SudokuValue(SudokuProperties properties, int number) {
-		super();
-		this.properties = properties;
-		this.number = number;
-		this.coordinates = new ArrayList<Integer>();
-	}
+    private SudokuProperties properties;
+    private int number;
+    private List<Integer> coordinates;
 
-	@Override
-	public boolean inRelation(final SudokuColumnValue columnValue) {
-		// TODO Auto-generated method stub
-	    final Map<String, Integer> values = columnValue.getValues();
-		for (String valueName : values.keySet()) {
-			if (valueName.equals("n")) {
-				if (!values.get("n").equals(number)) {
-					return false;
-				}
-			} else if (valueName.equals("x1")) {
-				if (!values.get("x1").equals(coordinates.get(0))) {
-					return false;
-				}
-			} else if (valueName.equals("x2")) {
-				if (!values.get("x2").equals(coordinates.get(1))) {
-					return false;
-				}
-			} else if (valueName.equals("r")) {
-				if (!values.get("r").equals(properties.getRegion().get(coordinates))) {
-					return false;
-				}
-			} else if (valueName.equals("c")) {
-				if (!values.get("c").equals(properties.getColor().get(coordinates))) {
-					return false;
-				}
-			} else if (valueName.equals("d1")) {
-				// trick to test if on diagonal
-				if (!coordinates.get(0).equals(coordinates.get(1)) || !values.get("d1").equals(number)) {
-					return false;
-				}
-			} else if (valueName.equals("d2")) {
-				// trick to test if on diagonal
-				if (properties.getEdgeLength() != (coordinates.get(0) + coordinates.get(1) + 1) || !values.get("d2").equals(number)) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
+    public SudokuValue(SudokuProperties properties, int number) {
+        super();
+        this.properties = properties;
+        this.number = number;
+        this.coordinates = new ArrayList<Integer>();
+    }
 
-	public List<Integer> getCoordinates() {
-		return coordinates;
-	}
+    @Override
+    public boolean inRelation(final SudokuColumnValue columnValue) {
+        // TODO Auto-generated method stub
+        final Map<String, Integer> values = columnValue.getValues();
+        for (String valueName : values.keySet()) {
+            if (valueName.equals("n")) {
+                if (!values.get("n").equals(number)) {
+                    return false;
+                }
+            } else if (valueName.equals("x1")) {
+                if (!values.get("x1").equals(coordinates.get(0))) {
+                    return false;
+                }
+            } else if (valueName.equals("x2")) {
+                if (!values.get("x2").equals(coordinates.get(1))) {
+                    return false;
+                }
+            } else if (valueName.equals("r")) {
+                if (!values.get("r").equals(
+                        properties.getRegion().get(coordinates))) {
+                    return false;
+                }
+            } else if (valueName.equals("c")) {
+                if (!values.get("c").equals(
+                        properties.getColor().get(coordinates))) {
+                    return false;
+                }
+            } else if (valueName.equals("d1")) {
+                // trick to test if on diagonal
+                if (!coordinates.get(0).equals(coordinates.get(1))
+                        || !values.get("d1").equals(number)) {
+                    return false;
+                }
+            } else if (valueName.equals("d2")) {
+                // trick to test if on diagonal
+                if (properties.getEdgeLength() != (coordinates.get(0)
+                        + coordinates.get(1) + 1)
+                        || !values.get("d2").equals(number)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	public void setCoordinates(List<Integer> coordinates) {
-		this.coordinates = coordinates;
-	}
+    public List<Integer> getCoordinates() {
+        return coordinates;
+    }
 
-	public int getNumber() {
-		return number;
-	}
+    public void setCoordinates(List<Integer> coordinates) {
+        this.coordinates = coordinates;
+    }
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+    public int getNumber() {
+        return number;
+    }
 
-	public SudokuProperties getProperties() {
-		return properties;
-	}
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
-	public void setProperties(SudokuProperties properties) {
-		this.properties = properties;
-	}
+    public SudokuProperties getProperties() {
+        return properties;
+    }
 
-	@Override
-	public String toString() {
-		return "(" + number + ", " + coordinates.toString() + ")";
-	}
+    public void setProperties(SudokuProperties properties) {
+        this.properties = properties;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + number + ", " + coordinates.toString() + ")";
+    }
 }

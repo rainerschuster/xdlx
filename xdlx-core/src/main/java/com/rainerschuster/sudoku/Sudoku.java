@@ -26,19 +26,19 @@ import com.rainerschuster.dlx.SolutionListener;
 
 public class Sudoku implements SourcesSudokuSolutionEvents {
 
-  private SudokuProperties properties = new SudokuProperties();
+    private SudokuProperties properties = new SudokuProperties();
 
-  private SudokuSolutionListenerCollection sudokuSolutionListeners = new SudokuSolutionListenerCollection();
+    private SudokuSolutionListenerCollection sudokuSolutionListeners = new SudokuSolutionListenerCollection();
 
-  public Sudoku(SudokuProperties properties) {
-    super();
-    this.properties = properties;
-  }
+    public Sudoku(SudokuProperties properties) {
+        super();
+        this.properties = properties;
+    }
 
   // TODO QUEST what about givens?
   public SudokuField generateField() {
-    SudokuField field = new SudokuField(properties);
-    /*Map<List<Integer>, Integer> values = new HashMap<List<Integer>, Integer>();
+      final SudokuField field = new SudokuField(properties);
+    /*final Map<List<Integer>, Integer> values = new HashMap<List<Integer>, Integer>();
     for (int row = 0; row < properties.getEdgeLength(); row++) {
       for (int col = 0; col < properties.getEdgeLength(); col++) {
 
@@ -49,30 +49,35 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     return field;
   }
 
-  /** @return 0 if no solution, 1 if unique solution and 2 if two or more solutions */
-  public int quickSolutions(final List<SudokuValue> givens) {
-    SudokuGenerator generator = new SudokuGenerator(properties);
-    DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-    DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
-    for (SudokuValue given : givens) {
-      dl.cover(given);
+    /**
+     * @return 0 if no solution, 1 if unique solution and 2 if two or more
+     *         solutions.
+     */
+    public int quickSolutions(final List<SudokuValue> givens) {
+        final SudokuGenerator generator = new SudokuGenerator(properties);
+        final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
+        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+        for (SudokuValue given : givens) {
+            dl.cover(given);
+        }
+        return (int) dl.quickSolutions();
     }
-    return (int) dl.quickSolutions();
-  }
 
-  /** Solves a Sudoku with its givens. */
+  /**
+   * Solves a Sudoku with its givens.
+   */
   public void solve(final List<SudokuValue> givens) {
-    SudokuGenerator generator = new SudokuGenerator(properties);
-    DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-    DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+      final SudokuGenerator generator = new SudokuGenerator(properties);
+      final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
+      final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
     // dl.setVerbosity(1);
-    //SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
+    //final SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
     final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
 
     dl.addSolutionListener(new SolutionListener<SudokuColumnValue, SudokuValue>() {
       @Override
-	public void onSolution(long count, int level, List<Node<SudokuColumnValue, SudokuValue>> solution) {
-        SudokuField field = solutionConverter.convertSolution(solution);
+      public void onSolution(final long count, final int level, final List<Node<SudokuColumnValue, SudokuValue>> solution) {
+          final SudokuField field = solutionConverter.convertSolution(solution);
         /* Givens must be added because they are not contained in the chosens of
          * DancingLinksData */
         for (SudokuValue given : givens) {
@@ -89,27 +94,28 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     // uncover isn't necessary because data structure isn't needed any more
   }
 
-  /**
-   * @return A new (random) <code>SudokuField</code> including the givens (and
-   *         even the solution, which is a byproduct of the given-generation).
-   */
-  public SudokuField generate() {
-    SudokuGenerator generator = new SudokuGenerator(properties);
-    DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-    DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
-    // dl.setVerbosity(1);
-    //SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
-    final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
+    /**
+     * @return A new (random) {@link SudokuField} including the givens (and even
+     *         the solution, which is a byproduct of the given-generation).
+     */
+    public SudokuField generate() {
+        final SudokuGenerator generator = new SudokuGenerator(properties);
+        final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
+        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+        // dl.setVerbosity(1);
+        // final SudokuValueConverter valueConverter = new
+        // SudokuValueConverter(properties);
+        final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
 
-    List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
-    SudokuField myField = solutionConverter.convertSolution(solution);
-    List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
-    for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
-      myField.getGivens().add(n.getValue());
+        final List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
+        final SudokuField myField = solutionConverter.convertSolution(solution);
+        final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
+        for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
+            myField.getGivens().add(n.getValue());
+        }
+
+        return myField;
     }
-
-    return myField;
-  }
 
 
 
@@ -121,19 +127,19 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
 
     properties.setDimensions(2);
     properties.setNumbers(9);
-    List<Integer> regionDimension = new ArrayList<Integer>(2);
+    final List<Integer> regionDimension = new ArrayList<Integer>(2);
     regionDimension.add(3);
     regionDimension.add(3);
     properties.setRegion(properties.generateDefaultRegions(regionDimension));
 
-    Map<List<Integer>, Integer> region = properties.getRegion();
+    final Map<List<Integer>, Integer> region = properties.getRegion();
     System.out.println(region.toString());
 
-    SudokuGenerator generator = new SudokuGenerator(properties);
-    DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-    DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+    final SudokuGenerator generator = new SudokuGenerator(properties);
+    final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
+    final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
     // dl.setVerbosity(1);
-    //SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
+    //final SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
     final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
 
      /*dl.addSolutionListener(new SolutionListener<SudokuColumnValue>() {
@@ -144,9 +150,9 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     });
     // dl.solve();*/
 
-    List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
-    SudokuField myField = solutionConverter.convertSolution(solution);
-    int[][] field = new int[properties.getEdgeLength()][properties.getEdgeLength()];
+    final List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
+    final SudokuField myField = solutionConverter.convertSolution(solution);
+    final int[][] field = new int[properties.getEdgeLength()][properties.getEdgeLength()];
     for (List<Integer> coord : myField.getField().keySet()) {
       field[coord.get(0)][coord.get(1)] = myField.getField().get(coord);
     }
@@ -182,7 +188,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
       }
     }*/
 
-    List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
+    final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
     for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
       //myField.getGivens().add(valueConverter.convertRow(n));
       myField.getGivens().add(n.getValue());
@@ -191,22 +197,22 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     dl.printStatistics();
   }
 
-  public SudokuProperties getProperties() {
-    return properties;
-  }
+    public SudokuProperties getProperties() {
+        return properties;
+    }
 
-  public void setProperties(SudokuProperties properties) {
-    this.properties = properties;
-  }
+    public void setProperties(SudokuProperties properties) {
+        this.properties = properties;
+    }
 
-  @Override
-public void addSolutionListener(SudokuSolutionListener listener) {
-    sudokuSolutionListeners.add(listener);
-  }
+    @Override
+    public void addSolutionListener(SudokuSolutionListener listener) {
+        sudokuSolutionListeners.add(listener);
+    }
 
-  @Override
-public void removeSolutionListener(SudokuSolutionListener listener) {
-    sudokuSolutionListeners.remove(listener);
-  }
+    @Override
+    public void removeSolutionListener(SudokuSolutionListener listener) {
+        sudokuSolutionListeners.remove(listener);
+    }
 
 }

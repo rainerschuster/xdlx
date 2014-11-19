@@ -21,51 +21,51 @@ import java.util.List;
 import java.util.Map;
 
 public class SudokuField {
-	private SudokuProperties properties = new SudokuProperties();
-	// TODO field, givens
-	private Map<List<Integer>, Integer> field = new HashMap<List<Integer>, Integer>();
-	private List<SudokuValue> givens = new ArrayList<SudokuValue>();
+    private SudokuProperties properties = new SudokuProperties();
+    // TODO field, givens
+    private Map<List<Integer>, Integer> field = new HashMap<List<Integer>, Integer>();
+    private List<SudokuValue> givens = new ArrayList<SudokuValue>();
 
-	public SudokuField(SudokuProperties properties) {
-		super();
-		this.properties = properties;
-	}
+    public SudokuField(SudokuProperties properties) {
+        super();
+        this.properties = properties;
+    }
 
-	public SudokuProperties getProperties() {
-		return properties;
-	}
+    public SudokuProperties getProperties() {
+        return properties;
+    }
 
-	public void setProperties(SudokuProperties properties) {
-		this.properties = properties;
-	}
+    public void setProperties(SudokuProperties properties) {
+        this.properties = properties;
+    }
 
-	public Integer put(SudokuValue value) {
-		return field.put(value.getCoordinates(), value.getNumber());
-	}
-	
-	public boolean isGiven(List<Integer> coordinates) {
-		for (SudokuValue given : givens) {
-			if (coordinates.equals(given.getCoordinates())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public Integer put(SudokuValue value) {
+        return field.put(value.getCoordinates(), value.getNumber());
+    }
 
-	public Map<List<Integer>, Integer> getField() {
-		return field;
-	}
+    public boolean isGiven(final List<Integer> coordinates) {
+        for (SudokuValue given : givens) {
+            if (coordinates.equals(given.getCoordinates())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public void setField(Map<List<Integer>, Integer> field) {
-		this.field = field;
-	}
+    public Map<List<Integer>, Integer> getField() {
+        return field;
+    }
 
-	public List<SudokuValue> getGivens() {
-		return givens;
-	}
+    public void setField(Map<List<Integer>, Integer> field) {
+        this.field = field;
+    }
 
-	public void setGivens(List<SudokuValue> givens) {
-		this.givens = givens;
-	}
+    public List<SudokuValue> getGivens() {
+        return givens;
+    }
+
+    public void setGivens(List<SudokuValue> givens) {
+        this.givens = givens;
+    }
 
 }

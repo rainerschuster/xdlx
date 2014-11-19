@@ -50,7 +50,7 @@ public class SudokuUI extends UI {
 
 
     private static final long serialVersionUID = 1L;
-    
+
     private VerticalLayout layout;
 
     private SudokuFieldVaadin sudokuField = null;
@@ -62,117 +62,117 @@ public class SudokuUI extends UI {
     private MenuItem helpMenu = null;
 
     @SuppressWarnings("unused")
-	private MenuItem aboutMenuItem = null;
+    private MenuItem aboutMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem classicSudokuPuzzleMenuItem = null;
+    private MenuItem classicSudokuPuzzleMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem colorSudokuPuzzleMenuItem = null;
+    private MenuItem colorSudokuPuzzleMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem xSudokuPuzzleMenuItem = null;
+    private MenuItem xSudokuPuzzleMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem classicSudokuSolverMenuItem = null;
+    private MenuItem classicSudokuSolverMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem colorSudokuSolverMenuItem = null;
+    private MenuItem colorSudokuSolverMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem xSudokuSolverMenuItem = null;
+    private MenuItem xSudokuSolverMenuItem = null;
 
     private MenuItem solveMenuItem = null;
 
     @SuppressWarnings("unused")
-	private MenuItem clearMenuItem = null;
+    private MenuItem clearMenuItem = null;
 
     /**
      * This method initializes menuBar.
      */
     private MenuBar initMenuBar() {
-      if (menuBar == null) {
-        menuBar = new MenuBar();
-        sudokuMenu = menuBar.addItem ("Sudoku", null);
-        classicSudokuPuzzleMenuItem = sudokuMenu.addItem("Classic Sudoku Puzzle", new MenuBar.Command() {
-			@Override
-			public void menuSelected(final MenuItem selectedItem) {
-				newStandardClassicSudoku(true);
-			}
-		});
-        colorSudokuPuzzleMenuItem = sudokuMenu.addItem("Color Sudoku Puzzle", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-        		newStandardColorSudoku(true);
-        	}
-        });
-        xSudokuPuzzleMenuItem = sudokuMenu.addItem("X Sudoku Puzzle", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-        		newStandardXSudoku(true);
-        	}
-        });
-        sudokuMenu.addSeparator();
-        classicSudokuSolverMenuItem = sudokuMenu.addItem("Classic Sudoku Solver", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-        		newStandardClassicSudoku(false);
-        	}
-        });
-        colorSudokuSolverMenuItem = sudokuMenu.addItem("Color Sudoku Solver", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-        		newStandardColorSudoku(false);
-        	}
-        });
-        xSudokuSolverMenuItem = sudokuMenu.addItem("X Sudoku Solver", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-        		newStandardXSudoku(false);
-        	}
-        });
-        sudokuMenu.addSeparator();
-        solveMenuItem = sudokuMenu.addItem("Solve", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-                // FIXME differentiate between generated and user-entered Sudoku!
-                solve();
-        	}
-        });
-        clearMenuItem = sudokuMenu.addItem("Clear", new MenuBar.Command() {
-        	@Override
-        	public void menuSelected(final MenuItem selectedItem) {
-                clear();
-        	}
-        });
+        if (menuBar == null) {
+            menuBar = new MenuBar();
+            sudokuMenu = menuBar.addItem ("Sudoku", null);
+            classicSudokuPuzzleMenuItem = sudokuMenu.addItem("Classic Sudoku Puzzle", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardClassicSudoku(true);
+                }
+            });
+            colorSudokuPuzzleMenuItem = sudokuMenu.addItem("Color Sudoku Puzzle", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardColorSudoku(true);
+                }
+            });
+            xSudokuPuzzleMenuItem = sudokuMenu.addItem("X Sudoku Puzzle", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardXSudoku(true);
+                }
+            });
+            sudokuMenu.addSeparator();
+            classicSudokuSolverMenuItem = sudokuMenu.addItem("Classic Sudoku Solver", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardClassicSudoku(false);
+                }
+            });
+            colorSudokuSolverMenuItem = sudokuMenu.addItem("Color Sudoku Solver", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardColorSudoku(false);
+                }
+            });
+            xSudokuSolverMenuItem = sudokuMenu.addItem("X Sudoku Solver", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    newStandardXSudoku(false);
+                }
+            });
+            sudokuMenu.addSeparator();
+            solveMenuItem = sudokuMenu.addItem("Solve", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    // FIXME differentiate between generated and user-entered Sudoku!
+                    solve();
+                }
+            });
+            clearMenuItem = sudokuMenu.addItem("Clear", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    clear();
+                }
+            });
 
-        helpMenu = menuBar.addItem("Help", null);
-        aboutMenuItem = helpMenu.addItem("About", new MenuBar.Command() {
-			@Override
-			public void menuSelected(final MenuItem selectedItem) {
-				final Window aboutWindow = new Window("About");
-				aboutWindow.setModal(true);
-				aboutWindow.setResizable(false);
-				final VerticalLayout aboutContent = new VerticalLayout();
-				aboutContent.setMargin(true);
-				aboutContent.setSpacing(true);
-				aboutWindow.setContent(aboutContent);
-				aboutContent.addComponent(new Label("&copy; 2007-2014 by Dipl.-Ing. Rainer Schuster", ContentMode.HTML));
-				final Button okButton = new Button("OK");
-				okButton.addClickListener(new ClickListener() {
-					@Override
-                    public void buttonClick(final ClickEvent event) {
-						aboutWindow.close();
-					}
-				});
-				aboutContent.addComponent(okButton);
-				aboutContent.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
-				aboutWindow.center();
-				addWindow(aboutWindow);
-			}
-		});
-      }
-      return menuBar;
+            helpMenu = menuBar.addItem("Help", null);
+            aboutMenuItem = helpMenu.addItem("About", new MenuBar.Command() {
+                @Override
+                public void menuSelected(final MenuItem selectedItem) {
+                    final Window aboutWindow = new Window("About");
+                    aboutWindow.setModal(true);
+                    aboutWindow.setResizable(false);
+                    final VerticalLayout aboutContent = new VerticalLayout();
+                    aboutContent.setMargin(true);
+                    aboutContent.setSpacing(true);
+                    aboutWindow.setContent(aboutContent);
+                    aboutContent.addComponent(new Label("&copy; 2007-2014 by Dipl.-Ing. Rainer Schuster", ContentMode.HTML));
+                    final Button okButton = new Button("OK");
+                    okButton.addClickListener(new ClickListener() {
+                        @Override
+                        public void buttonClick(final ClickEvent event) {
+                            aboutWindow.close();
+                        }
+                    });
+                    aboutContent.addComponent(okButton);
+                    aboutContent.setComponentAlignment(okButton, Alignment.MIDDLE_CENTER);
+                    aboutWindow.center();
+                    addWindow(aboutWindow);
+                }
+            });
+        }
+        return menuBar;
     }
 
     /**
@@ -228,55 +228,55 @@ public class SudokuUI extends UI {
      */
     private void newSudoku(final Sudoku sudoku, final boolean generateGivens) {
 //      setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-      sudokuMenu.setEnabled(false);
+        sudokuMenu.setEnabled(false);
 
-      // TODO if no important properties have changed, empty() could be used (for performance)
-      clear();
+        // TODO if no important properties have changed, empty() could be used (for performance)
+        clear();
 
-      if (sudokuField != null) {
-    	  layout.removeComponent(sudokuField);
-        sudokuField = null;
-      }
+        if (sudokuField != null) {
+            layout.removeComponent(sudokuField);
+            sudokuField = null;
+        }
 
-      sudokuField = new SudokuFieldVaadin(sudoku.getProperties());
+        sudokuField = new SudokuFieldVaadin(sudoku.getProperties());
 
-      SudokuField field = null;
-      if (generateGivens) {
-        field = sudoku.generate();
-      } else {
-        field = sudoku.generateField();
-      }
+        SudokuField field = null;
+        if (generateGivens) {
+            field = sudoku.generate();
+        } else {
+            field = sudoku.generateField();
+        }
 
-      sudokuField.importData(field, false);
+        sudokuField.importData(field, false);
 
-      layout.addComponent(initSudokuField()/*, BorderLayout.CENTER*/);
+        layout.addComponent(initSudokuField()/*, BorderLayout.CENTER*/);
 
-      sudokuMenu.setEnabled(true);
-      /*TODO if (cheatMenuItem != null) {
+        sudokuMenu.setEnabled(true);
+        /*TODO if (cheatMenuItem != null) {
         cheatMenuItem.setEnabled(true);
       }
       if (validateMenuItem != null) {
-        validateMenuItem.setEnabled(true);
+          validateMenuItem.setEnabled(true);
       }*/
-      solveMenuItem.setEnabled(true);
-      sudokuField.setEnabled(true);
+        solveMenuItem.setEnabled(true);
+        sudokuField.setEnabled(true);
 //      getContentPane().validate();
 //      setCursor(Cursor.getDefaultCursor());
     }
 
     private void clear() {
-      /*if (cheatMenuItem != null) {
-        cheatMenuItem.setEnabled(false);
+        /*if (cheatMenuItem != null) {
+          cheatMenuItem.setEnabled(false);
       }
       if (validateMenuItem != null) {
-        validateMenuItem.setEnabled(false);
+          validateMenuItem.setEnabled(false);
       }
       solveMenuItem.setEnabled(true);*/
-      if (sudokuField != null) {
-        sudokuField.clear();
-      }
-      /*if (sudokuField != null) {
-        jContentPane.remove(sudokuField);
+        if (sudokuField != null) {
+            sudokuField.clear();
+        }
+        /*if (sudokuField != null) {
+          jContentPane.remove(sudokuField);
       }
       sudokuField = null;
       jContentPane.revalidate();*/
@@ -300,8 +300,7 @@ public class SudokuUI extends UI {
         if (sudokuField != null) {
             final List<SudokuValue> givens = sudokuField.exportValues();
             final Sudoku sudoku = new Sudoku(sudokuField.getProperties());
-            final long[] maxcount = new long[1]; // workaround to get maximum
-                                                 // count
+            final long[] maxcount = new long[1]; // workaround to get maximum count
             sudoku.addSolutionListener(new SudokuSolutionListener() {
 
                 @Override

@@ -20,102 +20,89 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-/** Provides an input field for <em>non negative</em> numbers. */
+/**
+ * Provides an input field for <em>non negative</em> numbers.
+ */
 public class JNumberField extends JTextField {
 
-	// TODO assert that minNumber <= maxNumber
+    // TODO assert that minNumber <= maxNumber
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private int minNumber = -1;
-	private int maxNumber = -1;
-	//private int maxChars = -1;
-	/*private char[] allowedChars = new char[] {
-		'1', '2', '3', '4', '5', '6', '7', '8', '9'
-	};*/
+    private int minNumber = -1;
+    private int maxNumber = -1;
+    /*private char[] allowedChars = new char[] {
+        '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    };*/
 
-	protected class JNumberDocument extends PlainDocument {
-		private static final long serialVersionUID = 1L;
+    protected class JNumberDocument extends PlainDocument {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-			try {
-				//if (maxChars >= 0 && offs + str.length() <= maxChars) {
-				// ensures that the string is a number
-				int num = Integer.parseInt(getText(0, getLength()) + str);
-				
-				if (minNumber >= 0 && num < minNumber) {
-					System.err.println("Number too small!");
-					return;
-				}
-				if (maxNumber >= 0 && num > maxNumber) {
-					System.err.println("Number too big!");
-					return;
-				}
-				
-				super.insertString(offs, str, a);
-			} catch (NumberFormatException e) {
-				System.err.println("Invalid number!");
-			}
-		}
-	}
+        @Override
+        public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+            try {
+                //if (maxChars >= 0 && offs + str.length() <= maxChars) {
+                // Ensures that the string is a number
+                int num = Integer.parseInt(getText(0, getLength()) + str);
 
-	/* (non-Javadoc)
-	 * @see javax.swing.JTextField#createDefaultModel()
-	 */
-	@Override
-	protected Document createDefaultModel() {
-		return new JNumberDocument();
-	}
+                if (minNumber >= 0 && num < minNumber) {
+                    System.err.println("Number too small!");
+                    return;
+                }
+                if (maxNumber >= 0 && num > maxNumber) {
+                    System.err.println("Number too big!");
+                    return;
+                }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
-	 */
-	@Override
-	public void setText(String t) {
-		setNumber(Integer.valueOf(t));
-		//super.setText(t);
-	}
+                super.insertString(offs, str, a);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number!");
+            }
+        }
+    }
 
-	public Integer getNumber() {
-		if (super.getText().equals("")) {
-			return 0;
-		}
-		return Integer.valueOf(super.getText());
-	}
+    /* (non-Javadoc)
+     * @see javax.swing.JTextField#createDefaultModel()
+     */
+    @Override
+    protected Document createDefaultModel() {
+        return new JNumberDocument();
+    }
 
-	public void setNumber(Integer val) {
-		super.setText(val == null ? "" : val.toString());
-	}
+    /* (non-Javadoc)
+     * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+     */
+    @Override
+    public void setText(String t) {
+        setNumber(Integer.valueOf(t));
+        //super.setText(t);
+    }
 
-	public int getMinNumber() {
-		return minNumber;
-	}
+    public Integer getNumber() {
+        if (super.getText().isEmpty()) {
+            return 0;
+        }
+        return Integer.valueOf(super.getText());
+    }
 
-	public void setMinNumber(int minNumber) {
-		this.minNumber = minNumber;
-	}
+    public void setNumber(Integer val) {
+        super.setText(val == null ? "" : val.toString());
+    }
 
-	public int getMaxNumber() {
-		return maxNumber;
-	}
+    public int getMinNumber() {
+        return minNumber;
+    }
 
-	public void setMaxNumber(int maxNumber) {
-		this.maxNumber = maxNumber;
-	}
+    public void setMinNumber(int minNumber) {
+        this.minNumber = minNumber;
+    }
 
-	/**
-	 * @return the maximum number of allowed characters
-	 */
-	/*public int getMaxChars() {
-		return maxChars;
-	}*/
+    public int getMaxNumber() {
+        return maxNumber;
+    }
 
-	/**
-	 * @param maxChars sets the maximum number of allowed characters
-	 */
-	/*public void setMaxChars(int maxChars) {
-		this.maxChars = maxChars;
-	}*/
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
+    }
 
 }

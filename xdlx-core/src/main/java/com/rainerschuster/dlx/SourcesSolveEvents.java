@@ -21,20 +21,20 @@ package com.rainerschuster.dlx;
  */
 public interface SourcesSolveEvents {
 
-	/**
-	 * Adds a listener interface to receive solve events.
-	 * 
-	 * @param listener
-	 *            The listener interface to add.
-	 */
-	public void addSolveListener(SolveListener listener);
+    /**
+     * Adds a listener interface to receive solve events.
+     * 
+     * @param listener
+     *            The listener interface to add.
+     */
+    public void addSolveListener(SolveListener listener);
 
-	/**
-	 * Removes a previously added listener interface.
-	 * 
-	 * @param listener
-	 *            The listener interface to remove.
-	 */
-	public void removeSolveListener(SolveListener listener);
+    /**
+     * Removes a previously added listener interface.
+     * 
+     * @param listener
+     *            The listener interface to remove.
+     */
+    public void removeSolveListener(SolveListener listener);
 
 }

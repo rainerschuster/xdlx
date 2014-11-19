@@ -18,25 +18,25 @@ package com.rainerschuster.sudoku;
 import java.util.Map;
 
 public class SudokuColumnValue {
-	// TODO SudokuID (for Samurai-Sudokus)
-	private Map<String, Integer> values;
+    // TODO SudokuID (for Samurai-Sudokus)
+    private Map<String, Integer> values;
 
-	public SudokuColumnValue(Map<String, Integer> values) {
-		super();
-		this.values = values;
-	}
+    public SudokuColumnValue(Map<String, Integer> values) {
+        super();
+        this.values = values;
+    }
 
-	public Map<String, Integer> getValues() {
-		return values;
-	}
+    public Map<String, Integer> getValues() {
+        return values;
+    }
 
-	public void setValues(Map<String, Integer> values) {
-		this.values = values;
-	}
+    public void setValues(Map<String, Integer> values) {
+        this.values = values;
+    }
 
-	@Override
-	public String toString() {
-		return values.toString();
-	}
+    @Override
+    public String toString() {
+        return values.toString();
+    }
 
 }

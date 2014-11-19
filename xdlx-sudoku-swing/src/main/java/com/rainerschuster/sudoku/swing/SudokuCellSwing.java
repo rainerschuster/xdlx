@@ -23,29 +23,27 @@ import com.rainerschuster.sudoku.view.ViewProperties;
 
 public class SudokuCellSwing extends JNumberField {
 
-	private static final long serialVersionUID = 1L;
-	
-	//public final static CellBorder DEFAULT_BORDER = new CellBorder(Color.BLACK, 1, 3);
-	
-	public SudokuCellSwing() {
-		super();
-		setHorizontalAlignment(SwingConstants.CENTER);
-		setFont(ViewProperties.defaultFont);
-		setSize(ViewProperties.FIELD_SIZE, ViewProperties.FIELD_SIZE);
-		setPreferredSize(getSize());
-		//setBorder(DEFAULT_BORDER);
-		setBorder(new CellBorder(Color.BLACK, ViewProperties.BORDER_THINNESS, ViewProperties.BORDER_THICKNESS));
-		//setMinNumber(0);
-		//setMaxNumber(maxNumber);
-	}
+    private static final long serialVersionUID = 1L;
 
-	// TODO sicherstellen, dass es auch eine Instanz von CellBorder ist!
-	/* (non-Javadoc)
-	 * @see javax.swing.JComponent#getBorder()
-	 */
-	@Override
-	public CellBorder getBorder() {
-		return (CellBorder) super.getBorder();
-	}
+    //public final static CellBorder DEFAULT_BORDER = new CellBorder(Color.BLACK, 1, 3);
+
+    public SudokuCellSwing() {
+        super();
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setFont(ViewProperties.defaultFont);
+        setSize(ViewProperties.FIELD_SIZE, ViewProperties.FIELD_SIZE);
+        setPreferredSize(getSize());
+        //setBorder(DEFAULT_BORDER);
+        setBorder(new CellBorder(Color.BLACK, ViewProperties.BORDER_THINNESS, ViewProperties.BORDER_THICKNESS));
+    }
+
+    // TODO sicherstellen, dass es auch eine Instanz von CellBorder ist!
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#getBorder()
+     */
+    @Override
+    public CellBorder getBorder() {
+        return (CellBorder) super.getBorder();
+    }
 
 }
