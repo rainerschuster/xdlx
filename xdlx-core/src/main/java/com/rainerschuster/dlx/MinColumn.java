@@ -19,9 +19,19 @@ public class MinColumn<C, V extends Value<C>> extends PrimaryColumn<C, V> {
 
     private final int min;
 
+    private int currentMax = 0;
+
     public MinColumn(int min) {
         super();
         this.min = min;
+    }
+
+    public int getCurrentMax() {
+        return currentMax;
+    }
+
+    public void setCurrentMax(int currentMax) {
+        this.currentMax = currentMax;
     }
 
     public int getMin() {

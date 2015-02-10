@@ -19,9 +19,19 @@ public class MaxColumn<C, V extends Value<C>> extends SecondaryColumn<C, V> {
 
     private final int max;
 
+    private int currentMax = 0;
+
     public MaxColumn(int max) {
         super();
         this.max = max;
+    }
+
+    public int getCurrentMax() {
+        return currentMax;
+    }
+
+    public void setCurrentMax(int currentMax) {
+        this.currentMax = currentMax;
     }
 
     public int getMax() {
