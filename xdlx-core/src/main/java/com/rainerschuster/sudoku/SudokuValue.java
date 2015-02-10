@@ -39,41 +39,51 @@ public class SudokuValue extends Value<SudokuColumnValue> {
         // TODO Auto-generated method stub
         final Map<String, Integer> values = columnValue.getValues();
         for (String valueName : values.keySet()) {
-            if (valueName.equals("n")) {
+            switch (valueName) {
+            case "n":
                 if (!values.get("n").equals(number)) {
                     return false;
                 }
-            } else if (valueName.equals("x1")) {
+                break;
+            case "x1":
                 if (!values.get("x1").equals(coordinates.get(0))) {
                     return false;
                 }
-            } else if (valueName.equals("x2")) {
+                break;
+            case "x2":
                 if (!values.get("x2").equals(coordinates.get(1))) {
                     return false;
                 }
-            } else if (valueName.equals("r")) {
+                break;
+            case "r":
                 if (!values.get("r").equals(
                         properties.getRegion().get(coordinates))) {
                     return false;
                 }
-            } else if (valueName.equals("c")) {
+                break;
+            case "c":
                 if (!values.get("c").equals(
                         properties.getColor().get(coordinates))) {
                     return false;
                 }
-            } else if (valueName.equals("d1")) {
+                break;
+            case "d1":
                 // trick to test if on diagonal
                 if (!coordinates.get(0).equals(coordinates.get(1))
                         || !values.get("d1").equals(number)) {
                     return false;
                 }
-            } else if (valueName.equals("d2")) {
+                break;
+            case "d2":
                 // trick to test if on diagonal
-                if (properties.getEdgeLength() != (coordinates.get(0)
-                        + coordinates.get(1) + 1)
+                if (properties.getEdgeLength() != (coordinates.get(0) + coordinates.get(1) + 1)
                         || !values.get("d2").equals(number)) {
                     return false;
                 }
+                break;
+
+            default:
+                break;
             }
         }
         return true;
