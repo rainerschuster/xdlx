@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 Rainer Schuster
+ * Copyright 2015 Rainer Schuster
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,17 @@
  */
 package com.rainerschuster.dlx;
 
-public class SecondaryColumn<C, V extends Value<C>> extends Column<C, V> {
+public class ColorColumn<C, V extends Value<C>> extends SecondaryColumn<C, V> {
+
+    private final int color;
+
+    public ColorColumn(int color) {
+        super();
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
+    }
 
 }
