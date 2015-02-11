@@ -25,11 +25,9 @@ import java.util.List;
  * {@link com.rainerschuster.dlx.DancingLinksData} datastructure with the Dancing Links
  * algorithm.
  */
-public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvents<C, V>, SourcesSolveEvents {
+public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvents<C, V> {
 
     private SolutionListenerCollection<C, V> solutionListeners = new SolutionListenerCollection<C, V>();
-
-    private SolveListenerCollection solveListeners = new SolveListenerCollection();
 
     // Global variables
     /** > 0 to show solutions,
@@ -93,8 +91,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     // TODO check done
     /** DFS/DLX at specified level. */
     private void solve(final int level) {
-        // TODO QUEST when should it be fired (really at the beginning?)?
-        // solveListeners.fireSolution(level);
         this.level = level;
         if (verbosity > 2) {
             System.out.print("Level " + level + ":");
@@ -134,7 +130,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
                 choice.set(level, bestColumn.getHead().getDown());
             }
             while (!done && currentNode != bestColumn.getHead()) {
-                // solveListeners.fireSolution(level);
                 if (verbosity > 1) {
                     System.out.print("L" + level + ":");
                     DancingLinksData.printRow(choice.get(level));
@@ -222,7 +217,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
      * that is being covered. Thus a node is never removed from a list twice.
      */
     public void cover(final Column<C, V> c) {
-        // solveListeners.fireSolution(level);
         // if (c != null) {
         Column<C, V> l, r;
         Node<C, V> uu, dd;
@@ -555,21 +549,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     public void removeSolutionListener(SolutionListener<C, V> listener) {
         if (solutionListeners != null) {
             solutionListeners.remove(listener);
-        }
-    }
-
-    @Override
-    public void addSolveListener(SolveListener listener) {
-        if (solveListeners == null) {
-            solveListeners = new SolveListenerCollection();
-        }
-        solveListeners.add(listener);
-    }
-
-    @Override
-    public void removeSolveListener(SolveListener listener) {
-        if (solveListeners != null) {
-            solveListeners.remove(listener);
         }
     }
 

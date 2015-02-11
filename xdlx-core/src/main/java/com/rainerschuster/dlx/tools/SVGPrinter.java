@@ -32,7 +32,7 @@ import com.rainerschuster.dlx.Column;
 import com.rainerschuster.dlx.DancingLinks;
 import com.rainerschuster.dlx.DancingLinksData;
 import com.rainerschuster.dlx.Node;
-import com.rainerschuster.dlx.SolveListener;
+//import com.rainerschuster.dlx.SolveListener;
 import com.rainerschuster.dlx.Value;
 import com.rainerschuster.dlx.examples.queens.QueensColumnValue;
 import com.rainerschuster.dlx.examples.queens.QueensEnum;
@@ -397,31 +397,31 @@ public class SVGPrinter<C, V extends Value<C>> {
 
         });*/
         final SVGPrinter<QueensColumnValue, QueensValue> svg = new SVGPrinter<QueensColumnValue, QueensValue>(dlData);
-        dl.addSolveListener(new SolveListener() {
-
-            @Override
-            public void onSolution(final int level) {
-                try {
-                    count++;
-                    final boolean[][] matrix = svg.getMatrix();
-
-                    final List<Column<QueensColumnValue, QueensValue>> allColumns = dlData.getAllColumns();
-                    final boolean[] columnArray = new boolean[allColumns.size()];
-
-                    for (int i = 0; i < allColumns.size(); i++) {
-                        columnArray[i] = !allColumns.get(i).isCovered();
-                    }
-
-                    svg.print(matrix, columnArray);
-                    svg.setPreviousMatrix(matrix);
-                    svg.setPreviousColumns(columnArray);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-
-        });
+//        dl.addSolveListener(new SolveListener() {
+//
+//            @Override
+//            public void onSolution(final int level) {
+//                try {
+//                    count++;
+//                    final boolean[][] matrix = svg.getMatrix();
+//
+//                    final List<Column<QueensColumnValue, QueensValue>> allColumns = dlData.getAllColumns();
+//                    final boolean[] columnArray = new boolean[allColumns.size()];
+//
+//                    for (int i = 0; i < allColumns.size(); i++) {
+//                        columnArray[i] = !allColumns.get(i).isCovered();
+//                    }
+//
+//                    svg.print(matrix, columnArray);
+//                    svg.setPreviousMatrix(matrix);
+//                    svg.setPreviousColumns(columnArray);
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        });
         count = 0;
         dl.solve();
 
