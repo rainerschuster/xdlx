@@ -95,197 +95,187 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         // TODO cthresh = 'a';
     }
 
-  // TODO check done
-  /** DFS/DLX at specified level. */
-  private void solve(final int level) {
-    // TODO QUEST when should it be fired (really at the beginning?)?
-    //solveListeners.fireSolution(level);
-    this.level = level;
-    // Set bestColumn to the best column for branching
-    //int minlen = MAX_NODES;
-    int minlen = -1;
-    Column<C, V> bestColumn = null;
-    if (verbosity > 2) {
-      System.out.print("Level " + level + ":");
-    }
-    for (Column<C, V> curCol : dlData) {
-      if (verbosity > 2) {
-        System.out.print(" " + curCol.getValue() + "(" + curCol.getLength() + ")");
-      }
-      if (curCol.getLength() < minlen || minlen == -1) {
-        bestColumn = curCol;
-        minlen = curCol.getLength();
-      }
-    }
-    if (verbosity > 0) {
-      if (level > maxl) {
-        /*if (level >= MAX_LEVEL) {
-          panic("Too many levels");
-        }*/
-        maxl = level;
-      }
-      if (minlen > maxb) {
-        /*if (minlen >= MAX_DEGREE) {
-          panic("Too many branches");
-        }*/
-        maxb = minlen;
-      }
-      // profile[level][minlen]++;
-      if (level >= profile.size()) {
-        profile.add(new ArrayList<BigInteger>());
-      }
-      if (minlen >= profile.get(level).size()) {
-        profile.get(level).add(BigInteger.ONE);
-      } else {
-        profile.get(level).set(minlen, profile.get(level).get(minlen).add(BigInteger.ONE));
-      }
-      if (verbosity > 2) {
-        System.out.println(" branching on " + bestColumn.getValue() + "(" + minlen + ")");
-      }
-    }
-
-    if (dlData.getRoot().getNext() != dlData.getRoot()) {
-      cover(bestColumn);
-      Node<C, V> currentNode = bestColumn.getHead().getDown();
-      //choice[level] = bestColumn.getHead().getDown();
-      if (level >= choice.size()) {
-        choice.add(level, bestColumn.getHead().getDown());
-      } else {
-        choice.set(level, bestColumn.getHead().getDown());
-      }
-      while (!done && currentNode != bestColumn.getHead()) {
-        //solveListeners.fireSolution(level);
-        if (verbosity > 1) {
-          System.out.print("L" + level + ":");
-          DancingLinksData.printRow(choice.get(level));
+    // TODO check done
+    /** DFS/DLX at specified level. */
+    private void solve(final int level) {
+        // TODO QUEST when should it be fired (really at the beginning?)?
+        // solveListeners.fireSolution(level);
+        this.level = level;
+        // Set bestColumn to the best column for branching
+        // int minlen = MAX_NODES;
+        int minlen = -1;
+        Column<C, V> bestColumn = null;
+        if (verbosity > 2) {
+            System.out.print("Level " + level + ":");
         }
-        conflict = false;
-        coverAllOtherColumns(currentNode);
-        if (!conflict) {
-          if (dlData.getRoot().getNext() == dlData.getRoot()) {
-            // solution found!
-            count++;
-
-            if (verbosity > 0) {
-              // profile[level + 1][0]++;
-              if (level + 1 >= profile.size()) {
+        for (Column<C, V> curCol : dlData) {
+            if (verbosity > 2) {
+                System.out.print(" " + curCol.getValue() + "("
+                        + curCol.getLength() + ")");
+            }
+            if (curCol.getLength() < minlen || minlen == -1) {
+                bestColumn = curCol;
+                minlen = curCol.getLength();
+            }
+        }
+        if (verbosity > 0) {
+            if (level > maxl) {
+                maxl = level;
+            }
+            if (minlen > maxb) {
+                maxb = minlen;
+            }
+            // profile[level][minlen]++;
+            if (level >= profile.size()) {
                 profile.add(new ArrayList<BigInteger>());
-              }
-              if (minlen >= profile.get(level + 1).size()) {
-                profile.get(level + 1).add(BigInteger.ONE);
-              } else {
-                profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
-              }
+            }
+            if (minlen >= profile.get(level).size()) {
+                profile.get(level).add(BigInteger.ONE);
+            } else {
+                profile.get(level).set(minlen, profile.get(level).get(minlen).add(BigInteger.ONE));
+            }
+            if (verbosity > 2) {
+                System.out.println(" branching on " + bestColumn.getValue() + "(" + minlen + ")");
+            }
+        }
 
-              if (count % spacing == 0) {
-                System.out.println(count + ":");
-                for (int k = 0; k <= level; k++) {
-                  DancingLinksData.printRow(choice.get(k));
+        if (dlData.getRoot().getNext() != dlData.getRoot()) {
+            cover(bestColumn);
+            Node<C, V> currentNode = bestColumn.getHead().getDown();
+            // choice[level] = bestColumn.getHead().getDown();
+            if (level >= choice.size()) {
+                choice.add(level, bestColumn.getHead().getDown());
+            } else {
+                choice.set(level, bestColumn.getHead().getDown());
+            }
+            while (!done && currentNode != bestColumn.getHead()) {
+                // solveListeners.fireSolution(level);
+                if (verbosity > 1) {
+                    System.out.print("L" + level + ":");
+                    DancingLinksData.printRow(choice.get(level));
                 }
-              }
-            }
+                conflict = false;
+                coverAllOtherColumns(currentNode);
+                if (!conflict) {
+                    if (dlData.getRoot().getNext() == dlData.getRoot()) {
+                        // solution found!
+                        count++;
 
-            if (quickSolution) {
-              if (count > 1) {
-                done = true;
-              }
+                        if (verbosity > 0) {
+                            // profile[level + 1][0]++;
+                            if (level + 1 >= profile.size()) {
+                                profile.add(new ArrayList<BigInteger>());
+                            }
+                            if (minlen >= profile.get(level + 1).size()) {
+                                profile.get(level + 1).add(BigInteger.ONE);
+                            } else {
+                                profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
+                            }
+
+                            if (count % spacing == 0) {
+                                System.out.println(count + ":");
+                                for (int k = 0; k <= level; k++) {
+                                    DancingLinksData.printRow(choice.get(k));
+                                }
+                            }
+                        }
+
+                        if (quickSolution) {
+                            if (count > 1) {
+                                done = true;
+                            }
+                        }
+                        // TODO check and validate this part!
+                        if (!done && !quickSolution) {
+                            solutionListeners.fireSolution(count, level, choice);
+                        }
+                        if (firstSolution) {
+                            done = true;
+                        }
+                        // own extension END
+                    } else {
+                        if (!done) {
+                            solve(level + 1);
+                        }
+                    }
+                }
+                uncoverAllOtherColumns(currentNode);
+                currentNode = currentNode.getDown();
+                if (!done) {
+                    choice.set(level, currentNode);
+                }
             }
-            // TODO check and validate this part!
-            if (!done && !quickSolution) {
-              solutionListeners.fireSolution(count, level, choice);
-            }
-            if (firstSolution) {
-              done = true;
-            }
-            // own extension END
-          } else {
-            if (!done) {
-              solve(level + 1);
-            }
-          }
+            uncover(bestColumn);
+            this.level--;
+            // currentNode = choice.get(level);
+            // bestColumn = currentNode.getColumn();
         }
-        uncoverAllOtherColumns(currentNode);
-        currentNode = currentNode.getDown();
-        if (!done) {
-          choice.set(level, currentNode);
-        }
-      }
-      uncover(bestColumn);
-      this.level--;
-      //currentNode = choice.get(level);
-      //bestColumn = currentNode.getColumn();
     }
-  }
 
-  // TODO an error occurs if this method is invoked before solved
-  /** Print a profile of the search tree. */
-  public void printProfile() {
-    // the root node doesn't show up in the profile
-    BigInteger x = BigInteger.ONE;
-    for (int level = 1; level <= maxl + 1; level++) {
-      BigInteger j = BigInteger.ZERO;
-      for (int k = 0; k < maxb; k++) {
-        if (level < profile.size() && k < profile.get(level).size()) {
-          System.out.print(profile.get(level).get(k) + "\t");
-          //j += profile.get(level).get(k);
-          j = j.add(profile.get(level).get(k));
+    // TODO an error occurs if this method is invoked before solved
+    /** Print a profile of the search tree. */
+    public void printProfile() {
+        // the root node doesn't show up in the profile
+        BigInteger x = BigInteger.ONE;
+        for (int level = 1; level <= maxl + 1; level++) {
+            BigInteger j = BigInteger.ZERO;
+            for (int k = 0; k < maxb; k++) {
+                if (level < profile.size() && k < profile.get(level).size()) {
+                    System.out.print(profile.get(level).get(k) + "\t");
+                    // j += profile.get(level).get(k);
+                    j = j.add(profile.get(level).get(k));
+                } else {
+                    System.out.print("0\t");
+                }
+            }
+            System.out.println(j + " nodes, " + updProfile.get(level - 1) + " updates, " + purProfile.get(level - 1) + " cleansings");
+            // x += j;
+            x = x.add(j);
+        }
+        System.out.println("Total " + x + " nodes.");
+    }
+
+    /**
+     * When a row is blocked, it leaves all lists except the list of the column
+     * that is being covered. Thus a node is never removed from a list twice.
+     */
+    public void cover(final Column<C, V> c) {
+        // solveListeners.fireSolution(level);
+        // if (c != null) {
+        Column<C, V> l, r;
+        Node<C, V> uu, dd;
+        // long k = 1; // updates
+        BigInteger k = BigInteger.ONE; // updates
+        l = c.getPrev();
+        r = c.getNext();
+        l.setNext(r);
+        r.setPrev(l);
+
+        for (Node<C, V> rr : c) {
+            for (Node<C, V> nn = rr.getRight(); nn != rr; nn = nn.getRight()) {
+                // for (Node<C, V> nn : rr) {
+                uu = nn.getUp();
+                dd = nn.getDown();
+                uu.setDown(dd);
+                dd.setUp(uu);
+                // k++;
+                k = k.add(BigInteger.ONE);
+                // nn.column.length--;
+                nn.getColumn().setLength(nn.getColumn().getLength() - 1);
+            }
+        }
+
+        c.setCovered(true);
+
+        updates = updates.add(k);
+        if (level >= updProfile.size()) {
+            updProfile.add(k);
+            purProfile.add(BigInteger.ZERO);
         } else {
-          System.out.print("0\t");
+            if (level >= 0) // FIXME correct this!
+                updProfile.set(level, updProfile.get(level).add(k));
         }
-      }
-      System.out.println(j + " nodes, "
-          + updProfile.get(level - 1) + " updates, "
-          + purProfile.get(level - 1) + " cleansings");
-      //x += j;
-      x = x.add(j);
     }
-    System.out.println("Total " + x + " nodes.");
-  }
-
-  /**
-   * When a row is blocked, it leaves all lists except the list of the column
-   * that is being covered. Thus a node is never removed from a list twice.
-   */
-  public void cover(final Column<C, V> c) {
-    //solveListeners.fireSolution(level);
-    //if (c != null) {
-    Column<C, V> l, r;
-    Node<C, V> uu, dd;
-    //long k = 1; // updates
-    BigInteger k = BigInteger.ONE; //updates
-    l = c.getPrev();
-    r = c.getNext();
-    l.setNext(r);
-    r.setPrev(l);
-
-    for (Node<C, V> rr : c) {
-      for (Node<C, V> nn = rr.getRight(); nn != rr; nn = nn.getRight()) {
-      //for (Node<C, V> nn : rr) {
-        uu = nn.getUp();
-        dd = nn.getDown();
-        uu.setDown(dd);
-        dd.setUp(uu);
-        //k++;
-        k = k.add(BigInteger.ONE);
-        //nn.column.length--;
-        nn.getColumn().setLength(nn.getColumn().getLength() - 1);
-      }
-    }
-
-    c.setCovered(true);
-
-    updates = updates.add(k);
-    if (level >= updProfile.size()) {
-      updProfile.add(k);
-      purProfile.add(BigInteger.ZERO);
-    } else {
-      if (level >= 0) // FIXME correct this!
-      updProfile.set(level, updProfile.get(level).add(k));
-    }
-    /*} else {
-      System.err.println("Cover-Error: Column is null.");
-    }*/
-  }
 
     /**
      * Uncovering is done in precisely the reverse order. The pointers thereby
@@ -442,116 +432,129 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         }
     }
 
-  // TODO conflict als return-Wert oder Exception (statt globaler Variable)
-  /** Covers all colums which are in the same row as <code>curNode</code> (the column <code>curNode</code> itself is not covered). */
-  public void coverAllOtherColumns(final Node<C, V> curNode) {
-    // Cover all other columns of curNode
-    for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
-      if (pp.getColor() == 0) {
-        cover(pp.getColumn());
-      } else if (pp.getColor() > 0) {
-        /*TODO if (pp.getColor() > cthresh) {
-          conflict = true;
-        } else {*/
-          purify(pp);
-        /*}*/
-      }
-    }
-  }
-
-  /** Uncovers all colums which are in the same row as <code>curNode</code> (the column <code>curNode</code> itself is not uncovered). */
-  public void uncoverAllOtherColumns(final Node<C, V> curNode) {
-    for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
-      if (pp.getColor() == 0) {
-        uncover(pp.getColumn());
-      } else if (pp.getColor() > 0/* TODO && pp.getColor() > cthresh*/) {
-        unpurify(pp);
-      }
-    }
-  }
-
-  /** @return The first solution. */
-  public List<Node<C, V>> getFirstSolution() {
-    done = false;
-    firstSolution = true;
-    solve();
-    firstSolution = false;
-    return choice;
-  }
-
-  // usually used to decide if there is a unique solution
-  /** @return 0 if no solution, 1 if unique solution and 2 if two or more solutions */
-  public long quickSolutions() {
-    // Backup of the solution is necessary (if reducing)
-      final List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
-    //Collections.copy(backup, choice);
-    for (Node<C, V> n : choice) {
-      backup.add(n);
-    }
-    done = false;
-    quickSolution = true;
-    solve();
-    quickSolution = false;
-    choice = backup;
-    return count;
-  }
-
-  /** Trys to eliminate the latter solution nodes so that there is still a unique solution.
-   * @param previousLast Index of the previously found reduction.
-   * @return Lowest possible index to fulfill uniquity requirement.
-   */
-  private int reduceEnd(final int previousLast) {
-    for (int i = 0; i <= previousLast; i++) {
-      //coverAllColumns(solution1[i]);
-      coverAllColumns(choice.get(i));
-    }
-    done = false;
-    int last = 0;
-    for (int i = previousLast; i >= 0; i--) {
-      //uncoverAllColumns(solution1[i]);
-      uncoverAllColumns(choice.get(i));
-      if (!done && quickSolutions() != 1) {
-        // now there is no unique solution
-        last = i; // up to last necessary to be unique!
-        done = true;
-        //return i;
-      }
-    }
-    return last;
-  }
-
-  // TODO reduce while solving (e.g. at call in onSolution)
-  /** Strategy: Cover all solution-nodes an try to uncover as much as possible.
-   * @return A subset of the solution that produces the same solution when the nodes are covered and solved (e.g. that would be the givens of a sudoku-solution). */
-  public List<Node<C, V>> reduce() {
-    //Date beginDate = new Date();
-
-    int last = 0;
-    last = choice.size() - 1;
-    Collections.shuffle(choice); // An alternative would be to shuffle the order of columns when data-structure is built
-    List<Node<C, V>> givens = new ArrayList<Node<C, V>>();
-    /*for (int i = 0; i <= last; i++) {
-      coverAllColumns(choice.get(i));
-    }*/
-    while (last >= 0) {
-      //fireOnReduceStep(nodes - last);
-      last = reduceEnd(last);
-      // recover it (cause it is needed) and add it to the given-set
-      coverAllColumns(choice.get(last));
-      givens.add(choice.get(last));
-      last--;
+    // TODO conflict als return-Wert oder Exception (statt globaler Variable)
+    /**
+     * Covers all columns which are in the same row as <code>curNode</code> (the
+     * column <code>curNode</code> itself is not covered).
+     */
+    public void coverAllOtherColumns(final Node<C, V> curNode) {
+        // Cover all other columns of curNode
+        for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
+            if (pp.getColor() == 0) {
+                cover(pp.getColumn());
+            } else if (pp.getColor() > 0) {
+                purify(pp);
+            }
+        }
     }
 
-    if (verbosity > 0 &&  1 + last != givens.size()) {
-      System.out.println("New rest: " + givens.size());
+    /**
+     * Uncovers all columns which are in the same row as <code>curNode</code>
+     * (the column <code>curNode</code> itself is not uncovered).
+     */
+    public void uncoverAllOtherColumns(final Node<C, V> curNode) {
+        for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
+            if (pp.getColor() == 0) {
+                uncover(pp.getColumn());
+            } else if (pp.getColor() > 0) {
+                unpurify(pp);
+            }
+        }
     }
 
-    for (int i = givens.size() - 1; i >= 0; i--) {
-      uncoverAllColumns(givens.get(i));
+    /** @return The first solution. */
+    public List<Node<C, V>> getFirstSolution() {
+        done = false;
+        firstSolution = true;
+        solve();
+        firstSolution = false;
+        return choice;
     }
 
-    return givens;
-  }
+    // usually used to decide if there is a unique solution
+    /**
+     * @return 0 if no solution, 1 if unique solution and 2 if two or more solutions
+     */
+    public long quickSolutions() {
+        // Backup of the solution is necessary (if reducing)
+        final List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
+        // Collections.copy(backup, choice);
+        for (Node<C, V> n : choice) {
+            backup.add(n);
+        }
+        done = false;
+        quickSolution = true;
+        solve();
+        quickSolution = false;
+        choice = backup;
+        return count;
+    }
+
+    /**
+     * Tries to eliminate the latter solution nodes so that there is still a
+     * unique solution.
+     * 
+     * @param previousLast
+     *            Index of the previously found reduction.
+     * @return Lowest possible index to fulfill uniquity requirement.
+     */
+    private int reduceEnd(final int previousLast) {
+        for (int i = 0; i <= previousLast; i++) {
+            // coverAllColumns(solution1[i]);
+            coverAllColumns(choice.get(i));
+        }
+        done = false;
+        int last = 0;
+        for (int i = previousLast; i >= 0; i--) {
+            // uncoverAllColumns(solution1[i]);
+            uncoverAllColumns(choice.get(i));
+            if (!done && quickSolutions() != 1) {
+                // now there is no unique solution
+                last = i; // up to last necessary to be unique!
+                done = true;
+                // return i;
+            }
+        }
+        return last;
+    }
+
+    // TODO reduce while solving (e.g., at call in onSolution)
+    /**
+     * Strategy: Cover all solution-nodes an try to uncover as much as possible.
+     * 
+     * @return A subset of the solution that produces the same solution when the
+     *         nodes are covered and solved (e.g., that would be the givens of a
+     *         sudoku-solution).
+     */
+    public List<Node<C, V>> reduce() {
+        // Date beginDate = new Date();
+
+        int last = 0;
+        last = choice.size() - 1;
+        Collections.shuffle(choice); // An alternative would be to shuffle the order of columns when data-structure is built
+        List<Node<C, V>> givens = new ArrayList<Node<C, V>>();
+        /*
+         * for (int i = 0; i <= last; i++) { coverAllColumns(choice.get(i)); }
+         */
+        while (last >= 0) {
+            // fireOnReduceStep(nodes - last);
+            last = reduceEnd(last);
+            // recover it (cause it is needed) and add it to the given-set
+            coverAllColumns(choice.get(last));
+            givens.add(choice.get(last));
+            last--;
+        }
+
+        if (verbosity > 0 && 1 + last != givens.size()) {
+            System.out.println("New rest: " + givens.size());
+        }
+
+        for (int i = givens.size() - 1; i >= 0; i--) {
+            uncoverAllColumns(givens.get(i));
+        }
+
+        return givens;
+    }
 
     // TODO count may be incorrect (2) if reducing!
     public void printStatistics() {
