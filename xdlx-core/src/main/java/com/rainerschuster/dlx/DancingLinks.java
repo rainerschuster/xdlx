@@ -75,6 +75,8 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     private boolean quickSolution = false;
     private boolean done = false;
 
+    private ColumnChooser<C, V> columnChooser = new MinLengthColumnChooser<C, V>();
+
     public DancingLinks(DancingLinksData<C, V> dlData) {
         super();
         this.dlData = dlData;
@@ -94,23 +96,13 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         // TODO QUEST when should it be fired (really at the beginning?)?
         // solveListeners.fireSolution(level);
         this.level = level;
-        // Set bestColumn to the best column for branching
-        // int minlen = MAX_NODES;
-        int minlen = -1;
-        Column<C, V> bestColumn = null;
         if (verbosity > 2) {
             System.out.print("Level " + level + ":");
         }
-        for (Column<C, V> curCol : dlData) {
-            if (verbosity > 2) {
-                System.out.print(" " + curCol.getValue() + "("
-                        + curCol.getLength() + ")");
-            }
-            if (curCol.getLength() < minlen || minlen == -1) {
-                bestColumn = curCol;
-                minlen = curCol.getLength();
-            }
-        }
+        // Set bestColumn to the best column for branching
+        // int minlen = MAX_NODES;
+        final Column<C, V> bestColumn = columnChooser.chooseColumn(dlData);
+        final int minlen = bestColumn.getLength();
         if (verbosity > 0) {
             if (level > maxl) {
                 maxl = level;
