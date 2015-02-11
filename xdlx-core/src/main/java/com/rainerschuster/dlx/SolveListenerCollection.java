@@ -18,24 +18,25 @@ package com.rainerschuster.dlx;
 import java.util.ArrayList;
 
 /**
- * A helper class for implementers of the {@link com.rainerschuster.dlx.SourcesSolveEvents}
- * interface. This subclass of {@link ArrayList} assumes that all objects added
- * to it will be of type {@link com.rainerschuster.dlx.SolveListener}.
+ * A helper class for implementers of the
+ * {@link com.rainerschuster.dlx.SourcesSolveEvents} interface. This subclass of
+ * {@link ArrayList} assumes that all objects added to it will be of type
+ * {@link com.rainerschuster.dlx.SolveListener}.
  */
 public class SolveListenerCollection extends ArrayList<SolveListener> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Fires a solve event to all listeners.
-   * 
-   * @param level
-   *          The current level.
-   */
-  public void fireSolution(int level) {
-    for (SolveListener listener : this) {
-      listener.onSolution(level);
+    /**
+     * Fires a solve event to all listeners.
+     * 
+     * @param level
+     *            The current level.
+     */
+    public void fireSolution(int level) {
+        for (SolveListener listener : this) {
+            listener.onSolution(level);
+        }
     }
-  }
 
 }

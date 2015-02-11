@@ -22,12 +22,12 @@ import java.util.EventListener;
  */
 public interface SolveListener extends EventListener {
 
-  /**
-   * Fired when a new solve step is processed.
-   *
-   * @param level
-   *          The current level.
-   */
-  public void onSolution(int level);
+    /**
+     * Fired when a new solve step is processed.
+     *
+     * @param level
+     *            The current level.
+     */
+    public void onSolution(int level);
 
 }

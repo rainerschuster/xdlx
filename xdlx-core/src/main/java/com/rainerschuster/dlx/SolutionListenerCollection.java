@@ -25,24 +25,24 @@ import java.util.List;
  * {@link com.rainerschuster.dlx.SolutionListener}.
  */
 public class SolutionListenerCollection<C, V extends Value<C>> extends
-    ArrayList<SolutionListener<C, V>> {
+        ArrayList<SolutionListener<C, V>> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Fires a solution event to all listeners.
-   *
-   * @param count
-   *          The (consecutive) number of the solution.
-   * @param level
-   *          The level at which the solution was found.
-   * @param solution
-   *          The solution itself.
-   */
-  public void fireSolution(long count, int level, List<Node<C, V>> solution) {
-    for (SolutionListener<C, V> listener : this) {
-      listener.onSolution(count, level, solution);
+    /**
+     * Fires a solution event to all listeners.
+     *
+     * @param count
+     *            The (consecutive) number of the solution.
+     * @param level
+     *            The level at which the solution was found.
+     * @param solution
+     *            The solution itself.
+     */
+    public void fireSolution(long count, int level, List<Node<C, V>> solution) {
+        for (SolutionListener<C, V> listener : this) {
+            listener.onSolution(count, level, solution);
+        }
     }
-  }
 
 }

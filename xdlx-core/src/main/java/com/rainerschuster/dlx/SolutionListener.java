@@ -23,16 +23,16 @@ import java.util.List;
  */
 public interface SolutionListener<C, V extends Value<C>> extends EventListener {
 
-  /**
-   * Fired when a solution is found.
-   *
-   * @param count
-   *          The (consecutive) number of the solution.
-   * @param level
-   *          The level at which the solution was found.
-   * @param solution
-   *          The solution itself.
-   */
-  public void onSolution(long count, int level, List<Node<C, V>> solution);
+    /**
+     * Fired when a solution is found.
+     *
+     * @param count
+     *            The (consecutive) number of the solution.
+     * @param level
+     *            The level at which the solution was found.
+     * @param solution
+     *            The solution itself.
+     */
+    public void onSolution(long count, int level, List<Node<C, V>> solution);
 
 }
