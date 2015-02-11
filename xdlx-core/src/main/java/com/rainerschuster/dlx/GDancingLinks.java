@@ -42,8 +42,8 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
     }
 
     /**
-     * Covers all columns which are in the same row as <code>curNode</code> (the
-     * column <code>curNode</code> itself is not covered).
+     * Covers all columns which are in the same row as <code>curNode</code>
+     * (the column <code>curNode</code> itself is not covered).
      */
     public void coverAllOtherColumns(final Node<C, V> curNode) {
         // Cover all other columns of curNode
@@ -142,6 +142,5 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
             printProfile();
         }
     }
-
 
 }
