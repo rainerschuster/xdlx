@@ -33,40 +33,34 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     /** > 0 to show solutions,
      *  > 1 to show partial ones too,
      *  > 2 to show more gory details. */
-    private int verbosity = 0;
+    protected int verbosity = 0;
 
     /** Number of solutions found so far. */
-    private long count = 0;
+    protected long count = 0;
 
     /** Number of times we deleted a list element. */
-    private BigInteger updates = BigInteger.ZERO;
-
-    /** Number of times we purified a list element. */
-    private BigInteger purifs = BigInteger.ZERO;
+    protected BigInteger updates = BigInteger.ZERO;
 
     /** If verbose, we output solutions when count % spacing == 0. */
-    private int spacing = 1;
+    protected int spacing = 1;
 
     /** Tree nodes of given level and degree. */
-    private List<List<BigInteger>> profile = new ArrayList<List<BigInteger>>();
+    protected List<List<BigInteger>> profile = new ArrayList<List<BigInteger>>();
 
     /** Updates at a given level. */
-    private List<BigInteger> updProfile = new ArrayList<BigInteger>();
-
-    /** Purifications at a given level. */
-    private List<BigInteger> purProfile = new ArrayList<BigInteger>();
+    protected List<BigInteger> updProfile = new ArrayList<BigInteger>();
 
     /** Maximum branching factor actually needed. */
-    private int maxb = 0;
+    protected int maxb = 0;
 
     /** Maximum level actually reached. */
-    private int maxl = 0;
+    protected int maxl = 0;
 
     /** Number of choices in current partial solution. */
-    private int level;
+    protected int level;
 
     /** The row and column chosen on each level. */
-    private List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
 
     private DancingLinksData<C, V> dlData;
     private boolean firstSolution = false;
@@ -84,7 +78,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     public void solve() {
         count = 0;
         updates = BigInteger.ZERO;
-        purifs = BigInteger.ZERO;
         solve(0);
     }
 
@@ -182,18 +175,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         }
     }
 
-    /**
-     * Adds values (specified by <code>defaultValue</code>) until the specified list is large enough to be accessed by the specified index.
-     */
-    private <T> void ensureIndexSize(final List<T> list, int index, T defaultValue) {
-        if (index >= list.size()) {
-            final int diff = index - list.size();
-            for (int i = 0; i <= diff; i++) {
-                list.add(defaultValue);
-            }
-        }
-    }
-
     // TODO an error occurs if this method is invoked before solved
     /** Print a profile of the search tree. */
     public void printProfile() {
@@ -210,7 +191,8 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
                     System.out.print("0\t");
                 }
             }
-            System.out.println(j + " nodes, " + updProfile.get(level - 1) + " updates, " + purProfile.get(level - 1) + " cleansings");
+//            System.out.println(j + " nodes, " + updProfile.get(level - 1) + " updates, " + purProfile.get(level - 1) + " cleansings");
+            System.out.println(j + " nodes, " + updProfile.get(level - 1) + " updates");
             // x += j;
             x = x.add(j);
         }
@@ -283,65 +265,24 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     }
 
     /**
-     * When we choose a row that specifies colors in one or more columns, we
-     * "purify" those columns by removing all incompatible rows. All rows that
-     * want the same color in a purified column will now be given the color code
-     * -1 so that we need not purify the column again.
+     * Covers all columns which are in the same row as <code>curNode</code> (the
+     * column <code>curNode</code> itself is not covered).
      */
-    public void purify(final Node<C, V> p) {
-        Column<C, V> c = p.getColumn();
-        int x = p.getColor();
-        Node<C, V> /* rr, nn, */uu, dd;
-        long k = 0, kk = 1; /* updates */
-        c.getHead().setColor(x); /* this is used only to help printRow */
-        for (Node<C, V> rr : c) {
-            if (rr.getColor() != x) {
-                for (Node<C, V> nn : rr) {
-                    uu = nn.getUp();
-                    dd = nn.getDown();
-                    uu.setDown(dd);
-                    dd.setUp(uu);
-                    k++;
-                    // nn.column.length--;
-                    nn.getColumn().setLength(nn.getColumn().getLength() - 1);
-                }
-            } else if (rr != p) {
-                kk++;
-                rr.setColor(-1);
-            }
-            updates = updates.add(BigInteger.valueOf(k));
-            purifs = purifs.add(BigInteger.valueOf(kk));
-            ensureIndexSize(updProfile, level, BigInteger.ZERO);
-            updProfile.set(level, updProfile.get(level).add(BigInteger.valueOf(k)));
-            ensureIndexSize(purProfile, level, BigInteger.ZERO);
-            purProfile.set(level, purProfile.get(level).add(BigInteger.valueOf(kk)));
+    public void coverAllOtherColumns(final Node<C, V> curNode) {
+        // Cover all other columns of curNode
+        for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
+            cover(pp.getColumn());
         }
     }
 
     /**
-     * Just as purify is analogous to cover, the inverse process is analogous to
-     * uncover.
+     * Uncovers all columns which are in the same row as <code>curNode</code>
+     * (the column <code>curNode</code> itself is not uncovered).
      */
-    public void unpurify(final Node<C, V> p) {
-        Column<C, V> c = p.getColumn();
-        int x = p.getColor();
-        Node<C, V> rr, nn, uu, dd;
-        for (rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
-            if (rr.getColor() < 0) {
-                rr.setColor(x);
-            } else if (rr != p) {
-                for (nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
-                    uu = nn.getUp();
-                    dd = nn.getDown();
-                    // uu.down = dd.up = nn;
-                    uu.setDown(nn);
-                    dd.setUp(nn);
-                    // nn.column.length++;
-                    nn.getColumn().setLength(nn.getColumn().getLength() + 1);
-                }
-            }
+    public void uncoverAllOtherColumns(final Node<C, V> curNode) {
+        for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
+            uncover(pp.getColumn());
         }
-        c.getHead().setColor(0);
     }
 
     /**
@@ -394,35 +335,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         Collections.reverse(list);
         for (Column<C, V> column : list) {
             uncover(column);
-        }
-    }
-
-    /**
-     * Covers all columns which are in the same row as <code>curNode</code> (the
-     * column <code>curNode</code> itself is not covered).
-     */
-    public void coverAllOtherColumns(final Node<C, V> curNode) {
-        // Cover all other columns of curNode
-        for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
-            if (pp.getColor() == 0) {
-                cover(pp.getColumn());
-            } else if (pp.getColor() > 0) {
-                purify(pp);
-            }
-        }
-    }
-
-    /**
-     * Uncovers all columns which are in the same row as <code>curNode</code>
-     * (the column <code>curNode</code> itself is not uncovered).
-     */
-    public void uncoverAllOtherColumns(final Node<C, V> curNode) {
-        for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
-            if (pp.getColor() == 0) {
-                uncover(pp.getColumn());
-            } else if (pp.getColor() > 0) {
-                unpurify(pp);
-            }
         }
     }
 
@@ -524,8 +436,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     public void printStatistics() {
         System.out.println("Altogether "
                 + count + " solutions, after "
-                + updates + " updates and "
-                + purifs + " cleansings.");
+                + updates + " updates.");
         if (verbosity > 0) {
             printProfile();
         }
@@ -573,6 +484,18 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
 
     public void setDancingLinksData(DancingLinksData<C, V> dlData) {
         this.dlData = dlData;
+    }
+
+    /**
+     * Adds values (specified by <code>defaultValue</code>) until the specified list is large enough to be accessed by the specified index.
+     */
+    protected <T> void ensureIndexSize(final List<T> list, int index, T defaultValue) {
+        if (index >= list.size()) {
+            final int diff = index - list.size();
+            for (int i = 0; i <= diff; i++) {
+                list.add(defaultValue);
+            }
+        }
     }
 
 }
