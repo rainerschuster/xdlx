@@ -67,12 +67,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     /** Number of choices in current partial solution. */
     private int level;
 
-    /** Smallest color allowable when extending a solution. */
-    private int cthresh;
-
-    /** Set true if a conflict arises while covering. */
-    private boolean conflict;
-
     /** The row and column chosen on each level. */
     private List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
 
@@ -92,7 +86,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         updates = BigInteger.ZERO;
         purifs = BigInteger.ZERO;
         solve(0);
-        // TODO cthresh = 'a';
     }
 
     // TODO check done
@@ -154,49 +147,46 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
                     System.out.print("L" + level + ":");
                     DancingLinksData.printRow(choice.get(level));
                 }
-                conflict = false;
                 coverAllOtherColumns(currentNode);
-                if (!conflict) {
-                    if (dlData.getRoot().getNext() == dlData.getRoot()) {
-                        // solution found!
-                        count++;
+                if (dlData.getRoot().getNext() == dlData.getRoot()) {
+                    // solution found!
+                    count++;
 
-                        if (verbosity > 0) {
-                            // profile[level + 1][0]++;
-                            if (level + 1 >= profile.size()) {
-                                profile.add(new ArrayList<BigInteger>());
-                            }
-                            if (minlen >= profile.get(level + 1).size()) {
-                                profile.get(level + 1).add(BigInteger.ONE);
-                            } else {
-                                profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
-                            }
-
-                            if (count % spacing == 0) {
-                                System.out.println(count + ":");
-                                for (int k = 0; k <= level; k++) {
-                                    DancingLinksData.printRow(choice.get(k));
-                                }
-                            }
+                    if (verbosity > 0) {
+                        // profile[level + 1][0]++;
+                        if (level + 1 >= profile.size()) {
+                            profile.add(new ArrayList<BigInteger>());
+                        }
+                        if (minlen >= profile.get(level + 1).size()) {
+                            profile.get(level + 1).add(BigInteger.ONE);
+                        } else {
+                            profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
                         }
 
-                        if (quickSolution) {
-                            if (count > 1) {
-                                done = true;
+                        if (count % spacing == 0) {
+                            System.out.println(count + ":");
+                            for (int k = 0; k <= level; k++) {
+                                DancingLinksData.printRow(choice.get(k));
                             }
                         }
-                        // TODO check and validate this part!
-                        if (!done && !quickSolution) {
-                            solutionListeners.fireSolution(count, level, choice);
-                        }
-                        if (firstSolution) {
+                    }
+
+                    if (quickSolution) {
+                        if (count > 1) {
                             done = true;
                         }
-                        // own extension END
-                    } else {
-                        if (!done) {
-                            solve(level + 1);
-                        }
+                    }
+                    // TODO check and validate this part!
+                    if (!done && !quickSolution) {
+                        solutionListeners.fireSolution(count, level, choice);
+                    }
+                    if (firstSolution) {
+                        done = true;
+                    }
+                    // own extension END
+                } else {
+                    if (!done) {
+                        solve(level + 1);
                     }
                 }
                 uncoverAllOtherColumns(currentNode);
@@ -318,10 +308,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         Node<C, V> /* rr, nn, */uu, dd;
         long k = 0, kk = 1; /* updates */
         c.getHead().setColor(x); /* this is used only to help printRow */
-        c.setColorThresh(cthresh);
-        if (cthresh >= x) {
-            cthresh++;
-        }
         for (Node<C, V> rr : c) {
             if (rr.getColor() != x) {
                 for (Node<C, V> nn : rr) {
@@ -376,7 +362,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
             }
         }
         c.getHead().setColor(0);
-        cthresh = c.getColorThresh();
     }
 
     /**
@@ -432,7 +417,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         }
     }
 
-    // TODO conflict als return-Wert oder Exception (statt globaler Variable)
     /**
      * Covers all columns which are in the same row as <code>curNode</code> (the
      * column <code>curNode</code> itself is not covered).

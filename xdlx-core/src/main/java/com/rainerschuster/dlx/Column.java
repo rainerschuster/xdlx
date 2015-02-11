@@ -158,16 +158,6 @@ public class Column<C, V extends Value<C>> implements Iterable<Node<C, V>> {
 
     // Special Secondary Column
 
-    private int colorThresh; // used for backing up
-
-    public int getColorThresh() {
-        return this.colorThresh;
-    }
-
-    public void setColorThresh(int colorThresh) {
-        this.colorThresh = colorThresh;
-    }
-
     public boolean isCovered() {
         return covered;
     }
