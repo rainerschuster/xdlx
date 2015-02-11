@@ -32,7 +32,6 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
 
     public GDancingLinks(DancingLinksData<C, V> dlData) {
         super(dlData);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -45,6 +44,7 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
      * Covers all columns which are in the same row as <code>curNode</code>
      * (the column <code>curNode</code> itself is not covered).
      */
+    @Override
     public void coverAllOtherColumns(final Node<C, V> curNode) {
         // Cover all other columns of curNode
         for (Node<C, V> pp = curNode.getRight(); pp != curNode; pp = pp.getRight()) {
@@ -60,6 +60,7 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
      * Uncovers all columns which are in the same row as <code>curNode</code>
      * (the column <code>curNode</code> itself is not uncovered).
      */
+    @Override
     public void uncoverAllOtherColumns(final Node<C, V> curNode) {
         for (Node<C, V> pp = curNode.getLeft(); pp != curNode; pp = pp.getLeft()) {
             if (pp.getColor() == 0) {
@@ -107,8 +108,7 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
     }
 
     /**
-     * Just as purify is analogous to cover, the inverse process is analogous to
-     * uncover.
+     * Just as purify is analogous to cover, the inverse process is analogous to uncover.
      */
     public void unpurify(final Node<C, V> p) {
         Column<C, V> c = p.getColumn();
