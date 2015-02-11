@@ -107,14 +107,12 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
                 maxb = minlen;
             }
             // profile[level][minlen]++;
+//            ensureIndexSize(profile, level, new ArrayList<BigInteger>());
             if (level >= profile.size()) {
                 profile.add(new ArrayList<BigInteger>());
             }
-            if (minlen >= profile.get(level).size()) {
-                profile.get(level).add(BigInteger.ONE);
-            } else {
-                profile.get(level).set(minlen, profile.get(level).get(minlen).add(BigInteger.ONE));
-            }
+            ensureIndexSize(profile.get(level), minlen, BigInteger.ZERO);
+            profile.get(level).set(minlen, profile.get(level).get(minlen).add(BigInteger.ONE));
             if (verbosity > 2) {
                 System.out.println(" branching on " + bestColumn.getValue() + "(" + minlen + ")");
             }
@@ -124,11 +122,8 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
             cover(bestColumn);
             Node<C, V> currentNode = bestColumn.getHead().getDown();
             // choice[level] = bestColumn.getHead().getDown();
-            if (level >= choice.size()) {
-                choice.add(level, bestColumn.getHead().getDown());
-            } else {
-                choice.set(level, bestColumn.getHead().getDown());
-            }
+            ensureIndexSize(choice, level, null);
+            choice.set(level, bestColumn.getHead().getDown());
             while (!done && currentNode != bestColumn.getHead()) {
                 if (verbosity > 1) {
                     System.out.print("L" + level + ":");
@@ -141,14 +136,12 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
 
                     if (verbosity > 0) {
                         // profile[level + 1][0]++;
+                        // ensureIndexSize(profile, level + 1, new ArrayList<BigInteger>());
                         if (level + 1 >= profile.size()) {
                             profile.add(new ArrayList<BigInteger>());
                         }
-                        if (minlen >= profile.get(level + 1).size()) {
-                            profile.get(level + 1).add(BigInteger.ONE);
-                        } else {
-                            profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
-                        }
+                        ensureIndexSize(profile.get(level + 1), 0, BigInteger.ZERO);
+                        profile.get(level + 1).set(0, profile.get(level + 1).get(0).add(BigInteger.ONE));
 
                         if (count % spacing == 0) {
                             System.out.println(count + ":");
@@ -186,6 +179,18 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
             this.level--;
             // currentNode = choice.get(level);
             // bestColumn = currentNode.getColumn();
+        }
+    }
+
+    /**
+     * Adds values (specified by <code>defaultValue</code>) until the specified list is large enough to be accessed by the specified index.
+     */
+    private <T> void ensureIndexSize(final List<T> list, int index, T defaultValue) {
+        if (index >= list.size()) {
+            final int diff = index - list.size();
+            for (int i = 0; i <= diff; i++) {
+                list.add(defaultValue);
+            }
         }
     }
 
@@ -311,16 +316,10 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
             }
             updates = updates.add(BigInteger.valueOf(k));
             purifs = purifs.add(BigInteger.valueOf(kk));
-            if (level >= updProfile.size()) {
-                updProfile.add(BigInteger.valueOf(k));
-            } else {
-                updProfile.set(level, updProfile.get(level).add(BigInteger.valueOf(k)));
-            }
-            if (level >= purProfile.size()) {
-                purProfile.add(BigInteger.valueOf(kk));
-            } else {
-                purProfile.set(level, purProfile.get(level).add(BigInteger.valueOf(kk)));
-            }
+            ensureIndexSize(updProfile, level, BigInteger.ZERO);
+            updProfile.set(level, updProfile.get(level).add(BigInteger.valueOf(k)));
+            ensureIndexSize(purProfile, level, BigInteger.ZERO);
+            purProfile.set(level, purProfile.get(level).add(BigInteger.valueOf(kk)));
         }
     }
 
