@@ -15,15 +15,24 @@
  */
 package com.rainerschuster.dlx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MinColumn<C, V extends Value<C>> extends PrimaryColumn<C, V> {
 
     private final int min;
 
     private int currentMax = 0;
 
+    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+
     public MinColumn(int min) {
         super();
         this.min = min;
+    }
+
+    public List<Node<C, V>> getChoice() {
+        return choice;
     }
 
     public int getCurrentMax() {

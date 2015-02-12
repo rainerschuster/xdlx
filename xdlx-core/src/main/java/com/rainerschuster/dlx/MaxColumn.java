@@ -15,15 +15,24 @@
  */
 package com.rainerschuster.dlx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MaxColumn<C, V extends Value<C>> extends SecondaryColumn<C, V> {
 
     private final int max;
 
     private int currentMax = 0;
 
+    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+
     public MaxColumn(int max) {
         super();
         this.max = max;
+    }
+
+    public List<Node<C, V>> getChoice() {
+        return choice;
     }
 
     public int getCurrentMax() {
