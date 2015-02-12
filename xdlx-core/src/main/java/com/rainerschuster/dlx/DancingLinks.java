@@ -65,7 +65,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     private DancingLinksData<C, V> dlData;
     private boolean firstSolution = false;
     private boolean quickSolution = false;
-    private boolean done = false;
+    boolean done = false;
 
     private ColumnChooser<C, V> columnChooser = new MinLengthColumnChooser<C, V>();
 
@@ -364,72 +364,6 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         quickSolution = false;
         choice = backup;
         return count;
-    }
-
-    /**
-     * Tries to eliminate the latter solution nodes so that there is still a
-     * unique solution.
-     * 
-     * @param previousLast
-     *            Index of the previously found reduction.
-     * @return Lowest possible index to fulfill uniquity requirement.
-     */
-    private int reduceEnd(final int previousLast) {
-        for (int i = 0; i <= previousLast; i++) {
-            // coverAllColumns(solution1[i]);
-            coverAllColumns(choice.get(i));
-        }
-        done = false;
-        int last = 0;
-        for (int i = previousLast; i >= 0; i--) {
-            // uncoverAllColumns(solution1[i]);
-            uncoverAllColumns(choice.get(i));
-            if (!done && quickSolutions() != 1) {
-                // now there is no unique solution
-                last = i; // up to last necessary to be unique!
-                done = true;
-                // return i;
-            }
-        }
-        return last;
-    }
-
-    // TODO reduce while solving (e.g., at call in onSolution)
-    /**
-     * Strategy: Cover all solution-nodes an try to uncover as much as possible.
-     * 
-     * @return A subset of the solution that produces the same solution when the
-     *         nodes are covered and solved (e.g., that would be the givens of a
-     *         sudoku-solution).
-     */
-    public List<Node<C, V>> reduce() {
-        // Date beginDate = new Date();
-
-        int last = 0;
-        last = choice.size() - 1;
-        Collections.shuffle(choice); // An alternative would be to shuffle the order of columns when data-structure is built
-        List<Node<C, V>> givens = new ArrayList<Node<C, V>>();
-        /*
-         * for (int i = 0; i <= last; i++) { coverAllColumns(choice.get(i)); }
-         */
-        while (last >= 0) {
-            // fireOnReduceStep(nodes - last);
-            last = reduceEnd(last);
-            // recover it (cause it is needed) and add it to the given-set
-            coverAllColumns(choice.get(last));
-            givens.add(choice.get(last));
-            last--;
-        }
-
-        if (verbosity > 0 && 1 + last != givens.size()) {
-            System.out.println("New rest: " + givens.size());
-        }
-
-        for (int i = givens.size() - 1; i >= 0; i--) {
-            uncoverAllColumns(givens.get(i));
-        }
-
-        return givens;
     }
 
     // TODO count may be incorrect (2) if reducing!

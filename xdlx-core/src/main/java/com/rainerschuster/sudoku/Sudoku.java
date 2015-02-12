@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import com.rainerschuster.dlx.DancingLinks;
 import com.rainerschuster.dlx.DancingLinksData;
 import com.rainerschuster.dlx.Node;
+import com.rainerschuster.dlx.Reducer;
 import com.rainerschuster.dlx.SolutionListener;
 
 public class Sudoku implements SourcesSudokuSolutionEvents {
@@ -109,7 +110,8 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
 
         final List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
         final SudokuField myField = solutionConverter.convertSolution(solution);
-        final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
+        final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<SudokuColumnValue, SudokuValue>(dl);
+        final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = reducer.reduce();
         for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
             myField.getGivens().add(n.getValue());
         }
@@ -188,7 +190,8 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
       }
     }*/
 
-    final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = dl.reduce();
+    final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<SudokuColumnValue, SudokuValue>(dl);
+    final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = reducer.reduce();
     for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
       //myField.getGivens().add(valueConverter.convertRow(n));
       myField.getGivens().add(n.getValue());
