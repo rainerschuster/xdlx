@@ -205,26 +205,17 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
      */
     public void cover(final Column<C, V> c) {
         // if (c != null) {
-        Column<C, V> l, r;
-        Node<C, V> uu, dd;
         // long k = 1; // updates
         BigInteger k = BigInteger.ONE; // updates
-        l = c.getPrev();
-        r = c.getNext();
+        final Column<C, V> l = c.getPrev();
+        final Column<C, V> r = c.getNext();
         l.setNext(r);
         r.setPrev(l);
 
         for (Node<C, V> rr : c) {
             for (Node<C, V> nn = rr.getRight(); nn != rr; nn = nn.getRight()) {
                 // for (Node<C, V> nn : rr) {
-                uu = nn.getUp();
-                dd = nn.getDown();
-                uu.setDown(dd);
-                dd.setUp(uu);
-                // k++;
-                k = k.add(BigInteger.ONE);
-                // nn.column.length--;
-                nn.getColumn().setLength(nn.getColumn().getLength() - 1);
+                k = blockNode(nn, k);
             }
         }
 
@@ -235,33 +226,47 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         updProfile.set(level, updProfile.get(level).add(k));
     }
 
+    public BigInteger blockNode(final Node<C, V> nn, BigInteger k) {
+        final Node<C, V> uu = nn.getUp();
+        final Node<C, V> dd = nn.getDown();
+        uu.setDown(dd);
+        dd.setUp(uu);
+        // k++;
+        k = k.add(BigInteger.ONE);
+        // nn.column.length--;
+        nn.getColumn().setLength(nn.getColumn().getLength() - 1);
+        return k;
+    }
+
     /**
      * Uncovering is done in precisely the reverse order. The pointers thereby
      * execute an exquisitely choreographed dance which returns them almost
      * magically to their former state.
      */
     public void uncover(final Column<C, V> c) {
-        Column<C, V> l, r;
-        Node<C, V> uu, dd;
         for (Node<C, V> rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
             for (Node<C, V> nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
-                uu = nn.getUp();
-                dd = nn.getDown();
-                // uu.down = dd.up = nn;
-                uu.setDown(nn);
-                dd.setUp(nn);
-                // nn.column.length++;
-                nn.getColumn().setLength(nn.getColumn().getLength() + 1);
+                unblockNode(nn);
             }
         }
 
         c.setCovered(false);
 
-        l = c.getPrev();
-        r = c.getNext();
+        final Column<C, V> l = c.getPrev();
+        final Column<C, V> r = c.getNext();
         // l.next = r.prev = c;
         l.setNext(c);
         r.setPrev(c);
+    }
+
+    public void unblockNode(Node<C, V> nn) {
+        final Node<C, V> uu = nn.getUp();
+        final Node<C, V> dd = nn.getDown();
+        // uu.down = dd.up = nn;
+        uu.setDown(nn);
+        dd.setUp(nn);
+        // nn.column.length++;
+        nn.getColumn().setLength(nn.getColumn().getLength() + 1);
     }
 
     /**
