@@ -204,19 +204,12 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
      * that is being covered. Thus a node is never removed from a list twice.
      */
     public void cover(final Column<C, V> c) {
-        // if (c != null) {
         // long k = 1; // updates
         BigInteger k = BigInteger.ONE; // updates
-        final Column<C, V> l = c.getPrev();
-        final Column<C, V> r = c.getNext();
-        l.setNext(r);
-        r.setPrev(l);
+        blockColumn(c);
 
         for (Node<C, V> rr : c) {
-            for (Node<C, V> nn = rr.getRight(); nn != rr; nn = nn.getRight()) {
-                // for (Node<C, V> nn : rr) {
-                k = blockNode(nn, k);
-            }
+            k = k.add(blockRow(rr, k));
         }
 
         c.setCovered(true);
@@ -226,16 +219,30 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         updProfile.set(level, updProfile.get(level).add(k));
     }
 
+    public void blockColumn(final Column<C, V> c) {
+        final Column<C, V> l = c.getPrev();
+        final Column<C, V> r = c.getNext();
+        l.setNext(r);
+        r.setPrev(l);
+    }
+
+    public BigInteger blockRow(final Node<C, V> rr, BigInteger k) {
+        for (Node<C, V> nn = rr.getRight(); nn != rr; nn = nn.getRight()) {
+            // for (Node<C, V> nn : rr) {
+            k = k.add(blockNode(nn, k));
+        }
+        return k;
+    }
+
     public BigInteger blockNode(final Node<C, V> nn, BigInteger k) {
         final Node<C, V> uu = nn.getUp();
         final Node<C, V> dd = nn.getDown();
         uu.setDown(dd);
         dd.setUp(uu);
-        // k++;
-        k = k.add(BigInteger.ONE);
         // nn.column.length--;
         nn.getColumn().setLength(nn.getColumn().getLength() - 1);
-        return k;
+        // k++;
+        return k.add(BigInteger.ONE);
     }
 
     /**
@@ -245,18 +252,26 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
      */
     public void uncover(final Column<C, V> c) {
         for (Node<C, V> rr = c.getHead().getUp(); rr != c.getHead(); rr = rr.getUp()) {
-            for (Node<C, V> nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
-                unblockNode(nn);
-            }
+            unblockRow(rr);
         }
 
         c.setCovered(false);
 
+        unblockColumn(c);
+    }
+
+    public void unblockColumn(final Column<C, V> c) {
         final Column<C, V> l = c.getPrev();
         final Column<C, V> r = c.getNext();
         // l.next = r.prev = c;
         l.setNext(c);
         r.setPrev(c);
+    }
+
+    public void unblockRow(Node<C, V> rr) {
+        for (Node<C, V> nn = rr.getLeft(); nn != rr; nn = nn.getLeft()) {
+            unblockNode(nn);
+        }
     }
 
     public void unblockNode(Node<C, V> nn) {
