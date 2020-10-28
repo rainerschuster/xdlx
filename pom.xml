@@ -9,7 +9,7 @@
 	<description>This project is an extended implementation of Knuth's &quot;Dancing Links&quot; algorithm and some use cases (e.g., Sudoku).</description>
 	<url>http://rainerschuster.github.io/xdlx/</url>
     <prerequisites>
-        <maven>3</maven>
+        <maven>3.6.3</maven>
     </prerequisites>
 	<issueManagement>
         <url>https://github.com/rainerschuster/xdlx/issues</url>

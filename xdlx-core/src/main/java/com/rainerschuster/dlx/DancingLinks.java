@@ -215,6 +215,9 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
         c.setCovered(true);
 
         updates = updates.add(k);
+        if (level < 0) {
+        	return; // FIXME
+        }
         ensureIndexSize(updProfile, level, BigInteger.ZERO);
         updProfile.set(level, updProfile.get(level).add(k));
     }
