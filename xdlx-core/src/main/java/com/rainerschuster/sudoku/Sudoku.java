@@ -23,7 +23,6 @@ import com.rainerschuster.dlx.DancingLinks;
 import com.rainerschuster.dlx.DancingLinksData;
 import com.rainerschuster.dlx.Node;
 import com.rainerschuster.dlx.Reducer;
-import com.rainerschuster.dlx.SolutionListener;
 
 public class Sudoku implements SourcesSudokuSolutionEvents {
 
@@ -57,7 +56,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     public int quickSolutions(final List<SudokuValue> givens) {
         final SudokuGenerator generator = new SudokuGenerator(properties);
         final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<>(dlData);
         for (SudokuValue given : givens) {
             dl.cover(given);
         }
@@ -70,14 +69,12 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
   public void solve(final List<SudokuValue> givens) {
       final SudokuGenerator generator = new SudokuGenerator(properties);
       final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-      final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+      final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<>(dlData);
     // dl.setVerbosity(1);
     //final SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
     final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
 
-    dl.addSolutionListener(new SolutionListener<SudokuColumnValue, SudokuValue>() {
-      @Override
-      public void onSolution(final long count, final int level, final List<Node<SudokuColumnValue, SudokuValue>> solution) {
+    dl.addSolutionListener((count, level, solution) -> {
           final SudokuField field = solutionConverter.convertSolution(solution);
         /* Givens must be added because they are not contained in the chosens of
          * DancingLinksData */
@@ -86,8 +83,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
         }
         field.setGivens(givens);
         sudokuSolutionListeners.fireSolution(count, level, field);
-      }
-    });
+      });
     for (SudokuValue given : givens) {
       dl.cover(given);
     }
@@ -102,7 +98,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
     public SudokuField generate() {
         final SudokuGenerator generator = new SudokuGenerator(properties);
         final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+        final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<>(dlData);
         // dl.setVerbosity(1);
         // final SudokuValueConverter valueConverter = new
         // SudokuValueConverter(properties);
@@ -110,7 +106,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
 
         final List<Node<SudokuColumnValue, SudokuValue>> solution = dl.getFirstSolution();
         final SudokuField myField = solutionConverter.convertSolution(solution);
-        final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<SudokuColumnValue, SudokuValue>(dl);
+        final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<>(dl);
         final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = reducer.reduce();
         for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
             myField.getGivens().add(n.getValue());
@@ -129,7 +125,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
 
     properties.setDimensions(2);
     properties.setNumbers(9);
-    final List<Integer> regionDimension = new ArrayList<Integer>(2);
+    final List<Integer> regionDimension = new ArrayList<>(2);
     regionDimension.add(3);
     regionDimension.add(3);
     properties.setRegion(properties.generateDefaultRegions(regionDimension));
@@ -139,7 +135,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
 
     final SudokuGenerator generator = new SudokuGenerator(properties);
     final DancingLinksData<SudokuColumnValue, SudokuValue> dlData = generator.generate();
-    final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<SudokuColumnValue, SudokuValue>(dlData);
+    final DancingLinks<SudokuColumnValue, SudokuValue> dl = new DancingLinks<>(dlData);
     // dl.setVerbosity(1);
     //final SudokuValueConverter valueConverter = new SudokuValueConverter(properties);
     final SudokuSolutionConverter solutionConverter = new SudokuSolutionConverter(properties);
@@ -190,7 +186,7 @@ public class Sudoku implements SourcesSudokuSolutionEvents {
       }
     }*/
 
-    final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<SudokuColumnValue, SudokuValue>(dl);
+    final Reducer<SudokuColumnValue, SudokuValue> reducer = new Reducer<>(dl);
     final List<Node<SudokuColumnValue, SudokuValue>> givenSolution = reducer.reduce();
     for (Node<SudokuColumnValue, SudokuValue> n : givenSolution) {
       //myField.getGivens().add(valueConverter.convertRow(n));

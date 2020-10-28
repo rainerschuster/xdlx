@@ -31,7 +31,7 @@ public class SudokuValue extends Value<SudokuColumnValue> {
         super();
         this.properties = properties;
         this.number = number;
-        this.coordinates = new ArrayList<Integer>();
+        this.coordinates = new ArrayList<>();
     }
 
     @Override

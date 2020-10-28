@@ -27,7 +27,7 @@ public interface SourcesSudokuSolutionEvents {
    * @param listener
    *          The listener interface to add.
    */
-  public void addSolutionListener(SudokuSolutionListener listener);
+  void addSolutionListener(SudokuSolutionListener listener);
 
   /**
    * Removes a previously added listener interface.
@@ -35,6 +35,6 @@ public interface SourcesSudokuSolutionEvents {
    * @param listener
    *          The listener interface to remove.
    */
-  public void removeSolutionListener(SudokuSolutionListener listener);
+  void removeSolutionListener(SudokuSolutionListener listener);
 
 }

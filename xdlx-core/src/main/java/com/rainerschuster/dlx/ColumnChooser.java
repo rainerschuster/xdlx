@@ -9,5 +9,5 @@ public interface ColumnChooser<C, V extends Value<C>> {
      * @param dlData The Dancing Links data structure
      * @return The next column to be covered
      */
-    public Column<C, V> chooseColumn(DancingLinksData<C, V> dlData);
+    Column<C, V> chooseColumn(DancingLinksData<C, V> dlData);
 }

@@ -24,7 +24,7 @@ import java.util.List;
 public abstract class DataGenerator<C, V extends Value<C>> {
 
     public DancingLinksData<C, V> generate() {
-        final DancingLinksData<C, V> dlData = new DancingLinksData<C, V>();
+        final DancingLinksData<C, V> dlData = new DancingLinksData<>();
 
         final List<C> primaryColumns = generatePrimaryColumnValues();
         final List<C> secondaryColumns = generateSecondaryColumnValues();

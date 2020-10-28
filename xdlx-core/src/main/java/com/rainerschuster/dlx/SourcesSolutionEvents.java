@@ -27,7 +27,7 @@ public interface SourcesSolutionEvents<C, V extends Value<C>> {
      * @param listener
      *            The listener interface to add.
      */
-    public void addSolutionListener(SolutionListener<C, V> listener);
+    void addSolutionListener(SolutionListener<C, V> listener);
 
     /**
      * Removes a previously added listener interface.
@@ -35,6 +35,6 @@ public interface SourcesSolutionEvents<C, V extends Value<C>> {
      * @param listener
      *            The listener interface to remove.
      */
-    public void removeSolutionListener(SolutionListener<C, V> listener);
+    void removeSolutionListener(SolutionListener<C, V> listener);
 
 }

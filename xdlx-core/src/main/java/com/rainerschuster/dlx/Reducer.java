@@ -31,7 +31,7 @@ public class Reducer<C, V extends Value<C>> {
         int last = 0;
         last = dancingLinks.choice.size() - 1;
         Collections.shuffle(dancingLinks.choice); // An alternative would be to shuffle the order of columns when data-structure is built
-        List<Node<C, V>> givens = new ArrayList<Node<C, V>>();
+        List<Node<C, V>> givens = new ArrayList<>();
         /*
          * for (int i = 0; i <= last; i++) { coverAllColumns(choice.get(i)); }
          */

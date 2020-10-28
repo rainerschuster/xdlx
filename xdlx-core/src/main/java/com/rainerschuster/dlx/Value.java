@@ -41,7 +41,7 @@ public abstract class Value<C> {
      */
     public <V extends Value<C>> List<Column<C, V>> inRelations(final List<Column<C, V>> columns) {
         // TODO QUEST use DancingLinksData as parameter (instead of column list)?
-        final List<Column<C, V>> list = new ArrayList<Column<C, V>>();
+        final List<Column<C, V>> list = new ArrayList<>();
         for (Column<C, V> column : columns) {
             if (inRelation(column.getValue())) {
                 list.add(column);

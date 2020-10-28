@@ -28,7 +28,7 @@ public class GDancingLinks<C, V extends Value<C>> extends DancingLinks<C, V> {
     private BigInteger purifs = BigInteger.ZERO;
 
     /** Purifications at a given level. */
-    private List<BigInteger> purProfile = new ArrayList<BigInteger>();
+    private List<BigInteger> purProfile = new ArrayList<>();
 
     public GDancingLinks(DancingLinksData<C, V> dlData) {
         super(dlData);

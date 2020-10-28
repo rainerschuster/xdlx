@@ -48,7 +48,7 @@ public class QueensGenerator extends
     @Override
     public List<QueensColumnValue> generatePrimaryColumnValues() {
         final int n = properties.getN();
-        final List<QueensColumnValue> primaryColumnValues = new ArrayList<QueensColumnValue>(n + n);
+        final List<QueensColumnValue> primaryColumnValues = new ArrayList<>(n + n);
         for (int j = 0; j < n; j++) {
             // final int t = j; // primitive column order
             final int t = ((j % 2 == 1) ? n - 1 - j : n + j) >> 1; // optimized column order
@@ -72,7 +72,7 @@ public class QueensGenerator extends
             return null;
         }
 
-        final List<QueensColumnValue> secondaryColumnValues = new ArrayList<QueensColumnValue>(nn - 1);
+        final List<QueensColumnValue> secondaryColumnValues = new ArrayList<>(nn - 1);
         for (int j = 1; j < nn; j++) {
             QueensColumnValue columnValue = new QueensColumnValue(QueensEnum.class);
             columnValue.put(QueensEnum.DIAGONAL_A, j);
@@ -89,7 +89,7 @@ public class QueensGenerator extends
     @Override
     public List<QueensValue> generateValues() {
         final int n = properties.getN();
-        final List<QueensValue> values = new ArrayList<QueensValue>(n * n);
+        final List<QueensValue> values = new ArrayList<>(n * n);
         for (int j = 0; j < n; j++) {
             for (int k = 0; k < n; k++) {
                 values.add(new QueensValue(properties, j, k));

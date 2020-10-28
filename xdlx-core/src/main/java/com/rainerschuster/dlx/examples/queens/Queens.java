@@ -53,7 +53,7 @@ public class Queens {
         final QueensGenerator generator = new QueensGenerator(properties);
 
         final DancingLinksData<QueensColumnValue, QueensValue> dlData = generator.generate();
-        final DancingLinks<QueensColumnValue, QueensValue> dl = new DancingLinks<QueensColumnValue, QueensValue>(dlData);
+        final DancingLinks<QueensColumnValue, QueensValue> dl = new DancingLinks<>(dlData);
         dl.setVerbosity(1);
         dl.setSpacing(10000000);
         /*// final QueensValueConverter valueConver = new QueensValueConverter(properties);

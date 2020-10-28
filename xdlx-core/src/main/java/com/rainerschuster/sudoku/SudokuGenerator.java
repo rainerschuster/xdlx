@@ -40,39 +40,39 @@ public class SudokuGenerator extends RandomDataGenerator<SudokuColumnValue, Sudo
 
     @Override
     public List<SudokuColumnValue> generatePrimaryColumnValues() {
-        final List<SudokuColumnValue> columns = new ArrayList<SudokuColumnValue>();
+        final List<SudokuColumnValue> columns = new ArrayList<>();
         Map<String, Integer> values;
         for (int i = 0; i < properties.getNumbers(); i++) {
             for (int j = 0; j < properties.getNumbers(); j++) {
-                values = new HashMap<String, Integer>(2);
+                values = new HashMap<>(2);
                 values.put("x1", i);
                 values.put("x2", j);
                 columns.add(new SudokuColumnValue(values));
-                values = new HashMap<String, Integer>(2);
+                values = new HashMap<>(2);
                 values.put("n", i + 1);
                 values.put("x1", j);
                 columns.add(new SudokuColumnValue(values));
-                values = new HashMap<String, Integer>(2);
+                values = new HashMap<>(2);
                 values.put("n", i + 1);
                 values.put("x2", j);
                 columns.add(new SudokuColumnValue(values));
-                values = new HashMap<String, Integer>(2);
+                values = new HashMap<>(2);
                 values.put("n", i + 1);
                 values.put("r", j);
                 columns.add(new SudokuColumnValue(values));
 
                 if (properties.isColorSudoku()) {
-                    values = new HashMap<String, Integer>(2);
+                    values = new HashMap<>(2);
                     values.put("n", i + 1);
                     values.put("c", j);
                     columns.add(new SudokuColumnValue(values));
                 }
             }
             if (properties.isXSudoku()) {
-                values = new HashMap<String, Integer>(1);
+                values = new HashMap<>(1);
                 values.put("d1", i+1);
                 columns.add(new SudokuColumnValue(values));
-                values = new HashMap<String, Integer>(1);
+                values = new HashMap<>(1);
                 values.put("d2", i+1);
                 columns.add(new SudokuColumnValue(values));
             }
@@ -93,12 +93,12 @@ public class SudokuGenerator extends RandomDataGenerator<SudokuColumnValue, Sudo
     // 2D
     @Override
     public List<SudokuValue> generateMyValues() {
-        final List<SudokuValue> values = new ArrayList<SudokuValue>();
+        final List<SudokuValue> values = new ArrayList<>();
         for (int n = 1; n <= properties.getNumbers(); n++) {
             for (int r = 0; r < properties.getNumbers(); r++) {
                 for (int c = 0; c < properties.getNumbers(); c++) {
                     final SudokuValue sValue = new SudokuValue(properties, n);
-                    final List<Integer> coordinates = new ArrayList<Integer>(2);
+                    final List<Integer> coordinates = new ArrayList<>(2);
                     coordinates.add(r);
                     coordinates.add(c);
                     sValue.setCoordinates(coordinates);

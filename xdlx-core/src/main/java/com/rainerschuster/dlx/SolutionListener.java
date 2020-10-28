@@ -33,6 +33,6 @@ public interface SolutionListener<C, V extends Value<C>> extends EventListener {
      * @param solution
      *            The solution itself.
      */
-    public void onSolution(long count, int level, List<Node<C, V>> solution);
+    void onSolution(long count, int level, List<Node<C, V>> solution);
 
 }

@@ -53,7 +53,7 @@ public class SudokuValueConverter extends
                 n = values.get("n");
             }
         }
-        final List<Integer> coordinates = new ArrayList<Integer>(2);
+        final List<Integer> coordinates = new ArrayList<>(2);
         coordinates.add(x1);
         coordinates.add(x2);
         final SudokuValue value = new SudokuValue(properties, n);

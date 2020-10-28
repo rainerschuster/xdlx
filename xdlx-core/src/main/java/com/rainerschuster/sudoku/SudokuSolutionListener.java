@@ -32,6 +32,6 @@ public interface SudokuSolutionListener extends EventListener {
    * @param field
    *          The solution itself.
    */
-  public void onSolution(long count, int level, SudokuField field);
+  void onSolution(long count, int level, SudokuField field);
 
 }

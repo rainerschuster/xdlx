@@ -52,9 +52,9 @@ public class DancingLinksData<C, V extends Value<C>> implements Iterable<Column<
 
     public DancingLinksData() {
         super();
-        columns = new ArrayList<Column<C, V>>();
-        // secondaryColumns = new ArrayList<Column<C, V>>();
-        root = new Column<C, V>();
+        columns = new ArrayList<>();
+        // secondaryColumns = new ArrayList<>();
+        root = new Column<>();
         lastColumn = root;
     }
 
@@ -92,7 +92,7 @@ public class DancingLinksData<C, V extends Value<C>> implements Iterable<Column<
     }
 
     private void addXColumn(final C columnValue, final boolean primary) {
-        final Column<C, V> column = new Column<C, V>();
+        final Column<C, V> column = new Column<>();
         column.setValue(columnValue);
         column.setHead(new Node<C, V>());
         // column.getHead().up = column.getHead().down = column.getHead();
@@ -125,7 +125,7 @@ public class DancingLinksData<C, V extends Value<C>> implements Iterable<Column<
         Node<C, V> rowStart = null;
         Node<C, V> lastNode = null;
         for (Column<C, V> column : value.inRelations(columns)) {
-            final Node<C, V> myNode = new Node<C, V>();
+            final Node<C, V> myNode = new Node<>();
             if (rowStart == null) {
                 rowStart = myNode;
                 lastNode = myNode;

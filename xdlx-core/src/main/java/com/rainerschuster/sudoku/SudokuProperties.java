@@ -42,7 +42,7 @@ public class SudokuProperties {
     private List<Integer> regionsPerDimension;
 
     private void calcRegionsPerDimension(final List<Integer> regionDimension) {
-        regionsPerDimension = new ArrayList<Integer>(dimensions);
+        regionsPerDimension = new ArrayList<>(dimensions);
         for (int regdim : regionDimension) {
             regionsPerDimension.add((getEdgeLength() / regdim));
         }
@@ -50,7 +50,7 @@ public class SudokuProperties {
 
     // 2D
     public Map<List<Integer>, Integer> generateDefaultRegions(final List<Integer> regionDimension) {
-        final Map<List<Integer>, Integer> region = new HashMap<List<Integer>, Integer>(getCellCount());
+        final Map<List<Integer>, Integer> region = new HashMap<>(getCellCount());
         calcRegionsPerDimension(regionDimension);
         //Integer[] cellDimension = new Integer[dimensions];
         for (int x = 0; x < getEdgeLength(); x++) {
@@ -76,7 +76,7 @@ public class SudokuProperties {
 
     // 2D
     public Map<List<Integer>, Integer> generateDefaultColors(final List<Integer> regionDimension) {
-        final Map<List<Integer>, Integer> color = new HashMap<List<Integer>, Integer>(getCellCount());
+        final Map<List<Integer>, Integer> color = new HashMap<>(getCellCount());
         calcRegionsPerDimension(regionDimension);
         //Integer[] cellDimension = new Integer[dimensions];
         for (int x = 0; x < getEdgeLength(); x++) {

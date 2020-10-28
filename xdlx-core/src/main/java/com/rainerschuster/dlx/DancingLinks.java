@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvents<C, V> {
 
-    private SolutionListenerCollection<C, V> solutionListeners = new SolutionListenerCollection<C, V>();
+    private SolutionListenerCollection<C, V> solutionListeners = new SolutionListenerCollection<>();
 
     // Global variables
     /** > 0 to show solutions,
@@ -45,10 +45,10 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     protected int spacing = 1;
 
     /** Tree nodes of given level and degree. */
-    protected List<List<BigInteger>> profile = new ArrayList<List<BigInteger>>();
+    protected List<List<BigInteger>> profile = new ArrayList<>();
 
     /** Updates at a given level. */
-    protected List<BigInteger> updProfile = new ArrayList<BigInteger>();
+    protected List<BigInteger> updProfile = new ArrayList<>();
 
     /** Maximum branching factor actually needed. */
     protected int maxb = 0;
@@ -60,14 +60,14 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     protected int level;
 
     /** The row and column chosen on each level. */
-    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+    protected List<Node<C, V>> choice = new ArrayList<>();
 
     private DancingLinksData<C, V> dlData;
     private boolean firstSolution = false;
     private boolean quickSolution = false;
     boolean done = false;
 
-    private ColumnChooser<C, V> columnChooser = new MinLengthColumnChooser<C, V>();
+    private ColumnChooser<C, V> columnChooser = new MinLengthColumnChooser<>();
 
     public DancingLinks(DancingLinksData<C, V> dlData) {
         super();
@@ -376,7 +376,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
      */
     public long quickSolutions() {
         // Backup of the solution is necessary (if reducing)
-        final List<Node<C, V>> backup = new ArrayList<Node<C, V>>(choice.size());
+        final List<Node<C, V>> backup = new ArrayList<>(choice.size());
         // Collections.copy(backup, choice);
         for (Node<C, V> n : choice) {
             backup.add(n);
@@ -402,7 +402,7 @@ public class DancingLinks<C, V extends Value<C>> implements SourcesSolutionEvent
     @Override
     public void addSolutionListener(SolutionListener<C, V> listener) {
         if (solutionListeners == null) {
-            solutionListeners = new SolutionListenerCollection<C, V>();
+            solutionListeners = new SolutionListenerCollection<>();
         }
         solutionListeners.add(listener);
     }

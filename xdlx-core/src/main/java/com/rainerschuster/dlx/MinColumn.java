@@ -24,7 +24,7 @@ public class MinColumn<C, V extends Value<C>> extends PrimaryColumn<C, V> {
 
     private int currentMax = 0;
 
-    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+    protected List<Node<C, V>> choice = new ArrayList<>();
 
     public MinColumn(int min) {
         super();

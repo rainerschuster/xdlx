@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 import com.rainerschuster.sudoku.Sudoku;
 import com.rainerschuster.sudoku.SudokuField;
 import com.rainerschuster.sudoku.SudokuProperties;
-import com.rainerschuster.sudoku.SudokuSolutionListener;
 import com.rainerschuster.sudoku.SudokuValue;
 
 // TODO Currently there is a lot of copy&paste in here => cleanup
@@ -172,12 +171,7 @@ public class SudokuApplet extends JApplet {
         if (classicSudokuPuzzleMenuItem == null) {
             classicSudokuPuzzleMenuItem = new JMenuItem();
             classicSudokuPuzzleMenuItem.setText("Classic Sudoku Puzzle");
-            classicSudokuPuzzleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardClassicSudoku(true);
-                        }
-                    });
+            classicSudokuPuzzleMenuItem.addActionListener(e -> newStandardClassicSudoku(true));
         }
         return classicSudokuPuzzleMenuItem;
     }
@@ -191,12 +185,7 @@ public class SudokuApplet extends JApplet {
         if (colorSudokuPuzzleMenuItem == null) {
             colorSudokuPuzzleMenuItem = new JMenuItem();
             colorSudokuPuzzleMenuItem.setText("Color Sudoku Puzzle");
-            colorSudokuPuzzleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardColorSudoku(true);
-                        }
-                    });
+            colorSudokuPuzzleMenuItem.addActionListener(e -> newStandardColorSudoku(true));
         }
         return colorSudokuPuzzleMenuItem;
     }
@@ -210,12 +199,7 @@ public class SudokuApplet extends JApplet {
         if (xSudokuPuzzleMenuItem == null) {
             xSudokuPuzzleMenuItem = new JMenuItem();
             xSudokuPuzzleMenuItem.setText("X Sudoku Puzzle");
-            xSudokuPuzzleMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardXSudoku(true);
-                        }
-                    });
+            xSudokuPuzzleMenuItem.addActionListener(e -> newStandardXSudoku(true));
         }
         return xSudokuPuzzleMenuItem;
     }
@@ -229,12 +213,7 @@ public class SudokuApplet extends JApplet {
         if (classicSudokuSolverMenuItem == null) {
             classicSudokuSolverMenuItem = new JMenuItem();
             classicSudokuSolverMenuItem.setText("Classic Sudoku Solver");
-            classicSudokuSolverMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardClassicSudoku(false);
-                        }
-                    });
+            classicSudokuSolverMenuItem.addActionListener(e -> newStandardClassicSudoku(false));
         }
         return classicSudokuSolverMenuItem;
     }
@@ -248,12 +227,7 @@ public class SudokuApplet extends JApplet {
         if (colorSudokuSolverMenuItem == null) {
             colorSudokuSolverMenuItem = new JMenuItem();
             colorSudokuSolverMenuItem.setText("Color Sudoku Solver");
-            colorSudokuSolverMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardColorSudoku(false);
-                        }
-                    });
+            colorSudokuSolverMenuItem.addActionListener(e -> newStandardColorSudoku(false));
         }
         return colorSudokuSolverMenuItem;
     }
@@ -267,12 +241,7 @@ public class SudokuApplet extends JApplet {
         if (xSudokuSolverMenuItem == null) {
             xSudokuSolverMenuItem = new JMenuItem();
             xSudokuSolverMenuItem.setText("X Sudoku Solver");
-            xSudokuSolverMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            newStandardXSudoku(false);
-                        }
-                    });
+            xSudokuSolverMenuItem.addActionListener(e -> newStandardXSudoku(false));
         }
         return xSudokuSolverMenuItem;
     }
@@ -286,13 +255,7 @@ public class SudokuApplet extends JApplet {
         if (solveMenuItem == null) {
             solveMenuItem = new JMenuItem();
             solveMenuItem.setText("Solve");
-            solveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            // FIXME differentiate between generated and user-entered Sudoku!
-                            solve();
-                        }
-                    });
+            solveMenuItem.addActionListener(e -> solve());
         }
         return solveMenuItem;
     }
@@ -306,12 +269,7 @@ public class SudokuApplet extends JApplet {
         if (clearMenuItem == null) {
             clearMenuItem = new JMenuItem();
             clearMenuItem.setText("Clear");
-            clearMenuItem.addActionListener(new java.awt.event.ActionListener() {
-                        @Override
-                        public void actionPerformed(final java.awt.event.ActionEvent e) {
-                            clear();
-                        }
-                    });
+            clearMenuItem.addActionListener(e -> clear());
         }
         return clearMenuItem;
     }
@@ -332,7 +290,7 @@ public class SudokuApplet extends JApplet {
         final SudokuProperties properties = new SudokuProperties();
         properties.setDimensions(2);
         properties.setNumbers(9);
-        final List<Integer> dimension = new ArrayList<Integer>(2);
+        final List<Integer> dimension = new ArrayList<>(2);
         dimension.add(3);
         dimension.add(3);
         properties.setRegion(properties.generateDefaultRegions(dimension));
@@ -344,7 +302,7 @@ public class SudokuApplet extends JApplet {
         final SudokuProperties properties = new SudokuProperties();
         properties.setDimensions(2);
         properties.setNumbers(9);
-        final List<Integer> dimension = new ArrayList<Integer>(2);
+        final List<Integer> dimension = new ArrayList<>(2);
         dimension.add(3);
         dimension.add(3);
         properties.setRegion(properties.generateDefaultRegions(dimension));
@@ -357,7 +315,7 @@ public class SudokuApplet extends JApplet {
         final SudokuProperties properties = new SudokuProperties();
         properties.setDimensions(2);
         properties.setNumbers(9);
-        final List<Integer> dimension = new ArrayList<Integer>(2);
+        final List<Integer> dimension = new ArrayList<>(2);
         dimension.add(3);
         dimension.add(3);
         properties.setRegion(properties.generateDefaultRegions(dimension));
@@ -444,17 +402,12 @@ public class SudokuApplet extends JApplet {
             final List<SudokuValue> givens = sudokuField.exportValues();
             final Sudoku sudoku = new Sudoku(sudokuField.getProperties());
             final long[] maxcount = new long[1]; // workaround to get maximum count
-            sudoku.addSolutionListener(new SudokuSolutionListener() {
-
-                @Override
-                public void onSolution(final long count, final int level, final SudokuField field) {
-                    // FIXME handle multi solution Sudokus!
-                    solve(field);
-                    maxcount[0] = count;
-                    System.out.println(count);
-                }
-
-            });
+            sudoku.addSolutionListener((count, level, field) -> {
+			    // FIXME handle multi solution Sudokus!
+			    solve(field);
+			    maxcount[0] = count;
+			    System.out.println(count);
+			});
             switch (sudoku.quickSolutions(givens)) {
             case 0:
                 JOptionPane.showMessageDialog(this, "There is no solution for your input!");

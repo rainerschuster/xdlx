@@ -98,7 +98,7 @@ public class SudokuFieldSwing extends JPanel {
         final ViewProperties vProps = new ViewProperties();
         for (int row = 0; row < properties.getEdgeLength(); row++) {
             for (int col = 0; col < properties.getEdgeLength(); col++) {
-                final List<Integer> coordinates = new ArrayList<Integer>(2);
+                final List<Integer> coordinates = new ArrayList<>(2);
                 coordinates.add(row);
                 coordinates.add(col);
 
@@ -125,7 +125,7 @@ public class SudokuFieldSwing extends JPanel {
                 cells[row][col].setMinNumber(1);
                 cells[row][col].setMaxNumber(properties.getNumbers());
 
-                final List<Integer> neighborCoordinates = new ArrayList<Integer>(2);
+                final List<Integer> neighborCoordinates = new ArrayList<>(2);
                 neighborCoordinates.add(row);
                 neighborCoordinates.add(col);
 
@@ -158,12 +158,12 @@ public class SudokuFieldSwing extends JPanel {
 
     // TODO QUEST replace by exportData (which returns SudokuField)?
     public List<SudokuValue> exportValues() {
-        final List<SudokuValue> list = new ArrayList<SudokuValue>();
+        final List<SudokuValue> list = new ArrayList<>();
 
         for (int row = 0; row < properties.getEdgeLength(); row++) {
             for (int col = 0; col < properties.getEdgeLength(); col++) {
                 if (cells[row][col].getNumber() > 0) {
-                    final List<Integer> coordinates = new ArrayList<Integer>(2);
+                    final List<Integer> coordinates = new ArrayList<>(2);
                     coordinates.add(row);
                     coordinates.add(col);
 

@@ -40,12 +40,12 @@ public abstract class ValueConverter<C, V extends Value<C>> {
      * @return A value that equals the original value (that formed that row).
      */
     public V convertRow(Node<C, V> node) {
-        List<Column<C, V>> columns = new ArrayList<Column<C, V>>();
+        List<Column<C, V>> columns = new ArrayList<>();
         for (Node<C, V> n : node) {
             columns.add(n.getColumn());
         }
         return convertRow(columns);
-    };
+    }
 
     public abstract V convertRow(List<Column<C, V>> columns);
 

@@ -24,7 +24,7 @@ public class MaxColumn<C, V extends Value<C>> extends SecondaryColumn<C, V> {
 
     private int currentMax = 0;
 
-    protected List<Node<C, V>> choice = new ArrayList<Node<C, V>>();
+    protected List<Node<C, V>> choice = new ArrayList<>();
 
     public MaxColumn(int max) {
         super();

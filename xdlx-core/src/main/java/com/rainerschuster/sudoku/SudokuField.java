@@ -23,8 +23,8 @@ import java.util.Map;
 public class SudokuField {
     private SudokuProperties properties = new SudokuProperties();
     // TODO field, givens
-    private Map<List<Integer>, Integer> field = new HashMap<List<Integer>, Integer>();
-    private List<SudokuValue> givens = new ArrayList<SudokuValue>();
+    private Map<List<Integer>, Integer> field = new HashMap<>();
+    private List<SudokuValue> givens = new ArrayList<>();
 
     public SudokuField(SudokuProperties properties) {
         super();
